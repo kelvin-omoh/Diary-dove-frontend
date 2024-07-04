@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 
 function App() {
   return <div className="App">
+
     <Toaster
       position="top-right"
       reverseOrder={false}
@@ -14,6 +15,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/setup" element={<SetUp />} />
     </Routes>
+
 
 
   </div>;
