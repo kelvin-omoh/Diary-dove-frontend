@@ -6,7 +6,7 @@ function App() {
     {/* hello i am Dolapo  ------> NAVBAR */}
     {/* hello i am kelvin ---> SING UP FLOW */}
     {/* hello i am kingsley i am working on the login page  */}
-
+   hey my name is odion
 
   </div>;
 }
