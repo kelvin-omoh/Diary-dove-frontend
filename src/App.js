@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import Login from "./pages/Login";
 
 function App() {
+
   return (
     <div className="App">
       <Toaster position="top-right" reverseOrder={false} />
@@ -16,6 +17,7 @@ function App() {
       </Routes>
     </div>
   );
+
 }
 
 export default App;
