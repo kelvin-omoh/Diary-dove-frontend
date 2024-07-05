@@ -3,22 +3,21 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import SetUp from "./pages/SetUp";
 import { Toaster } from "react-hot-toast";
+import Login from "./pages/Login";
 
 function App() {
-  return <div className="App">
 
-    <Toaster
-      position="top-right"
-      reverseOrder={false}
-    />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/setup" element={<SetUp />} />
-    </Routes>
+  return (
+    <div className="App">
+      <Toaster position="top-right" reverseOrder={false} />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/setup" element={<SetUp />} />
+      </Routes>
+    </div>
+  );
 
-
-
-  </div>;
 }
 
 export default App;
