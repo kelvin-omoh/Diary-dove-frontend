@@ -1,0 +1,93 @@
+import React, { useEffect } from 'react'
+import logo from '../assets/DiaraDove Logo.png'
+import Bell from '../assets/Notification 2.png'
+import { BsBellSlash, BsX } from 'react-icons/bs'
+import { AiFillSetting } from 'react-icons/ai'
+import Drawer from '@mui/material/Drawer';
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+const Header = () => {
+    const [openNotification, setOpenNotification] = React.useState(false);
+
+    const toggleDrawer = (newOpen) => () => {
+        setOpenNotification(newOpen);
+    };
+    useEffect(() => {
+        // Scroll the page to top when the component mounts
+        window.scrollTo(0, 0);
+    }, []);
+
+
+
+    const DrawerList = (
+        <div className=' px-[1rem] w-[20vw]'>
+            <button onClick={() => setOpenNotification(!openNotification)} className='mt-[2rem] mb-[3rem] float-end'>
+                <BsX size={30} />
+            </button>
+            <div className=' mt-[3rem] w-full  text-start'>
+                <p className=' text-center flex gap-3 mx-auto justify-center text-[20px] text-gray-500 mt-[30rem]'> No  notications  <BsBellSlash /> </p>
+            </div>
+
+        </div>
+    );
+
+
+    useGSAP(() => {
+        gsap.from('.logo', {
+
+            x: '-120',
+            delay: .4,
+            stagger: 0.25
+
+        })
+        gsap.from('.nav', {
+            opacity: 1,
+            y: -120,
+            x: '0',
+
+
+        })
+        gsap.to('.nav', {
+            opacity: 1,
+            y: 0,
+            x: '0',
+            delay: .4,
+            stagger: 0.25
+
+        })
+        gsap.to('.logo', {
+            opacity: 1,
+            y: 0,
+            x: '0',
+            delay: .4,
+            stagger: 0.25
+
+        })
+    }, [])
+
+
+    return (
+        <>
+            <div className=' nav fixed top-0 left-0 w-full  border-b-[1px] bg-white border-[#B4B9C2]  flex justify-between   px-[80px] py-[18px]  '>
+
+                <div className=''>
+                    <img className=' logo opacity-0 w-[146px] h-[36px]' src={logo} alt={'logo'} />
+                </div>
+
+
+                <div className=' flex items-center gap-[19.8px]'>
+
+                    <button onClick={toggleDrawer(true)}>
+                        <img className=' h-[22.25px] ' src={Bell} alt={'logo'} />
+                    </button>
+                    <AiFillSetting className='text-[#B4B9C2] ' size={20} />
+                </div>
+            </div>
+            <Drawer anchor={'right'} open={openNotification} onClose={toggleDrawer(false)}>
+                {DrawerList}
+            </Drawer>
+        </>
+    )
+}
+
+export default Header
