@@ -80,7 +80,7 @@ const Login = () => {
           {/* <div className=" bar border border-white bg-[#f2f2f2ac] w-[73.1vw] top-[18rem] h-[50vh] left-0  absolute "></div> */}
           <h1 className=" font-[600] text-[56px]  ">Hello Friend!</h1>
           <p className=" w-[283px] mx-auto mt-[24px] ">Enter your personal details and start journey with us</p>
-          <button className=" mt-[94px] border border-white rounded-[8px] w-[380px] p-[16px]">Sign Up</button>
+          <button className=" mt-[94px] border border-white rounded-[8px] w-[380px] p-[16px]">Login</button>
         </div>
 
 

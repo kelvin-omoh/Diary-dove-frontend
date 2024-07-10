@@ -5,7 +5,9 @@ import list from '../../assets/Vector list.png'
 import edit from '../../assets/Vector 2.png'
 import { useGSAP } from '@gsap/react'
 import gsap from "gsap";
-const Notes = () => {
+import { AiOutlineBook } from 'react-icons/ai'
+import { BiBookOpen } from 'react-icons/bi'
+const Notes = ({ allTexts, onEdit, onDelete }) => {
     const allNotes = [
         {
             id: 1,
@@ -102,6 +104,7 @@ const Notes = () => {
 
     const [isGrid, setIsGrid] = useState(true);
 
+
     useGSAP(() => {
         gsap.from('.notes', {
             opacity: 0,
@@ -116,34 +119,42 @@ const Notes = () => {
     }, [])
 
     return (
-        <div className=' px-[80px] mt-[49px] '>
-            <div className=''>
+        <div className=' w-full px-[24px] md:px-[80px] mt-[49px] '>
+            <div className=' h-[80vh] w-full'>
                 <HomeTab isGrid={isGrid} setIsGrid={setIsGrid} />
 
                 {/* Notes */}
-                <div className={` notes grid ${isGrid ? 'grid-cols-4' : 'grid-cols-1'}  gap-[16px]`}>
-                    {allNotes.map((note) => (
-                        <div key={note.id} className=' bg-[#FFFFFF] p-[24px]'>
-                            <p className='text-[#E0A774] text-[12px] justify-start flex '>{note.date} | {note.date}</p>
-                            <div className=' mt-[8px]'>
-                                <p className=' text-[14px] text-[#303236] justify-start flex text-start leading-[21px] text-'>{note.description}</p>
+                {allTexts.length === 0 && <p className=' mt-[5.1rem] flex gap-2 justify-center text-gray-400 text-[3rem]  items-center  mx-auto w-full'> <BiBookOpen size={60} /> Your diary is Empty .</p>}
+                <div className={` w-full notes  grid ${isGrid ? ' grid-cols-2 md:grid-cols-4' : 'grid-cols-1'}  gap-[16px]`}>
+                    {allTexts.map((note, index) => (
+                        <div key={note.id} className=' flex justify-between flex-col md:max-h-[208px] h-[200px] bg-[#FFFFFF] p-[24px]'>
+                            <div>
+                                <p className='text-[#E0A774] text-[12px] justify-start flex '>{note.time} | {note.date}</p>
+                                <div className=' mt-[8px]'>
+                                    <p className=' hidden md:flex text-[14px] text-[#303236] justify-start text-start leading-[21px] text-'>{note.description.length > 230 ? ` ${note.description.slice(0, isGrid ? '300' : '600')}...` : note.description}</p>
+                                    <p className=' flex md:hidden text-[14px] md:text-[14px] text-[#303236] justify-start text-start leading-[16px] md:leading-[21px] '>{note.description.length > 230 ? ` ${note.description.slice(0, isGrid ? '90' : '200')}...` : note.description}</p>
+                                </div>
                             </div>
-                            <div className=' mt-[24.94px] flex items-center justify-start gap-[10.4px]'>
+
+                            <div className=' mt-[18px] md:mt-[24.94px] flex items-center justify-start gap-[10.4px]'>
                                 <button>
-                                    <img src={trash} alt={'trash'} className=" h-[16.13px]" />
+                                    <img src={trash} onClick={() => onDelete(index)} alt={'trash'} className=" h-[16.13px]" />
                                 </button>
                                 <button>
-                                    <img src={edit} alt={'trash'} className=" h-[16.13px]" />
+                                    <img src={edit} onClick={() => onEdit(index)} alt={'trash'} className=" h-[16.13px]" />
                                 </button>
                                 <button>
-                                    <img src={list} alt={'trash'} className=" h-[16.13px]" />
+                                    <img src={list} onClick={() => onEdit(index)} alt={'trash'} className=" h-[16.13px]" />
                                 </button>
                             </div>
 
                         </div>
                     ))}
 
+
+
                 </div>
+
 
             </div>
 
