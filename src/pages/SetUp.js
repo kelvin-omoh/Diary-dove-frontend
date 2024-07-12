@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import logo from '../assets/DiaraDove Logo.png';
 import { Stepper, Step, StepLabel, StepConnector, } from '@mui/material';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
@@ -7,6 +7,8 @@ import Step2 from '../components/_settingUp/Step2';
 import Step1 from '../components/_settingUp/Step1';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { Usercontext } from '../context/userContext';
+
 
 // Create a theme to customize the active step label color
 const theme = createTheme({
@@ -49,6 +51,7 @@ const CustomStepConnector = styled(StepConnector)(({ theme }) => ({
 }));
 
 const SetUp = () => {
+    const { userInfo } = useContext(Usercontext)
     const [activeStep, setActiveStep] = useState(0);
     const navigate = useNavigate()
 
@@ -64,9 +67,11 @@ const SetUp = () => {
             <div>
                 <img className="mt-[40px] flex md:mt-20 h-12 w-44" src={logo} alt="DiaryDove Logo" />
             </div>
+            <div className=' text-start items-start'>
+                <h5 className="mt-12 text-[20px] items-start  md:text-[40px] font-semibold">Let's set up a journal for your work</h5>
+                <p className="mt-5 mb-7  items-start flex text-start text-[#8F96A3] text-base">Select reminder preferences below</p>
 
-            <h5 className="mt-12 text-[20px] items-start  md:text-[40px] font-semibold">Let's set up a journal for your work</h5>
-            <p className="mt-5 mb-7 items-start flex text-start text-[#8F96A3] text-base">Select reminder preferences below</p>
+            </div>
 
 
             {activeStep === 0 && <Step1 activeStep={activeStep} handleNext={handleNext} />}

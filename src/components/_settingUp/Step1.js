@@ -9,6 +9,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BsCircle, BsGoogle, BsWhatsapp } from 'react-icons/bs';
 import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import ToggleIcon from './ToggleIcon';
+import VerifyEmail from '../../pages/VerifyEmail';
 
 const Step1 = ({ activeStep, handleNext }) => {
     const [google, setGoogle] = useState(false);
@@ -39,6 +40,7 @@ const Step1 = ({ activeStep, handleNext }) => {
         }
         return segments;
     };
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
     return (
         <>
@@ -51,7 +53,7 @@ const Step1 = ({ activeStep, handleNext }) => {
                     }} className='px-[1rem]  '>
                         <TimelineSeparator className='  flex'>
                             <TimelineDot sx={{ background: "#ff000000", boxShadow: "none" }} className=' shadow-none bg-none' >
-                                <div className=' p-[6px]   rounded-full  border-[.6rem] border-[#DA9658] '>
+                                <div className=' size-[24px]   rounded-full  border-[7px] border-[#DA9658] '>
                                 </div>
                             </TimelineDot>
                             {renderDashedLine()}
@@ -67,12 +69,12 @@ const Step1 = ({ activeStep, handleNext }) => {
                                         Google
                                     </Box>
                                     <Box className=" w-fit   text-[#8F96A3] ">
-                                        <ToggleIcon />
+                                        <Checkbox {...label} defaultChecked color="success" />
 
                                     </Box>
 
                                 </Box>
-                                <input type="text" className=' px-[1em] w-full my-[8px] h-[40px] outline-none  rounded-[8px] border-[1px] border-[#DA9658] ' name="" id="" />
+                                <input disabled value={VerifyEmail} type="text" className=' px-[1em] w-full my-[8px] h-[40px] outline-none  rounded-[8px] border-[1px] border-[#EDEDED] ' name="" id="" />
                                 <button className=' rounded-[4px] bg-[#DA9658] px-[22.5px] py-[5.5px] text-white '>connect</button>
 
                             </Box>
@@ -101,8 +103,7 @@ const Step1 = ({ activeStep, handleNext }) => {
                     }} >
                         <TimelineSeparator>
                             <TimelineDot sx={{ background: "#ff000000", marginLeft: "1rem", boxShadow: "none" }} className=' shadow-none bg-none' >
-                                <div className=' p-[6px]   rounded-full  border-[.6rem] border-[#c4c4c4] '>
-
+                                <div className=' size-[24px]   rounded-full  border-[7px] border-[#c4c4c4] '>
                                 </div>
                             </TimelineDot>
                         </TimelineSeparator>
