@@ -8,42 +8,38 @@ import Layout from "./components/_settings/Layout";
 import Account from "./pages/Account";
 import Reminder from "./pages/Reminder";
 
-function App() {
-  return <div className="App">
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
-
-    <Toaster
-      position="top-right"
-      reverseOrder={false}
-    />
-    <Routes>
-     
-      <Route path="/" element={<Home />} />
-      <Route path="/setup" element={<SetUp />} />
-
-      <Route path="/settings" element={
+const App = () => {
+  return (
+    <div className="App">
+      <Toaster position="top-right" reverseOrder={false} />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<Signup />} />
+        <Route path="/verification" element={<Signup />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/setup" element={<SetUp />} />
+        <Route path="/settings" element={
         <Layout>
           <UserAccout_settings />
         </Layout>
         }/>
 
-      <Route path="/settings/account" element={
-        <Layout>
-          <Account />
-        </Layout>
-        }/>
-
+      
 
       <Route path="/settings/reminder" element={
         <Layout>
           <Reminder />
         </Layout>
-        }/>
+         }/>
 
-        
-    </Routes>
+      </Routes>
+    </div>
 
-  </div>;
+)
 }
 
 export default App;
+

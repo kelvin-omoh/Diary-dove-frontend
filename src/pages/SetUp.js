@@ -60,51 +60,23 @@ const SetUp = () => {
     };
 
     return (
-        <div className="w-full flex flex-col items-center">
-            <img className="mt-[40px] md:mt-20 h-12 w-44" src={logo} alt="DiaryDove Logo" />
-
-            <div className="mt-[32px] md:mt-[64px]">
-                <ThemeProvider theme={theme}>
-                    <div className="mx-auto" style={{ width: '200px' }}>
-                        <Stepper activeStep={activeStep} connector={<CustomStepConnector />}>
-                            <Step>
-                                <StepLabel
-                                    StepIconComponent={() => (
-                                        <div
-                                            className={`w-10 h-10 bg-[#DA9658] text-white  flex justify-center items-center rounded-full ${activeStep > 0 ? 'bg-[#DA9658]' : ''
-                                                }`}
-
-                                        >
-                                            1
-                                        </div>
-                                    )}
-                                />
-                            </Step>
-                            <Step>
-                                <StepLabel
-                                    StepIconComponent={() => (
-                                        <div
-                                            className={`w-10 h-10 flex justify-center items-center rounded-full ${activeStep === 1 ? 'bg-[#DA9658]  text-white ' : 'bg-[#F1F2F3] text-[gray] '
-                                                }`}
-
-                                        >
-                                            {activeStep > 1 ? '✓' : '2'}
-                                        </div>
-                                    )}
-                                />
-                            </Step>
-                        </Stepper>
-                    </div>
-                </ThemeProvider>
+        <div className="w-full  overflow-x-hidden flex flex-col text-start mx-auto items-center">
+            <div>
+                <img className="mt-[40px] flex md:mt-20 h-12 w-44" src={logo} alt="DiaryDove Logo" />
             </div>
 
-            <h5 className="mt-12 text-[20px] md:text-[40px] font-semibold">Let's set up a journal for your work</h5>
-            <p className="mt-5 mb-7 text-[#8F96A3] text-base">Select reminder preferences below</p>
+            <h5 className="mt-12 text-[20px] items-start  md:text-[40px] font-semibold">Let's set up a journal for your work</h5>
+            <p className="mt-5 mb-7 items-start flex text-start text-[#8F96A3] text-base">Select reminder preferences below</p>
 
-            {activeStep === 0 && <Step1 />}
-            {activeStep === 1 && <Step2 />}
 
-            <button
+            {activeStep === 0 && <Step1 activeStep={activeStep} handleNext={handleNext} />}
+            {activeStep === 1 && <Step2 activeStep={activeStep} handleNext={handleNext} />}
+
+
+
+
+
+            {/* <button
                 className="mt-[72px] mb-[5rem]  w-[300px]  md:w-[400px] py-[16px]  bg-[#DA9658]  bg-primary text-white rounded"
                 onClick={activeStep === 1 ? (
 
@@ -115,7 +87,7 @@ const SetUp = () => {
                 } : handleNext}
             >
                 {activeStep === 1 ? 'Done' : 'Continue'}
-            </button>
+            </button> */}
 
 
 

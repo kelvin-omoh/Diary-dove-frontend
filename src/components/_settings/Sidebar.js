@@ -29,7 +29,7 @@ const Sidebar = () => {
             <h1 className='text-[32px] font-[600]   '>Settings</h1>
             <ul className=' w-full '>
         {allRoutes.map((item)=>(
-            <li  className={` py-[18px] mx-auto w-full ${location.pathname === item.route  ? ' text-center font-normal border-r-[1px] border-r-amber-600 ':''} `} >
+            <li  className={` py-[18px] mx-auto w-full ${location.pathname === item.route  ? ' text-center font-normal border-r-[1px] border-r-[#DA9658] ':''} `} >
           <Link to={item.route}   className={location.pathname === item.route  ? ' grid text-center  text-[24px]' : ''}>{item.text}</Link>
         </li> 
         ))}

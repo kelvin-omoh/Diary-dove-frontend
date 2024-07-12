@@ -6,6 +6,16 @@ import { AiFillSetting } from 'react-icons/ai'
 import Drawer from '@mui/material/Drawer';
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+
+export const LogoFunction = () => {
+    return (
+        <div className=' flex flex-col'>
+            <img className=' logo  w-[146px] h-[36px]' src={logo} alt={'logo'} />
+        </div>
+    )
+}
+
+
 const Header = () => {
     const [openNotification, setOpenNotification] = React.useState(false);
 
@@ -63,6 +73,9 @@ const Header = () => {
             stagger: 0.25
 
         })
+        gsap.from('.logo', {
+            opacity: 0,
+        })
     }, [])
 
 
@@ -70,9 +83,7 @@ const Header = () => {
         <>
             <div className=' nav fixed top-0 left-0 w-full  border-b-[1px] bg-white border-[#B4B9C2]  flex justify-between   px-[80px] py-[18px]  '>
 
-                <div className=''>
-                    <img className=' logo opacity-0 w-[146px] h-[36px]' src={logo} alt={'logo'} />
-                </div>
+                {LogoFunction()}
 
 
                 <div className=' flex items-center gap-[19.8px]'>

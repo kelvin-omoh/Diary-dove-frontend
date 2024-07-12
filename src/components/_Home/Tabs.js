@@ -8,13 +8,15 @@ export default function HomeTab({ isGrid, setIsGrid }) {
     return (
         <div className=' w-full mb-[32px]  flex justify-between items-center'>
             <div className=' bg-[#E0A7741A] flex gap-[4px] w-fit px-[4px] '>
-                <button onClick={() => setIsGrid(true)} className={` transition-all duration-300 ease-out ${isGrid && 'bg-[white]'} w-[148px] justify-center px-[16px] py-[8px] gap-[8px]  rounded-lg flex my-[4px] items-center`}>
+                <button onClick={() => setIsGrid(true)} className={`  transition-all duration-300 ease-out ${isGrid && 'bg-[white]'}  w-[48px] md:w-[148px] justify-center px-[16px] py-[8px] gap-[8px]  rounded-lg flex my-[4px] items-center`}>
                     <img className=' size-[18px]' src={menu} alt={'grid'} />
-                    Grid View
+                    <p className=' hidden md:bold'>Grid View</p>
                 </button>
-                <button onClick={() => setIsGrid(false)} className={`  transition-all duration-300 ease-out ${!isGrid && 'bg-[white]'} w-[148px] justify-center px-[16px] py-[8px] gap-[8px]  rounded-lg flex my-[4px] items-center`}>
+                <button onClick={() => setIsGrid(false)} className={`  transition-all duration-300 ease-out ${!isGrid && 'bg-[white]'}  w-[48px] md:w-[148px] justify-center px-[16px] py-[8px] gap-[8px]  rounded-lg flex my-[4px] items-center`}>
                     <img className=' w-[14.06px] h-[10.5px] ' src={list} alt={'grid'} />
-                    List View
+                    <p className=' hidden md:bold'>
+                        List View
+                    </p>
                 </button>
             </div>
             <div>

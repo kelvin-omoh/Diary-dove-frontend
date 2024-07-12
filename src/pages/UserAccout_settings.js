@@ -16,6 +16,21 @@ import key from '../assets/key.png'
  
 
 const UserAccout_settings=()=>{
+  const uploadedImage = React.useRef(null);
+  const imageUploader = React.useRef(null);
+
+const handleImageUpload = e =>{
+const [file] = e.target.files
+  if (file) {
+const reader =new FileReader();
+const {current} = uploadedImage;
+current.file =file ; 
+reader.onload = (e) =>{
+  current.src = e.target.result
+}
+reader.readAsDataURL(file)
+}
+};
 
   const [selectedDate, setSelectedDate] = useState('');
 
@@ -37,9 +52,12 @@ const UserAccout_settings=()=>{
 
   return (
     <div className='grid   md:pt-[56px] md:px-[151px]'>
-      <div className='flex md:gap-6 items-center text-center  '>
-        <p > upload profile pictures</p>
-          <button className='bg-amber-600 h-10 flex rounded items-center text-center text-white p-6'>Upload </button>
+      <div  className='flex md:gap-6 items-center text-center  '>
+     
+        <p > upload profile pictures</p> 
+        <input type="file" accept="image/*"  className='hidden'
+        ref={imageUploader} onChange={handleImageUpload} />
+          <button ref={uploadedImage} onClick={() => imageUploader.current.click()} className='bg-[#DA9658] h-10 flex rounded items-center text-center text-white p-6'>Upload </button>
           <button className='bg-gray-50 h-10 flex rounded items-center text-center text-black p-6'>Remove</button>
       </div>
       <div className='grid gap-8 pb-6  '>
@@ -72,7 +90,7 @@ const UserAccout_settings=()=>{
     <p className=' capitalize w-fit'>email address</p>
     <div className='border rounded p-2 flex justify-between ' >
       <input placeholder='enter your email' className=' bg-transparent ' type="text" ></input>
-    <span className=' gap-1'> <button className='w-fit text-amber-600 ' >Change</button></span>
+    <span className=' gap-1'> <button className='w-fit text-[#DA9658] ' >Change</button></span>
     </div>
   </div>
   <div className='grid items-center justify-start '>
@@ -80,7 +98,7 @@ const UserAccout_settings=()=>{
     <div className="input-group flex  p-2 md:relative md:top-0 md:right-0 top-[50px] right-20 border-2 items-center gap-2 w-fit rounded text-center">
       <span className=' gap-1'><img className=' size-5' src={profileImg} alt='profileImage'/></span>
       <input placeholder='090 555 ****' type="text" ></input>
-      <span className=' gap-1'> <button className='w-fit text-amber-600 ' >Change</button></span>
+      <span className=' gap-1'> <button className='w-fit text-[#DA9658] ' >Change</button></span>
 
     </div>
   </div>
@@ -114,7 +132,7 @@ const UserAccout_settings=()=>{
 
 </div>
       </div>
-      <button className='bg-amber-600 w-[359px] rounded h-[60px] my-[142px] p-6'> save changes</button>
+      <button className='bg-[#DA9658] w-[359px] rounded h-[60px] my-[142px] p-6'> save changes</button>
             
       </div>
 
