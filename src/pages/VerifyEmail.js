@@ -47,6 +47,7 @@ const VerifyEmail = () => {
                     email: verifyEmail,
                     otp
                 })
+                handleVerifyEmail(verifyEmail)
                 toast.success(response.data.message)
                 navigate('/new-password');
 

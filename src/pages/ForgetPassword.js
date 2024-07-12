@@ -18,6 +18,7 @@ const ForgetPassword = () => {
             const res = await axios.post('/api/users/resendOTPCode', {
                 email
             })
+            handleVerifyEmail(email)
             toast.success(res.data.message)
             navigate('/verify-email')
         } catch (error) {
