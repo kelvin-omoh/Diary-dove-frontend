@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import logo from '../assets/DiaraDove Logo.png';
 import { Stepper, Step, StepLabel, StepConnector, } from '@mui/material';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
@@ -7,6 +7,8 @@ import Step2 from '../components/_settingUp/Step2';
 import Step1 from '../components/_settingUp/Step1';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { Usercontext } from '../context/userContext';
+
 
 // Create a theme to customize the active step label color
 const theme = createTheme({
@@ -49,6 +51,7 @@ const CustomStepConnector = styled(StepConnector)(({ theme }) => ({
 }));
 
 const SetUp = () => {
+    const { userInfo } = useContext(Usercontext)
     const [activeStep, setActiveStep] = useState(0);
     const navigate = useNavigate()
 
@@ -60,51 +63,25 @@ const SetUp = () => {
     };
 
     return (
-        <div className="w-full flex flex-col items-center">
-            <img className="mt-[40px] md:mt-20 h-12 w-44" src={logo} alt="DiaryDove Logo" />
+        <div className="w-full  overflow-x-hidden flex flex-col text-start mx-auto items-center">
+            <div>
+                <img className="mt-[40px] flex md:mt-20 h-12 w-44" src={logo} alt="DiaryDove Logo" />
+            </div>
+            <div className=' text-start items-start'>
+                <h5 className="mt-12 text-[20px] items-start  md:text-[40px] font-semibold">Let's set up a journal for your work</h5>
+                <p className="mt-5 mb-7  items-start flex text-start text-[#8F96A3] text-base">Select reminder preferences below</p>
 
-            <div className="mt-[32px] md:mt-[64px]">
-                <ThemeProvider theme={theme}>
-                    <div className="mx-auto" style={{ width: '200px' }}>
-                        <Stepper activeStep={activeStep} connector={<CustomStepConnector />}>
-                            <Step>
-                                <StepLabel
-                                    StepIconComponent={() => (
-                                        <div
-                                            className={`w-10 h-10 bg-[#DA9658] text-white  flex justify-center items-center rounded-full ${activeStep > 0 ? 'bg-[#DA9658]' : ''
-                                                }`}
-
-                                        >
-                                            1
-                                        </div>
-                                    )}
-                                />
-                            </Step>
-                            <Step>
-                                <StepLabel
-                                    StepIconComponent={() => (
-                                        <div
-                                            className={`w-10 h-10 flex justify-center items-center rounded-full ${activeStep === 1 ? 'bg-[#DA9658]  text-white ' : 'bg-[#F1F2F3] text-[gray] '
-                                                }`}
-
-                                        >
-                                            {activeStep > 1 ? '✓' : '2'}
-                                        </div>
-                                    )}
-                                />
-                            </Step>
-                        </Stepper>
-                    </div>
-                </ThemeProvider>
             </div>
 
-            <h5 className="mt-12 text-[20px] md:text-[40px] font-semibold">Let's set up a journal for your work</h5>
-            <p className="mt-5 mb-7 text-[#8F96A3] text-base">Select reminder preferences below</p>
 
-            {activeStep === 0 && <Step1 />}
-            {activeStep === 1 && <Step2 />}
+            {activeStep === 0 && <Step1 activeStep={activeStep} handleNext={handleNext} />}
+            {activeStep === 1 && <Step2 activeStep={activeStep} handleNext={handleNext} />}
 
-            <button
+
+
+
+
+            {/* <button
                 className="mt-[72px] mb-[5rem]  w-[300px]  md:w-[400px] py-[16px]  bg-[#DA9658]  bg-primary text-white rounded"
                 onClick={activeStep === 1 ? (
 
@@ -115,7 +92,7 @@ const SetUp = () => {
                 } : handleNext}
             >
                 {activeStep === 1 ? 'Done' : 'Continue'}
-            </button>
+            </button> */}
 
 
 

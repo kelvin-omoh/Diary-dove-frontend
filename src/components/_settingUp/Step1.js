@@ -1,61 +1,123 @@
 import React from 'react'
-import whatsapp from '../../assets/Group (1).png';
-import google from '../../assets/icons8-google 1.png';
+import whatsappIcon from '../../assets/Group (1).png';
+import googleIcon from '../../assets/icons8-google 1.png';
 import { Checkbox } from '@mui/material';
+import { useState } from 'react';
+import { Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineOppositeContent, TimelineDot } from '@mui/lab';
+import { Switch, Button, TextField } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-const Step1 = () => {
-    const checkboxTheme = createTheme({
-        palette: {
-            customColor: {
-                main: '#DA9658',
-            },
-        },
-    });
+import { BsCircle, BsGoogle, BsWhatsapp } from 'react-icons/bs';
+import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
+import ToggleIcon from './ToggleIcon';
+import VerifyEmail from '../../pages/VerifyEmail';
+
+const Step1 = ({ activeStep, handleNext }) => {
+    const [google, setGoogle] = useState(false);
+    const [whatsapp, setWhatsapp] = useState(false);
+
+    const handleGoogleChange = (event) => {
+        setGoogle(event.target.checked);
+    };
+
+    const handleWhatsappChange = (event) => {
+        setWhatsapp(event.target.checked);
+    };
+
+
+
+    const renderDashedLine = () => {
+        const segments = [];
+        for (let i = 0; i < 20; i++) {
+            segments.push(
+                <Box
+                    key={i}
+                    width="2px"
+                    height="8px"
+                    bgcolor="#D1A055" // gold color
+                    margin="4px 0"
+                />
+            );
+        }
+        return segments;
+    };
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
     return (
         <>
-            <div className="flex md:flex-row  md:gap-0 gap-[1rem] items-center justify-center flex-col space-x-4">
-                <label className="flex w-[220px] justify-center  rounded-lg h-[64px]  border boder-[#F1F2F3]  items-center space-x-2">
-                    <input type="checkbox" className="hidden" />
-                    <img className="size-[32px]" src={google} alt="DiaryDove Logo" />
-                    <span>Google</span>
-                    <ThemeProvider theme={checkboxTheme}>
-                        <Checkbox disabled className=' rounded-lg' defaultChecked style={{ color: '#E9EAED' }} />
-                    </ThemeProvider>
-                </label>
-                <label className="flex w-[220px] justify-center  rounded-lg h-[64px]  border boder-[#F1F2F3]  items-center space-x-2">
-                    <input type="checkbox" className="hidden" />
-                    <img className="size-[32px]" src={whatsapp} alt="DiaryDove Logo" />
-                    <span>WhatsApp</span>
-                    <ThemeProvider theme={checkboxTheme}>
-                        <Checkbox defaultChecked className=' rounded-lg' style={{ color: checkboxTheme.palette.customColor.main }} />
-                    </ThemeProvider>
-                </label>
-            </div>
+            <div className=' overflow-hidden '>
+                <Timeline>
+                    <TimelineItem sx={{
+                        '&::before': {
+                            display: 'none',
+                        },
+                    }} className='px-[1rem]  '>
+                        <TimelineSeparator className='  flex'>
+                            <TimelineDot sx={{ background: "#ff000000", boxShadow: "none" }} className=' shadow-none bg-none' >
+                                <div className=' size-[24px]   rounded-full  border-[7px] border-[#DA9658] '>
+                                </div>
+                            </TimelineDot>
+                            {renderDashedLine()}
+                        </TimelineSeparator>
+                        <TimelineContent className=' ' sx={{ py: '14px', px: 0 }}>
+                            <Typography className=' text-[#DA9658] leading-[24px]' variant="h6" component="span">
+                                Connect social network
+                            </Typography>
+                            <Box className=" rounded-[12px] w-[306px] md:w-[595px] border-[#EDEDED] p-[16px] border-[1px]">
+                                <Box className=" flex justify-between w-full  ">
+                                    <Box className=" text-[#8F96A3] flex gap-[8px] items-center ">
+                                        <img className=' size-[32px]' src={googleIcon} alt={'google'} />
+                                        Google
+                                    </Box>
+                                    <Box className=" w-fit   text-[#8F96A3] ">
+                                        <Checkbox {...label} defaultChecked color="success" />
 
-            <p className="mt-8 text-[18px] ">Notification period</p>
-            <div className="flex flex-col mx-auto justify-center items-center  gap-[16px]  mt-2 space-y-2">
-                <label className="flex w-[300px]  md:w-[400px] border boder-[#F1F2F3] rounded-lg text-[#8F96A3] py-[16px] justify-between pl-[32px] pr-[17px] flex-row-reverse items-center space-x-2">
-                    <ThemeProvider theme={checkboxTheme}>
-                        <Checkbox className=' rounded-lg' defaultChecked style={{ color: checkboxTheme.palette.customColor.main }} />
-                    </ThemeProvider>
-                    <span>Morning - 9:00am</span>
-                </label>
-                <label className="flex   w-[300px]  md:w-[400px] border boder-[#F1F2F3] rounded-lg text-[#8F96A3] py-[16px] justify-between pl-[32px] pr-[17px] flex-row-reverse items-center space-x-2">
-                    <ThemeProvider theme={checkboxTheme}>
-                        <Checkbox className=' rounded-lg' defaultChecked style={{ color: checkboxTheme.palette.customColor.main }} />
-                    </ThemeProvider>
-                    <span>Afternoon - 3:00pm</span>
-                </label>
-                <label className="flex   w-[300px]  md:w-[400px] border boder-[#F1F2F3] rounded-lg text-[#8F96A3] py-[16px] justify-between pl-[32px] pr-[17px] flex-row-reverse items-center space-x-2">
-                    <ThemeProvider theme={checkboxTheme}>
-                        <Checkbox className=' rounded-lg' defaultChecked style={{ color: checkboxTheme.palette.customColor.main }} />
-                    </ThemeProvider>
-                    <span>Evening - 9:00pm</span>
-                </label>
-            </div>
+                                    </Box>
 
+                                </Box>
+                                <input disabled value={VerifyEmail} type="text" className=' px-[1em] w-full my-[8px] h-[40px] outline-none  rounded-[8px] border-[1px] border-[#EDEDED] ' name="" id="" />
+                                <button className=' rounded-[4px] bg-[#DA9658] px-[22.5px] py-[5.5px] text-white '>connect</button>
+
+                            </Box>
+                            <Box className=" rounded-[12px] mt-[16px] w-[306px] md:w-[595px] border-[#EDEDED] p-[16px] border-[1px]">
+                                <Box className=" flex justify-between w-full  ">
+                                    <Box className=" text-[#8F96A3] flex gap-[8px] items-center ">
+                                        <img className=' size-[32px]' src={whatsappIcon} alt={'google'} />
+                                        Whatsapp
+                                    </Box>
+                                    <Box className=" w-fit   text-[#8F96A3] ">
+                                        <ToggleIcon />
+                                    </Box>
+                                </Box>
+
+                            </Box>
+                            <button onClick={handleNext} className=' rounded-[8px] mt-[32px] bg-[#DA9658] px-[81.5px] py-[16.5px] text-white '>Continue</button>
+
+
+                        </TimelineContent>
+                    </TimelineItem>
+
+                    <TimelineItem sx={{
+                        '&::before': {
+                            display: 'none',
+                        },
+                    }} >
+                        <TimelineSeparator>
+                            <TimelineDot sx={{ background: "#ff000000", marginLeft: "1rem", boxShadow: "none" }} className=' shadow-none bg-none' >
+                                <div className=' size-[24px]   rounded-full  border-[7px] border-[#c4c4c4] '>
+                                </div>
+                            </TimelineDot>
+                        </TimelineSeparator>
+                        <TimelineContent sx={{ py: '14px', px: '3px' }}>
+                            <Typography className=' text-[#020202] leading-[24px]' variant="h6" component="span">
+                                Schedule Notification
+                                <Box className=" w-[306px] md:w-[595px]"></Box>
+                            </Typography>
+                        </TimelineContent>
+                    </TimelineItem>
+                </Timeline>
+            </div>
         </>
-    )
-}
+    );
+};
 
-export default Step1
+export default Step1;
