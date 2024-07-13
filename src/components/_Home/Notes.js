@@ -158,7 +158,7 @@ const Notes = ({ allTexts, onEdit, onDelete }) => {
                 {/* Notes */}
                 {allTexts && allTexts.length === 0 && (
                     <p className='mt-[5.1rem] flex gap-2 justify-center text-gray-400 text-[3rem] items-center mx-auto w-full'>
-                        <BiBookOpen size={60} /> Your diary is Empty.
+                        <BiBookOpen size={60} /> Your diary is Empty ooooo.
                     </p>
                 )}
                 <div className={`w-full notes grid ${isGrid ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-1'} gap-[16px]`}>
