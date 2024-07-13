@@ -6,6 +6,7 @@ import { AiFillSetting } from 'react-icons/ai'
 import Drawer from '@mui/material/Drawer';
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useNavigate } from 'react-router-dom'
 
 export const LogoFunction = () => {
     return (
@@ -18,7 +19,7 @@ export const LogoFunction = () => {
 
 const Header = () => {
     const [openNotification, setOpenNotification] = React.useState(false);
-
+    const navigate = useNavigate()
     const toggleDrawer = (newOpen) => () => {
         setOpenNotification(newOpen);
     };
@@ -91,7 +92,7 @@ const Header = () => {
                     <button onClick={toggleDrawer(true)}>
                         <img className=' h-[22.25px] ' src={Bell} alt={'logo'} />
                     </button>
-                    <AiFillSetting className='text-[#B4B9C2] ' size={20} />
+                    <AiFillSetting onClick={() => navigate("/settings")} className='text-[#B4B9C2] ' size={20} />
                 </div>
             </div>
             <Drawer anchor={'right'} open={openNotification} onClose={toggleDrawer(false)}>

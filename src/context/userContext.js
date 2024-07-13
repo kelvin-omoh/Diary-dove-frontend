@@ -34,6 +34,7 @@ export const UserContextProvider = ({ children }) => {
 
     const handleVerifyEmail = (email) => {
         localStorage.setItem('verifyEmail', JSON.stringify({ email }));
+        setVerifyEmail(email);
     };
 
     const logOut = () => {

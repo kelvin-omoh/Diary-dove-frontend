@@ -9,6 +9,8 @@ import { FaCheck } from 'react-icons/fa';
 import axios from 'axios';
 import { Usercontext } from '../../context/userContext';
 import toast from 'react-hot-toast';
+import { CircularProgress } from '@mui/material';
+
 const checkboxTheme = createTheme({
     palette: {
         customColor: {
@@ -61,7 +63,7 @@ const Step2 = () => {
     const [checkReminder, setCheckReminder] = useState(true)
     const navigate = useNavigate()
     const { userInfo, logOut } = useContext(Usercontext)
-
+    const [loading, setLoading] = useState(false);
     const handleChange = (event) => {
         setCheckReminder(true)
         setReminder(event.target.value);
@@ -128,7 +130,7 @@ const Step2 = () => {
 
         const token = extractToken(userInfo.token); // Ensure the token is properly extracted
         console.log('Extracted Token:', token); // Log the token for debugging
-
+        setLoading(true);
         try {
             const res = await axios.post('/api/users/setup', {
                 times: allTimes
@@ -150,6 +152,8 @@ const Step2 = () => {
             } else {
                 toast.error(error.response?.data?.message || 'An error occurred');
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -350,7 +354,16 @@ const Step2 = () => {
                                     savePreferences()
                                 }}
                                     className=' bg-[#DA9658] mt-[77px] md:mt-[126px] text-white py-[16.5px] text-center w-[236px] h-[60px] rounded-[8px]'>
-                                    Save Preferences
+                                    {loading ? (
+                                        <div className=" text-white items-center gap-3 justify-center flex w-full h-full">
+                                            Saving...  <CircularProgress size={24} style={{ color: 'white' }} />
+                                        </div>
+
+
+                                    ) : (
+                                        '  Save Preferences'
+                                    )}
+
                                 </button>
                             </form>
                         </Box>
