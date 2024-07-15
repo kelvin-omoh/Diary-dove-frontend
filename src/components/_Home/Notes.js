@@ -5,9 +5,11 @@ import list from '../../assets/Vector list.png'
 import edit from '../../assets/Vector 2.png'
 import { useGSAP } from '@gsap/react'
 import gsap from "gsap";
+import axios from'axios'
 import { AiOutlineBook } from 'react-icons/ai'
 import { BiBookOpen } from 'react-icons/bi'
 const Notes = ({ allTexts, onEdit, onDelete }) => {
+    
     const allNotes = [
         {
             id: 1,
@@ -103,7 +105,14 @@ const Notes = ({ allTexts, onEdit, onDelete }) => {
 
 
     const [isGrid, setIsGrid] = useState(true);
-
+async function submit(e){
+    e.preventDefualt()
+    try {
+        await axios.post('/api/users/')
+    } catch (error) {
+        
+    }
+}
 
     useGSAP(() => {
         gsap.from('.notes', {

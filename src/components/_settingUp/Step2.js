@@ -1,10 +1,14 @@
 import { Checkbox, FormControl, InputLabel, MenuItem, Select, ThemeProvider, ToggleButton, ToggleButtonGroup, createTheme } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import { Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineOppositeContent, TimelineDot } from '@mui/lab';
-import { BsChevronBarDown, BsChevronDown, BsChevronUp } from 'react-icons/bs';
+import { BsCheck, BsChevronBarDown, BsChevronDown, BsChevronUp } from 'react-icons/bs';
 import trash from '../../assets/trash_2.png'
 import { useNavigate } from 'react-router-dom';
+import { FaCheck } from 'react-icons/fa';
+import axios from 'axios';
+import { Usercontext } from '../../context/userContext';
+import toast from 'react-hot-toast';
 const checkboxTheme = createTheme({
     palette: {
         customColor: {
@@ -16,12 +20,12 @@ const checkboxTheme = createTheme({
 
 const renderDashedLine = () => {
     const segments = [];
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 3; i++) {
         segments.push(
             <Box
                 key={i}
                 width="2px"
-                height="10px"
+                height="7px"
                 bgcolor="#D1A055" // gold color
                 margin="4px 0"
             />
@@ -54,9 +58,9 @@ const Step2 = () => {
     const [reminders, setReminders] = useState([]);
     const [reminder, setReminder] = useState('');
     const [time, setTime] = useState({ hour: '', minute: '', period: 'AM' });
-    const [alignment, setAlignment] = useState('AM');
     const [checkReminder, setCheckReminder] = useState(true)
     const navigate = useNavigate()
+    const { userInfo, logOut } = useContext(Usercontext)
 
     const handleChange = (event) => {
         setCheckReminder(true)
@@ -93,15 +97,16 @@ const Step2 = () => {
 
 
 
-
-    const addReminder = () => {
+    console.log(userInfo);
+    const addReminder = async () => {
         if (checkReminder && isValidReminder) {
             setCheckReminder(true)
             if (time.hour !== '' && time.minute !== '') {
                 const newReminder = {
                     reminder: reminder !== '' ? reminder : 'No Reminder Name',
-                    time: `${time.hour}:${time.minute} ${time.period}`
+                    time: `${time.hour}:${time.minute} ${time.period.toLowerCase()}`
                 };
+
                 setReminders([...reminders, newReminder]);
                 // Clear form after adding
                 setTime({ hour: '', minute: '', period: 'AM' });
@@ -111,11 +116,49 @@ const Step2 = () => {
         !isValidReminder() ? setCheckReminder(false) : setCheckReminder(true);
     };
 
+
+    const extractToken = (token) => {
+        // Assume token is already in the correct format
+        return token;
+    };
+
+    const savePreferences = async () => {
+        const allTimes = [...reminders.map(r => r.time)];
+        console.log(allTimes);
+
+        const token = extractToken(userInfo.token); // Ensure the token is properly extracted
+        console.log('Extracted Token:', token); // Log the token for debugging
+
+        try {
+            const res = await axios.post('/api/users/setup', {
+                times: allTimes
+            }, {
+                headers: {
+                    'Authorization': token ? `Bearer ${token}` : '',
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log(res.data);
+            toast.success('Reminder saved successfully');
+            navigate('/')
+        } catch (error) {
+            console.log(error.response);
+            if (error.response?.status === 401) {
+                // Handle unauthorized (token expired) error
+                logOut(); // Call logout function if token expires
+                toast.error('Session expired. Please log in again.'); // Show user a message
+            } else {
+                toast.error(error.response?.data?.message || 'An error occurred');
+            }
+        }
+    };
+
     const deleteReminder = (index) => {
         const updatedReminders = [...reminders];
         updatedReminders.splice(index, 1);
         setReminders(updatedReminders);
     };
+
 
     const daysOfWeek = ['Everyday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -125,19 +168,26 @@ const Step2 = () => {
 
     return (
         <div className=' flex flex-col   gap-[16px]'>
-            <Timeline >
+            <Timeline sx={{ padding: "0px" }} >
                 <TimelineItem
-                    className='  '
-
+                    className='w-[306px] md:w-[595px]  '
+                    sx={{
+                        '&::before': {
+                            display: 'none',
+                        },
+                    }}
                 >
                     <TimelineSeparator className=' flex'>
-                        <TimelineDot sx={{ background: "#ff000000", boxShadow: "none" }} className=' shadow-none bg-none' >
-                            <div className=' p-[6px]   rounded-full  border-[.6rem] border-[#DA9658] size-[24px]'>
+                        <TimelineDot sx={{ background: "#ff000000", boxShadow: "none" }} className=' shadow-none  bg-[#DA9658]' >
+
+                            <div className=' size-[24px] font-thin font-[fantasy]  text-white  rounded-full  grid place-content-center bg-[#DA9658] '>
+                                <BsCheck size={20} />
+
                             </div>
                         </TimelineDot>
                         {renderDashedLine()}
                     </TimelineSeparator>
-                    <TimelineContent sx={{ py: '14px', px: 2 }}>
+                    <TimelineContent sx={{ py: '14px', px: '12px' }}>
                         <Typography className=' text-[#020202] leading-[24px]' variant="h6" component="span">
                             Connect social network
                             <Box className=" w-[342px] md:w-[595px]"></Box>
@@ -150,22 +200,21 @@ const Step2 = () => {
                     '&::before': {
                         display: 'none',
 
-
                     },
-                }} >
+                }}  >
                     <TimelineSeparator>
                         <TimelineDot sx={{ background: "#ff000000", boxShadow: "none" }} className=' shadow-none bg-none' >
-                            <div className=' p-[9px] ml-[2rem]  rounded-full  border-[.6rem] border-[#E4E2E0] size-[5px]'>
+
+                            <div className=' size-[24px]   rounded-full  border-[7px] border-[#DA9658] '>
                             </div>
                         </TimelineDot>
                     </TimelineSeparator>
-                    <TimelineContent sx={{ py: '14px' }}>
+                    <TimelineContent sx={{ py: '14px', px: '12px' }}>
                         <Typography className='  text-[#DA9658] leading-[24px]' variant="h6" component="span">
                             Schedule Notification
                         </Typography>
                         <Box className=" w-[306px] md:w-[595px]">
                             <p className=' text-[#8F96A3] text-[14px] '>&#123; add descriptive note &#125;</p>
-
 
                             <form className=' w-[306px] md:w-[359px]' action=''>
 
@@ -297,7 +346,7 @@ const Step2 = () => {
 
                                 <button onClick={(e) => {
                                     e.preventDefault()
-                                    navigate('/')
+                                    savePreferences()
                                 }}
                                     className=' bg-[#DA9658] mt-[77px] md:mt-[126px] text-white py-[16.5px] text-center w-[236px] h-[60px] rounded-[8px]'>
                                     Save Preferences

@@ -13,7 +13,7 @@ import { useLocation } from 'react-router-dom'
 import { useState } from 'react';
 import eye from '../assets/eye.png'
 import key from '../assets/key.png'
- 
+ import axios from 'axios'
 
 const UserAccout_settings=()=>{
   const uploadedImage = React.useRef(null);
@@ -48,6 +48,7 @@ reader.readAsDataURL(file)
         },
     },
 });
+
 
 
   return (
