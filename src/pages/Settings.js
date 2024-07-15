@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Layout } from '../components/_Settings/Layout';
+import { Layout } from '../components/_settings/Layout';
 import { BsPerson } from 'react-icons/bs';
 import { FaEye, FaEyeSlash, FaKey } from 'react-icons/fa';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Usercontext } from '../context/userContext';
-import ChangePasswordDialog from '../components/_Settings/ChangePasswordDialog';
+import ChangePasswordDialog from '../components/_settings/ChangePasswordDialog';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 
 const Settings = () => {

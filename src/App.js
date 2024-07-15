@@ -2,11 +2,16 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import SetUp from "./pages/SetUp";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import UserAccout_settings from "./pages/UserAccout_settings";
+import Layout from "./components/_settings/Layout";
+import Account from "./pages/Account";
+import Reminder from "./pages/Reminder";
+
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { Usercontext, UserContextProvider, } from "./context/userContext"; // Assuming you have UserContext and useUserContext defined
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { Outlet } from 'react-router-dom';
 import Verification from "./pages/Verification";
@@ -14,15 +19,34 @@ import ForgetPassword from "./pages/ForgetPassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import CreateNewPassword from "./pages/CreateNewPassword";
 import Settings from "./pages/Settings";
-import Reminder from "./pages/Reminder";
 import ChangeEmail from "./pages/ChangeEmail";
 import EmailVerivication from "./components/_Verification/EmailVerification/EmailVerification";
+import axios from "axios";
 
 
 // PrivateRoute component
 
 const PrivateRoute = ({ element }) => {
-  const { userInfo } = useContext(Usercontext);
+  const { userInfo,logOut } = useContext(Usercontext);
+
+  const checkToken=async()=>{
+      try {
+        const response = await axios.get('api/users/protected', {
+          headers: {
+              Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
+              'Content-Type': 'application/json'
+          }})
+          console.log(response.data);
+          toast.success(response.data.message)
+
+      } catch (error) {
+        console.log(error);
+        logOut()
+      }
+  }
+    useEffect(()=>{
+      checkToken()
+    },[userInfo?.token])
 
   return userInfo?.token ? (
     element
@@ -61,3 +85,4 @@ function App() {
 }
 
 export default App;
+
