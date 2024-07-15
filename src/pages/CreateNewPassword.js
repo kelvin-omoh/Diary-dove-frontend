@@ -4,6 +4,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing eye icons
 import { Usercontext } from '../context/userContext';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 const CreateNewPassword = () => {
     const [newPasswordVisible, setNewPasswordVisible] = useState(false);
@@ -12,7 +13,7 @@ const CreateNewPassword = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState({});
     const { verifyEmail, setVerifyEmail } = useContext(Usercontext)
-
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
     const toggleNewPasswordVisibility = () => {
         setNewPasswordVisible(!newPasswordVisible);
@@ -24,6 +25,7 @@ const CreateNewPassword = () => {
 
     const handleResetPassword = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             if (validate()) {
                 const res = await axios.post('api/users/newpassword', {
@@ -36,6 +38,8 @@ const CreateNewPassword = () => {
             }
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
 
     }
@@ -108,7 +112,18 @@ const CreateNewPassword = () => {
                         </div>
                         {errors.confirmPassword && <span className='text-red-500'>{errors.confirmPassword}</span>}
                     </label>
-                    <button type="submit" className='mt-[16px] py-[12px] md:p-y[16px] bg-[#DA9658] text-white rounded-[8px]'>Submit</button>
+                    <button type="submit" className='mt-[16px] py-[12px] md:p-y[16px] bg-[#DA9658] text-white rounded-[8px]'>
+
+                        {loading ? (
+                            <div className=" text-white items-center gap-3 justify-center flex w-full h-full">
+                                Submitting...  <CircularProgress size={24} style={{ color: 'white' }} />
+                            </div>
+
+
+                        ) : (
+                            'Submit'
+                        )}
+                    </button>
                 </form>
             </div>
         </div>

@@ -4,27 +4,32 @@ import toast from 'react-hot-toast'
 import { Usercontext } from '../context/userContext'
 import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
+import { CircularProgress } from '@mui/material'
 const ForgetPassword = () => {
 
 
     const { verifyEmail, setVerifyEmail, handleVerifyEmail } = useContext(Usercontext)
     const [email, setEmail] = useState('')
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
+
     const handleResendOfCode = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        setLoading(true);
         try {
-            handleVerifyEmail(email)
+            await handleVerifyEmail(email);
             const res = await axios.post('/api/users/resendOTPCode', {
                 email
-            })
-            toast.success(res.data.message)
-            navigate('/verify-email')
+            });
+            await handleVerifyEmail(email);
+            toast.success(res.data.message);
+            navigate('/verify-email');
         } catch (error) {
             console.log(error);
             toast.error('An error occurred while resending code, please try again later.....');
+        } finally {
+            setLoading(false);
         }
-
     }
     return (
         <div className=' w-full flex justify-center items-center h-[100vh] bg-[#FDFAF7]'>
@@ -38,7 +43,17 @@ const ForgetPassword = () => {
                         Email
                         <input value={email} onChange={(e) => setEmail(e.target.value)} className='mt-[8px] p-[16px]  border border-[#B4B9C2] rounded-[8px] ' type="text" placeholder='Steven***@gmail.com' name="" id="" />
                     </label>
-                    <button type='submit' className=' bg-[#DA9658] mt-[24px] mb-[16px]  text-white w-full rounded-[8px] h-[59px] '>Send OTP</button>
+                    <button type='submit' className='bg-[#DA9658] mt-[24px] mb-[16px] text-white w-full rounded-[8px] h-[59px] flex justify-center items-center'>
+                        {loading ? (
+                            <div className=" text-white items-center gap-3 justify-center flex w-full h-full">
+                                Sending...  <CircularProgress size={24} style={{ color: 'white' }} />
+                            </div>
+
+
+                        ) : (
+                            'Send OTP'
+                        )}
+                    </button>
                     <p className=' mt-[16px] text-[14px] text-start'>Don’t have an account yet? <Link to={'/sign-up'} className=' text-[#DA9658]'>Sign Up</Link> </p>
                 </form>
 

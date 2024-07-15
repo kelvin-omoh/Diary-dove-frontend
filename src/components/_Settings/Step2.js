@@ -1,5 +1,5 @@
 import { Checkbox, FormControl, InputLabel, MenuItem, Select, ThemeProvider, ToggleButton, ToggleButtonGroup, createTheme } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import { Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineOppositeContent, TimelineDot } from '@mui/lab';
 import { BsCheck, BsChevronBarDown, BsChevronDown, BsChevronUp } from 'react-icons/bs';
@@ -102,20 +102,23 @@ const Step2 = () => {
     console.log(userInfo);
     const addReminder = async () => {
         if (checkReminder && isValidReminder) {
-            setCheckReminder(true)
+            setCheckReminder(true);
             if (time.hour !== '' && time.minute !== '') {
+                const formattedTime = `${time.hour}:${time.minute.toString().padStart(2, '0')} ${time.period.toUpperCase()}`;
+
                 const newReminder = {
                     reminder: reminder !== '' ? reminder : 'No Reminder Name',
-                    time: `${time.hour}:${time.minute} ${time.period.toLowerCase()}`
+                    time: formattedTime
                 };
 
                 setReminders([...reminders, newReminder]);
                 // Clear form after adding
                 setTime({ hour: '', minute: '', period: 'AM' });
+                setReminder('');
             }
+        } else {
+            setCheckReminder(false);
         }
-
-        !isValidReminder() ? setCheckReminder(false) : setCheckReminder(true);
     };
 
 
@@ -132,11 +135,11 @@ const Step2 = () => {
         console.log('Extracted Token:', token); // Log the token for debugging
         setLoading(true);
         try {
-            const res = await axios.post('/api/users/setup', {
+            const res = await axios.post('/api/reminders/addnew', {
                 times: allTimes
             }, {
                 headers: {
-                    'Authorization': token ? `Bearer ${token}` : '',
+                    Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
                     'Content-Type': 'application/json'
                 }
             });
@@ -157,17 +160,62 @@ const Step2 = () => {
         }
     };
 
-    const deleteReminder = (index) => {
-        const updatedReminders = [...reminders];
-        updatedReminders.splice(index, 1);
-        setReminders(updatedReminders);
+    const getAllReminders = async () => {
+        try {
+            const res = await axios.get("/api/reminders", {
+                headers: {
+                    Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            toast.success("Reminders fetched successfully");
+            console.log(res.data);
+            setReminders(res.data.data); // Set reminders in the state
+        } catch (error) {
+            console.error("Error fetching reminders:", error);
+            toast.error("Error fetching reminders");
+        }
     };
+
+    const deleteReminder = async (id) => {
+        try {
+            await axios.delete(`/api/reminders/delete/${id}`, {
+                headers: {
+                    Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
+                    'Content-Type': 'application/json'
+                }
+            });
+            setReminders(reminders.filter(reminder => reminder.id !== id));
+            toast.success("Reminder deleted successfully");
+        } catch (error) {
+            console.log(error);
+            toast.error("Error deleting reminder");
+        }
+    };
+
+    useEffect(() => {
+        getAllReminders()
+    }, [])
+
 
 
     const daysOfWeek = ['Everyday'];
 
     const isValidReminder = () => {
         return daysOfWeek.includes(reminder);
+    };
+
+    const convertToReadableTime = (hour, time) => {
+        let hours = hour;
+        let minutes = time;
+
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // The hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+
+        return `${hours}:${minutes} ${ampm}`;
     };
 
     return (
@@ -219,6 +267,7 @@ const Step2 = () => {
                         </Typography>
                         <Box className=" w-[306px] md:w-[595px]">
                             <p className=' text-[#8F96A3] text-[14px] '>&#123; add descriptive note &#125;</p>
+
 
                             <form className=' w-[306px] md:w-[359px]' action=''>
 
@@ -334,14 +383,14 @@ const Step2 = () => {
 
                                     <div className=' w-[248px] grid gap-[8px] '>
                                         {reminders.map((reminder, index) => (
-                                            <div key={index} className='flex w-full h-[62px] p-[16px] rounded-[8px] border-[#FAF2EA] justify-between border  items-center gap-2'>
-                                                <span>{` ${reminder.time}`}</span>
+                                            <div key={index} className='flex w-full h-[62px] p-[16px] rounded-[8px] border-[#FAF2EA] justify-between border items-center gap-2'>
+                                                <span>{convertToReadableTime(reminder.hour, reminder.time)}</span>
                                                 <button
                                                     type='button'
-                                                    className=' text-white px-2 py-1 rounded'
-                                                    onClick={() => deleteReminder(index)}
+                                                    className='text-white px-2 py-1 rounded'
+                                                    onClick={() => deleteReminder(reminder.id)}
                                                 >
-                                                    <img className=' h-[18px]' src={trash} alt='trash' />
+                                                    <img className='h-[18px]' src={trash} alt='trash' />
                                                 </button>
                                             </div>
                                         ))}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import whatsappIcon from '../../assets/Group (1).png';
 import googleIcon from '../../assets/icons8-google 1.png';
 import { Checkbox } from '@mui/material';
@@ -9,11 +9,13 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BsCircle, BsGoogle, BsWhatsapp } from 'react-icons/bs';
 import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import ToggleIcon from './ToggleIcon';
-import VerifyEmail from '../../pages/VerifyEmail';
+
+import { Usercontext } from '../../context/userContext';
 
 const Step1 = ({ activeStep, handleNext }) => {
     const [google, setGoogle] = useState(false);
     const [whatsapp, setWhatsapp] = useState(false);
+    const { setAuthInfo, userInfo } = useContext(Usercontext)
 
     const handleGoogleChange = (event) => {
         setGoogle(event.target.checked);
@@ -74,8 +76,7 @@ const Step1 = ({ activeStep, handleNext }) => {
                                     </Box>
 
                                 </Box>
-                                <input disabled value={VerifyEmail} type="text" className=' px-[1em] w-full my-[8px] h-[40px] outline-none  rounded-[8px] border-[1px] border-[#EDEDED] ' name="" id="" />
-                                <button className=' rounded-[4px] bg-[#DA9658] px-[22.5px] py-[5.5px] text-white '>connect</button>
+                                <input disabled value={userInfo?.email} type="text" className=' px-[1em] text-[#8F96A3] w-full my-[8px] h-[40px] outline-none  rounded-[8px] border-[1px] border-[#EDEDED] ' name="" id="" />
 
                             </Box>
                             <Box className=" rounded-[12px] mt-[16px] w-[306px] md:w-[595px] border-[#EDEDED] p-[16px] border-[1px]">
