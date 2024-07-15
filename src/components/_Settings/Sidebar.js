@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FaSignOutAlt } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom'
+import { Usercontext } from '../../context/userContext';
 
 const Sidebar = () => {
     const links = [
@@ -15,6 +16,7 @@ const Sidebar = () => {
 
     ]
     const location = useLocation();
+    const { userInfo, logOut } = useContext(Usercontext)
     return (
         <div className=' z-[100] fixed h-full top-[88px] left-0 shadow-xl w-[320px] text-center'>
             <h1 className=' mt-[32px] leading-[48px] text-[32px] font-[600]'>Settings</h1>
@@ -24,7 +26,7 @@ const Sidebar = () => {
                         <Link to={link.route}>{link.text}</Link>
                     </li>
                 ))}
-                <li className=' h-[72px] mt-[40vh] mb-[48px] gap-[8px] items-center flex justify-center text-[14px] font-[600]  w-full ' >
+                <li onClick={() => logOut()} className=' cursor-pointer h-[72px] mt-[40vh] mb-[48px] gap-[8px] items-center flex justify-center text-[14px] font-[600]  w-full ' >
                     <FaSignOutAlt className=' text-[#b3b3b3] size-[24px]' />
                     Logout
                 </li>

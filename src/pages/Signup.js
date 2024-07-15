@@ -24,20 +24,23 @@ const Signup = () => {
     const navigate = useNavigate();
     const formRef = useRef(null); // Ref to target the form element
 
-    const tl = gsap.timeline();
 
 
-    tl.to('.logo2', { x: 10, duration: 0.2, yoyo: true, repeat: 2 })
-        .to('.logo2', { rotation: 360, duration: 1 })
-        .to('.logo2', { scale: 1, rotation: 360, duration: 1 })
-        .to('.left-sm', { x: 2, opacity: 0, width: 0, rotation: 0, duration: .8 });
 
     useEffect(() => {
+        const tl = gsap.timeline();
+        tl.to('.logo2', { x: 10, duration: 0.2, yoyo: true, repeat: 2 })
+            .to('.logo2', { rotation: 360, duration: 1 })
+            .to('.logo2', { scale: 1, rotation: 360, duration: 1 })
+            .to('.left-sm', { x: 2, opacity: 0, width: 0, rotation: 0, duration: .8 });
+
+
+
+
         gsap.to('.form', {
             opacity: 1,
             x: 0,
         });
-
         gsap.from('.left-md', {
             opacity: 1,
             width: 60,
