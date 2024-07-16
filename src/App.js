@@ -4,8 +4,6 @@ import Home from "./pages/Home";
 import SetUp from "./pages/SetUp";
 import toast, { Toaster } from "react-hot-toast";
 import UserAccout_settings from "./pages/UserAccout_settings";
-import Layout from "./components/_settings/Layout";
-import Account from "./pages/Account";
 import Reminder from "./pages/Reminder";
 
 import Login from "./pages/Login";
@@ -27,26 +25,27 @@ import axios from "axios";
 // PrivateRoute component
 
 const PrivateRoute = ({ element }) => {
-  const { userInfo,logOut } = useContext(Usercontext);
+  const { userInfo, logOut } = useContext(Usercontext);
 
-  const checkToken=async()=>{
-      try {
-        const response = await axios.get('api/users/protected', {
-          headers: {
-              Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
-              'Content-Type': 'application/json'
-          }})
-          console.log(response.data);
-          toast.success(response.data.message)
+  const checkToken = async () => {
+    try {
+      const response = await axios.get('api/users/protected', {
+        headers: {
+          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log(response.data);
+      toast.success(response.data.message)
 
-      } catch (error) {
-        console.log(error);
-        logOut()
-      }
+    } catch (error) {
+      console.log(error);
+      logOut()
+    }
   }
-    useEffect(()=>{
-      checkToken()
-    },[userInfo?.token])
+  useEffect(() => {
+    checkToken()
+  }, [userInfo?.token])
 
   return userInfo?.token ? (
     element
