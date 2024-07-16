@@ -16,13 +16,13 @@ import CreateNewPassword from "./pages/CreateNewPassword";
 import Settings from "./pages/Settings";
 import Reminder from "./pages/Reminder";
 import ChangeEmail from "./pages/ChangeEmail";
+import EmailVerivication from "./components/_Verification/EmailVerification/EmailVerification";
 
 
 // PrivateRoute component
 
 const PrivateRoute = ({ element }) => {
   const { userInfo } = useContext(Usercontext);
-  console.log(userInfo);
 
   return userInfo?.token ? (
     element
@@ -43,6 +43,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/verify" element={<Verification />} />
+            <Route path="/email-verification" element={<EmailVerivication />} />
             <Route path="/reset-password" element={<ForgetPassword />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/new-password" element={<CreateNewPassword />} />
