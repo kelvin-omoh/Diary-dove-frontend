@@ -1,6 +1,6 @@
 import React from 'react'
 import Step2 from '../components/_settingUp/Step2'
-import { Layout } from '../components/_Settings/Layout'
+import { Layout } from '../components/_settings/Layout'
 
 const Reminder = () => {
     return (

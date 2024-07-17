@@ -5,9 +5,9 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Usercontext } from '../context/userContext';
-import ChangePasswordDialog from '../components/_Settings/ChangePasswordDialog';
+import ChangePasswordDialog from '../components/_settings/ChangePasswordDialog';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
-import { Layout } from '../components/_Settings/Layout';
+import { Layout } from '../components/_settings/Layout';
 
 const Settings = () => {
     const navigate = useNavigate();
