@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Usercontext } from "../context/userContext";
 import toast from "react-hot-toast";
 import { useGSAP } from "@gsap/react";
-import Profile from "../assets/Frame 1000004148.png";
+// import Profile from "../assets/Frame 1000004148.png";
 import Warning from "../assets/Warning.png";
 import { PiEyeLight, PiEyeSlashLight } from "react-icons/pi";
 
@@ -207,17 +207,15 @@ const Login = () => {
             <div className="md:bg-[#E0A7741A] flex gap-[4px] border rounded-lg w-[342px] md:w-[412px] px-[4px]">
               <button
                 onClick={() => navigate("/login")}
-                className={`transition-all duration-300 ease-out ${
-                  isNewUser ? "bg-[white]" : ""
-                } w-[202px] justify-center px-[16px] py-[8px] gap-[8px] rounded-lg flex my-[4px] items-center`}
+                className={`transition-all duration-300 ease-out ${isNewUser ? "bg-[white]" : ""
+                  } w-[202px] justify-center px-[16px] py-[8px] gap-[8px] rounded-lg flex my-[4px] items-center`}
               >
                 Existing User
               </button>
               <button
                 onClick={() => navigate("/sign-up")}
-                className={`transition-all duration-300 ease-out ${
-                  !isNewUser ? "bg-[white]" : ""
-                } w-[148px] justify-center px-[16px] py-[8px] gap-[8px] rounded-lg flex my-[4px] items-center`}
+                className={`transition-all duration-300 ease-out ${!isNewUser ? "bg-[white]" : ""
+                  } w-[148px] justify-center px-[16px] py-[8px] gap-[8px] rounded-lg flex my-[4px] items-center`}
               >
                 New User
               </button>
@@ -240,7 +238,7 @@ const Login = () => {
                   >
                     <p>User Name</p>
                     <div className="border-[#bfc5d0d3] w-full p-4 rounded-lg border gap-[8px] flex items-center">
-                      <img src={Profile} className=" size-5" alt="user" />
+                      {/* <img src={Profile} className=" size-5" alt="user" /> */}
                       <input
                         type="text"
                         id="userName"

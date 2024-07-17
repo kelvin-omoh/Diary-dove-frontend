@@ -1,8 +1,7 @@
 import { Switch } from '@mui/material';
 import React, { useState } from 'react';
 
-const ToggleIcon = () => {
-    const [checked, setChecked] = useState(false);
+const ToggleIcon = ({ checked, setChecked }) => {
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
