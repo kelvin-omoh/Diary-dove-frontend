@@ -153,7 +153,7 @@ const Signup = () => {
             </div>
 
             {/* Right */}
-            <div className="right ease-in h-full my-auto transition-all delay-300 mx-auto w-[342px] md:w-[780px] flex flex-col items-center justify-center pt-[20px]">
+            <div className="right ease-in h-full my-auto transition-all delay-300 mx-auto w-[342px]  md:w-[412px] flex flex-col items-center justify-start pt-[20px]">
                 <div className=' bg-[#E0A7741A] flex gap-[4px] w-fit px-[4px]'>
                     <button onClick={() => navigate('/login')} className={`transition - all duration-300 ease-out ${isNewUser && 'bg-[white]'} w-[148px] justify-center px-[16px] py-[8px] gap-[8px]  rounded-lg flex my-[4px] items-center`}>
 
@@ -164,7 +164,7 @@ const Signup = () => {
                         New User
                     </button>
                 </div>
-                <h1 className=" font-[600] text-[32px]">
+                <h1 className=" font-[600] text-left w-full bg-red-300 text-[32px]">
                     {!isNewUser ? 'Create Account' : 'Log in to your Account'}
                 </h1>
                 <form ref={formRef} onSubmit={(e) => handleSignup(e)} className="form opacity-0 w-[342px] md:w-[412px]  ease-in transition-all delay-300 mx-auto flex flex-col gap-[16px]">

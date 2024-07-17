@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import whatsappIcon from '../../assets/Group (1).png';
 import googleIcon from '../../assets/icons8-google 1.png';
 import { Checkbox } from '@mui/material';
@@ -11,12 +11,14 @@ import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider } 
 import ToggleIcon from './ToggleIcon';
 
 import { Usercontext } from '../../context/userContext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Step1 = ({ activeStep, handleNext }) => {
     const [google, setGoogle] = useState(false);
     const [whatsapp, setWhatsapp] = useState(false);
     const { setAuthInfo, userInfo } = useContext(Usercontext)
-
+    const navigate = useNavigate()
     const handleGoogleChange = (event) => {
         setGoogle(event.target.checked);
     };
@@ -25,6 +27,27 @@ const Step1 = ({ activeStep, handleNext }) => {
         setWhatsapp(event.target.checked);
     };
 
+    const getAllReminders = async () => {
+        try {
+            const res = await axios.get("/api/reminders", {
+                headers: {
+                    Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log(res.data.data);
+            if (res?.data?.data?.length > 0) {
+                navigate("/")
+            }
+        } catch (error) {
+            console.log(error);
+            console.error("Error fetching reminders:", error);
+        }
+    };
+
+    useEffect(() => {
+        getAllReminders()
+    }, [])
 
 
     const renderDashedLine = () => {
@@ -78,6 +101,7 @@ const Step1 = ({ activeStep, handleNext }) => {
                                 </Box>
                                 <input disabled value={userInfo?.email} type="text" className=' px-[1em] text-[#8F96A3] w-full my-[8px] h-[40px] outline-none  rounded-[8px] border-[1px] border-[#EDEDED] ' name="" id="" />
 
+                                div
                             </Box>
                             <Box className=" rounded-[12px] mt-[16px] w-[306px] md:w-[595px] border-[#EDEDED] p-[16px] border-[1px]">
                                 <Box className=" flex justify-between w-full  ">

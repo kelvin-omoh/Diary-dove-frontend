@@ -123,7 +123,7 @@ const Login = () => {
 
   return (
     <div className=" w-full relative h-[100vh] flex">
-      <div className=" bg-gradient-to-b hidden relative left-sm left-md  from-[#DA9658] to-[#91643B] h-[101vh] w-[100vw]">
+      <div className=" bg-gradient-to-b hidden md:block relative left-md left-md  from-[#DA9658] to-[#91643B] h-[101vh] w-[100vw]">
         <div className="bg-[#ffffff37] rounded-bl-full h-[55px] w-[100%] left-[315px] absolute top-0" />
         <div className="bg-[#ffffff37] rounded-tr-full h-[55px] w-[100%] right-[315px] absolute bottom-0" />
         <button className="shadow-md bg-[#ffffff] rounded-2xl float-start mx-auto mt-[48px] p-3">
