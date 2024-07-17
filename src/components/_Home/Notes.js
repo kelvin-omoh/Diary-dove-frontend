@@ -241,10 +241,11 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
 
                     </div>
 
-                    <Stack spacing={2} className={` absolute   left-0 ${isGrid ? 'bottom-[5.5rem]' : 'bottom-[0.5rem]'}  mt-4`}>
+                    <Stack spacing={2} className={` grid items-center justify-around w-full     left-0 ${isGrid ? 'bottom-[5.5rem]' :  'bottom-[0.5rem]'}  pt-6`}>
                         <Pagination
                             count={pageCount}
                             page={currentPage}
+                            className='w-full gap-[10px] items-center '
                             onChange={handleChangePage}
                             renderItem={(item) => (
                                 <PaginationItem {...item} />

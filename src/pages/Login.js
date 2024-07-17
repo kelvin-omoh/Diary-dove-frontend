@@ -115,10 +115,19 @@ const Login = () => {
       }
     } catch (error) {
       console.log("Error:", error);
-      error?.response?.data?.errors?.map((i) => toast.error(i));
-      console.log(error?.response?.data?.errors?.map((i) => i));
-      error?.response?.data?.errors?.map((i) => toast.error(i));
-      console.log(error?.response?.data?.errors?.map((i) => i));
+
+      console.log(error.status);
+
+      if(error.response.status===400){
+        
+        toast.error(error.response.data.message)
+      }
+      error?.response?.data?.errors?.map(i =>
+        toast.error(i)
+      )
+      console.log(error?.response?.data?.errors?.map(i => i));
+
+
     }
   };
 

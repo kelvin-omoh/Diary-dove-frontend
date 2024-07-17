@@ -249,11 +249,12 @@ const Home = () => {
                 )}
               </button>
             </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </div>
+    );
+
 };
 
 export default Home;

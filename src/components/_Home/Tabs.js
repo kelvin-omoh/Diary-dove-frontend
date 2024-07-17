@@ -92,7 +92,6 @@ const HomeTab = ({ setAllTexts, allTexts, isGrid, setIsGrid, ss, sss }) => {
                 >
                     <Box p={2}>
                         <CalendarWithNotes setAllTexts={setAllTexts} allTexts={allTexts} />
-                        {console.log(allTexts)}
                     </Box>
                 </Popover>
 
