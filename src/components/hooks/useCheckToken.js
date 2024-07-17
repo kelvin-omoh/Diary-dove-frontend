@@ -52,7 +52,6 @@ const useCheckToken = () => {
 
                 } else {
                     navigate("/login")
-                    logOut();
                 }
             } catch (error) {
                 navigate("/login")
