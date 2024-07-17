@@ -140,9 +140,7 @@ const Signup = () => {
         console.log(error);
         error?.response?.data?.errors?.map((e) => toast.error(e));
       }
-      if (error?.response?.data.message) {
-        console.log(error);
-        toast.error(error?.response?.data.message);
+      if (error?.response?.status == 400) {
       } else {
         console.log(error);
       }
@@ -196,45 +194,51 @@ const Signup = () => {
       </div>
 
       {/* Right */}
-      <div className="right ease-in h-full my-auto transition-all delay-300 mx-auto w-[342px] md:w-[780px] flex flex-col items-center justify-center pt-[20px]">
-        <div className=" bg-[#E0A7741A] flex gap-[4px] w-fit px-[4px]">
+      <div
+        className="right ease-in h-full md:h-[972px]  w-[390px] md:w-[572px] bg-white my-auto transition-all delay-300 mx-auto  flex flex-col items-center justify-center pt-[0px] md:pt-[20px]"
+        style={{ boxShadow: "0px 4px 24px 0px #0000000A" }}
+      >
+        <div className="w-[412px] pl-[24px] md:pl-0 mt-[72px] md:mt-0 mb-[20px] flex  justify-start  items-start">
+          <img src={logo3} alt="" className="w-[146px] h-[36px] " />
+        </div>
+        <div className="bg-[#E0A7741A]  p-[4px] rounded-[8px] flex gap-[4px] w-[342px] md:w-[412px] mx-[24px] md:mx-[80px]">
           <button
             onClick={() => navigate("/login")}
-            className={`transition - all duration-300 ease-out ${
+            className={`transition-all duration-300 ease-out ${
               isNewUser && "bg-[white]"
-            } w-[148px] justify-center px-[16px] py-[8px] gap-[8px]  rounded-lg flex my-[4px] items-center`}
+            } w-full justify-center  px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
           >
             Existing User
           </button>
           <button
             onClick={() => navigate("/sign-up")}
-            className={`  transition-all duration-300 ease-out ${
+            className={`transition-all duration-300 ease-out ${
               !isNewUser && "bg-[white]"
-            } w-[148px] justify-center px-[16px] py-[8px] gap-[8px]  rounded-lg flex my-[4px] items-center`}
+            } w-full justify-center px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
           >
             New User
           </button>
         </div>
-        <h1 className=" font-[600] text-[32px]">
+        <h1 className=" my-[24px] font-[600] text-start w-full flex justify-start px-[24px] md:px-[80px] text-[32px]">
           {!isNewUser ? "Create Account" : "Log in to your Account"}
         </h1>
         <form
           ref={formRef}
           onSubmit={(e) => handleSignup(e)}
-          className="form opacity-0 w-[342px] md:w-[412px]  ease-in transition-all delay-300 mx-auto flex flex-col gap-[16px]"
+          className="form opacity-0 w-[342px] md:w-[412px] ease-in transition-all delay-300 mx-auto flex flex-col gap-[16px]"
         >
           {!isNewUser && (
             <label
-              className=" w-full items-start justify-start flex gap-[8px] flex-col"
+              className="w-full items-start justify-start flex gap-[8px] flex-col"
               htmlFor=""
             >
               Full Name
-              <div className=" w-full border-[#bfc5d0d3] p-4 rounded-lg border gap-[8px] flex items-center">
-                <AiOutlineUser className=" text-[#bfc5d0d3]" />
+              <div className="w-full border-[#bfc5d0d3] p-4 rounded-lg border gap-[8px] flex items-center">
+                <img src={person} className="text-[#bfc5d0d3]" />
                 <input
                   required={true}
                   type="text"
-                  className=" outline-none w-full"
+                  className="outline-none w-full"
                   placeholder="Steven Ade***"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
