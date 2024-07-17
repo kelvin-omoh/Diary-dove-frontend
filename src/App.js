@@ -30,7 +30,6 @@ function App() {
             <Route path="/reset-password" element={<ForgetPassword />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/new-password" element={<CreateNewPassword />} />
-
             <Route path="/" element={<PrivateRoute element={<Home />} />} />
             <Route path="/setup" element={<PrivateRoute element={<SetUp />} />} />
             <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />

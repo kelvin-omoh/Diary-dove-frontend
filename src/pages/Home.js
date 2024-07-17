@@ -219,7 +219,7 @@ const Home = () => {
                     "& .MuiDialog-paper": {
                         width: "660px",
                         overflow: "hidden",
-                        height: "500px", // Default height for tablet and above screens
+                        height: "333px", // Default height for tablet and above screens
                         "@media (max-width: 767px)": {
                             // Phone screen size
                             height: "350px",
@@ -232,7 +232,7 @@ const Home = () => {
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         placeholder="Enter description..."
-                        className="outline-none w-full"
+                        className="outline-none h-[144px] w-full"
                         cols="30"
                         rows="10"
                     ></textarea>
@@ -245,7 +245,7 @@ const Home = () => {
                                     } text-white rounded-[8px]`}
                             >
                                 {loading ? (
-                                    <div className="text-white items-center gap-3 justify-center flex w-full h-full">
+                                    <div className="text-white  items-center gap-3 justify-center flex w-full h-full">
                                         {editIndex ? 'Editing...' : 'Saving...'}  <CircularProgress size={24} style={{ color: 'white' }} />
                                     </div>
                                 ) : (

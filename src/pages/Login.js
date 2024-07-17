@@ -128,6 +128,12 @@ const Login = () => {
       }
     } catch (error) {
       console.log("Error:", error);
+      console.log(error.status);
+
+      if(error.response.status===400){
+        
+        toast.error(error.response.data.message)
+      }
       error?.response?.data?.errors?.map(i =>
         toast.error(i)
       )
