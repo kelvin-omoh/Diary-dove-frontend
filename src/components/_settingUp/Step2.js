@@ -220,7 +220,6 @@ const Step2 = () => {
                         <Box className=" w-[306px] md:w-[595px]">
                             <p className=' text-[#8F96A3] text-[14px] '>&#123; add descriptive note &#125;</p>
 
-
                             <form className=' w-[306px] md:w-[359px]' action=''>
 
                                 <label className=' text-[16px] text-black flex gap-[8px] flex-col  mb-[8px]' htmlFor="">

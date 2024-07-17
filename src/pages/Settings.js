@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Layout } from '../components/_Settings/Layout';
 import { BsPerson } from 'react-icons/bs';
 import { FaEye, FaEyeSlash, FaKey } from 'react-icons/fa';
 import axios from 'axios';
@@ -8,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Usercontext } from '../context/userContext';
 import ChangePasswordDialog from '../components/_Settings/ChangePasswordDialog';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Layout } from '../components/_Settings/Layout';
 
 const Settings = () => {
     const navigate = useNavigate();
