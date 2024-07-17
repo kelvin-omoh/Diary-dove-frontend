@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import SetUp from "./pages/SetUp";
 import toast, { Toaster } from "react-hot-toast";
 import Reminder from "./pages/Reminder";
-
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { Usercontext, UserContextProvider } from "./context/userContext"; // Assuming you have UserContext and useUserContext defined
@@ -17,7 +16,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import CreateNewPassword from "./pages/CreateNewPassword";
 import Settings from "./pages/Settings";
 import ChangeEmail from "./pages/ChangeEmail";
-import EmailVerivication from "./components/_Verification/EmailVerification/EmailVerification";
+import EmailVerification from "./components/_Verification/EmailVerification/EmailVerification";
 import axios from "axios";
 
 // PrivateRoute component
@@ -57,7 +56,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/verify" element={<Verification />} />
-            <Route path="/email-verification" element={<EmailVerivication />} />
+            <Route path="/verify-email" element={<EmailVerification />} />
             <Route path="/reset-password" element={<ForgetPassword />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/new-password" element={<CreateNewPassword />} />

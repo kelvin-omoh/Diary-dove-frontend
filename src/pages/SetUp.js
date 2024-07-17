@@ -4,7 +4,7 @@ import { Stepper, Step, StepLabel, StepConnector, } from '@mui/material';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 
 import Step2 from '../components/_settingUp/Step2';
-import Step1 from '../components/_settingUp/Step1';
+import Step1 from '../components/_settingUp/Step1'
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Usercontext } from '../context/userContext';

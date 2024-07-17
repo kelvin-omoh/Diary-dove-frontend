@@ -6,6 +6,7 @@ import { Dialog, DialogContent, CircularProgress } from "@mui/material";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Usercontext } from "../context/userContext";
+import useCheckToken from "../components/hooks/useCheckToken";
 
 const Home = () => {
   const [open, setOpen] = useState(false);
@@ -26,22 +27,31 @@ const Home = () => {
   };
 
   const getAllNotes = async () => {
-    try {
-      const response = await axios.get("api/diaries/", {
-        headers: {
-          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-          "Content-Type": "application/json",
-        },
-      });
-      setAllTexts(response.data.data);
-    } catch (error) {
-      toast.error("Error while getting notes");
-      console.error("Error fetching notes:", error);
+    if (useCheckToken) {
+      try {
+        const response = await axios.get("api/diaries/", {
+          headers: {
+            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+            "Content-Type": "application/json",
+          },
+        });
+        setAllTexts(response.data.data);
+      } catch (error) {
+        toast.error("Error while getting notes");
+        console.error("Error fetching notes:", error);
+      }
     }
   };
+
   useEffect(() => {
-    getAllNotes();
-  }, [userInfo]);
+    if (
+      userInfo.token !== "" &&
+      userInfo.token !== undefined &&
+      userInfo.token !== null
+    ) {
+      getAllNotes();
+    }
+  }, [userInfo?.token]);
 
   const handleSave = async () => {
     const getCurrentDateTime = () => {
@@ -160,6 +170,19 @@ const Home = () => {
     }
   };
 
+  const formatLastName = (str) => {
+    if (str && str?.includes(" ")) {
+      const names = str.split(" ");
+      const lastName = names.pop(); // Get the last word
+      const formattedName = `${names.join(" ")} ${lastName
+        .charAt(0)
+        .toUpperCase()}.`; // Join the non-last names and add formatted last name
+      return formattedName;
+    } else {
+      return str; // Return the name as is if there is no space
+    }
+  };
+
   return (
     <div className="bg-[#FDFAF7]">
       <Header />
@@ -178,8 +201,8 @@ const Home = () => {
           )}
 
           <div className="flex flex-col items-start">
-            <h1 className="leading-[21px] md:leading-[30px] font-[600] md:font-[700] text-[14px] md:text-[20px]">
-              Welcome {userInfo?.username}
+            <h1 className="leading-[21px] m-0 md:leading-[30px] font-[600] md:font-[700] text-[14px] md:text-[20px]">
+              Welcome {formatLastName(userInfo?.fullname)}
             </h1>
             <p className="text-[#7C7B87] text-[12px] md:text-[16px] leading-6">
               What are you writing about today?
