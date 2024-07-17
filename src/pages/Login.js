@@ -3,7 +3,7 @@ import { LogoFunction } from "../components/Header";
 import vector1 from '../assets/Vector (3).png';
 import vector2 from '../assets/Frame 18.png';
 import Logo from '../assets/logo 2.png'
-import phone from '../assets/Calling 1.png';
+// import phone from '../assets/Calling 1.png';
 import logo2 from '../assets/DiaraDove Logo (1).png';
 import google from '../assets/icons8-google 1.png';
 import { AiOutlineUser, AiOutlineMail, AiOutlineLock } from "react-icons/ai";
@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Usercontext } from "../context/userContext";
 import toast from "react-hot-toast";
 import { useGSAP } from "@gsap/react";
-import Profile from "../assets/Frame 1000004148.png"
+import Profile from "../assets/person.png"
 import Warning from "../assets/Warning.png"
 import { PiEyeLight, PiEyeSlashLight } from "react-icons/pi";
 
