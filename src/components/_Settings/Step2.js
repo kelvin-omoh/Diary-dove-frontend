@@ -199,6 +199,7 @@ const Step2 = () => {
         },
       });
 
+      toast.success("Reminders fetched successfully");
       console.log(res.data);
       setReminders(res.data.data); // Set reminders in the state
     } catch (error) {

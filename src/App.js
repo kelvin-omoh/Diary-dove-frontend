@@ -1,15 +1,11 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import SetUp from "./pages/SetUp";
-import toast, { Toaster } from "react-hot-toast";
 import Reminder from "./pages/Reminder";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import { Usercontext, UserContextProvider } from "./context/userContext"; // Assuming you have UserContext and useUserContext defined
-import { useContext, useEffect } from "react";
-import { Navigate } from "react-router-dom";
-import { Outlet } from "react-router-dom";
 import Verification from "./pages/Verification";
 import ForgetPassword from "./pages/ForgetPassword";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -17,34 +13,8 @@ import CreateNewPassword from "./pages/CreateNewPassword";
 import Settings from "./pages/Settings";
 import ChangeEmail from "./pages/ChangeEmail";
 import EmailVerification from "./components/_Verification/EmailVerification/EmailVerification";
-import axios from "axios";
-
-// PrivateRoute component
-
-const PrivateRoute = ({ element }) => {
-  const { userInfo, logOut } = useContext(Usercontext);
-
-  const checkToken = async () => {
-    try {
-      const response = await axios.get("api/users/protected", {
-        headers: {
-          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(response.data);
-      toast.success(response.data.message);
-    } catch (error) {
-      console.log(error);
-      logOut();
-    }
-  };
-  useEffect(() => {
-    checkToken();
-  }, [userInfo?.token]);
-
-  return userInfo?.token ? element : <Navigate to="/login" />;
-};
+import { PrivateRoute } from "./components/hooks/PrivateRoute";
+import { Usercontext, UserContextProvider } from "./context/userContext";
 
 function App() {
   return (
