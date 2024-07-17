@@ -32,10 +32,22 @@ function App() {
             <Route path="/new-password" element={<CreateNewPassword />} />
 
             <Route path="/" element={<PrivateRoute element={<Home />} />} />
-            <Route path="/setup" element={<PrivateRoute element={<SetUp />} />} />
-            <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
-            <Route path="/settings/reminder" element={<PrivateRoute element={<Reminder />} />} />
-            <Route path="/change-email" element={<PrivateRoute element={<ChangeEmail />} />} />
+            <Route
+              path="/setup"
+              element={<PrivateRoute element={<SetUp />} />}
+            />
+            <Route
+              path="/settings"
+              element={<PrivateRoute element={<Settings />} />}
+            />
+            <Route
+              path="/settings/reminder"
+              element={<PrivateRoute element={<Reminder />} />}
+            />
+            <Route
+              path="/change-email"
+              element={<PrivateRoute element={<ChangeEmail />} />}
+            />
           </Routes>
         </Router>
       </div>
