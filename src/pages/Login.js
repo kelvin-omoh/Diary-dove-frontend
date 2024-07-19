@@ -174,8 +174,8 @@ const Login = () => {
             <img src={Logo} className=" h-[36px] mdw-[146px]" alt="logo" />
           </div>
 
-          <div className='md:bg-[#E0A7741A] flex gap-[4px] border rounded-lg w-[342px] md:w-[412px] px-[4px]'>
-            <button onClick={() => navigate('/login')} className={`transition-all duration-300 ease-out ${isNewUser ? 'bg-[white]' : ''} w-[202px] justify-center px-[16px] py-[8px] gap-[8px] rounded-lg flex my-[4px] items-center`}>
+          <div className='bg-[#E0A7741A] flex gap-[4px] border rounded-lg w-[342px] md:w-[412px] px-[4px]'>
+            <button onClick={() => navigate('/login')} className={`transition-all duration-300 ease-out  bg-[white] w-[202px] justify-center px-[16px] py-[8px] gap-[8px] rounded-lg flex my-[4px] items-center`}>
               Existing User
             </button>
             <button onClick={() => navigate('/sign-up')} className={`transition-all duration-300 ease-out ${!isNewUser ? 'bg-[white]' : ''} w-[148px] justify-center px-[16px] py-[8px] gap-[8px] rounded-lg flex my-[4px] items-center`}>
