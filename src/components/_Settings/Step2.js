@@ -9,7 +9,13 @@ import {
   ToggleButtonGroup,
   createTheme,
 } from "@mui/material";
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Box,
   Typography,
@@ -93,14 +99,34 @@ const Step2 = () => {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
+    let inputValue = event.target.value;
+
+    // Remove non-numeric characters
+    inputValue = inputValue.replace(/[^0-9]/g, "");
+
+    // Truncate to two characters
+    if (inputValue.length > 2) {
+      inputValue = inputValue.slice(0, 2);
+    }
+
     setCheckReminder(true);
-    setReminder(event.target.value);
+    setReminder(inputValue);
   };
 
-  const handleTimeChange = (field, value) => {
+  const handleTimeChange = (field, event) => {
+    let inputValue = event.target.value;
+
+    // Remove non-numeric characters
+    inputValue = inputValue.replace(/[^0-9]/g, "");
+
+    // Truncate to two characters
+    if (inputValue.length > 2) {
+      inputValue = inputValue.slice(0, 2);
+    }
+
     setTime((prevTime) => ({
       ...prevTime,
-      [field]: value,
+      [field]: inputValue,
     }));
   };
 
@@ -156,7 +182,6 @@ const Step2 = () => {
     const allTimes = [...reminders.map((r) => r.time)];
     const token = extractToken(userInfo.token);
 
-
     setLoading(true);
     try {
       const res = await axios.post(
@@ -199,7 +224,6 @@ const Step2 = () => {
         toast.error("Error fetching reminders");
       }
     }
-
   };
 
   const deleteReminder = async (id) => {
@@ -248,7 +272,6 @@ const Step2 = () => {
 
   return (
     <ErrorBoundary>
-
       <div ref={containerRef} className=" flex flex-col   gap-[16px]">
         <Timeline sx={{ padding: "0px" }}>
           <TimelineItem
@@ -299,7 +322,6 @@ const Step2 = () => {
             <TimelineContent sx={{ py: "14px", px: "12px" }}>
               <Typography
                 className="  text-[#DA9658] text-[16px] md:text-[18px] leading-[24px]"
-
                 component="span"
               >
                 Schedule Notification
@@ -318,10 +340,11 @@ const Step2 = () => {
                     <FormControl fullWidth>
                       <InputLabel
                         sx={{ outline: "none", border: "none" }}
-                        className={`border outline-none  rounded-sm  ${!checkReminder
-                          ? "border-[#ff6a67] "
-                          : "border-[#F1F2F3] "
-                          }`}
+                        className={`border outline-none  rounded-sm  ${
+                          !checkReminder
+                            ? "border-[#ff6a67] "
+                            : "border-[#F1F2F3] "
+                        }`}
                         id="demo-simple-select-label"
                       ></InputLabel>
                       <Select
@@ -331,10 +354,11 @@ const Step2 = () => {
                         value={reminder}
                         onChange={handleChange}
                         label=""
-                        className={`border outline-none  rounded-sm  ${!checkReminder
-                          ? "border-[#ff6a67] "
-                          : "border-[#F1F2F3] "
-                          }`}
+                        className={`border outline-none  rounded-sm  ${
+                          !checkReminder
+                            ? "border-[#ff6a67] "
+                            : "border-[#F1F2F3] "
+                        }`}
                         onOpen={handleOpen}
                         onClose={handleClose}
                         IconComponent={() => <SelectIcon open={open} />}
@@ -365,6 +389,7 @@ const Step2 = () => {
                             placeholder="00"
                             min={0}
                             max={59}
+                            maxLength={2}
                             className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                             type="number"
                             value={time.hour}
@@ -377,7 +402,7 @@ const Step2 = () => {
                                 minimumIntegerDigits: 2,
                                 useGrouping: false,
                               });
-                              handleTimeChange("hour", e.target.value);
+                              handleTimeChange("hour", e);
                             }}
                           />
 
@@ -385,6 +410,7 @@ const Step2 = () => {
                             placeholder="00"
                             min={0}
                             max={59}
+                            maxLength={2}
                             className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                             type="number"
                             value={time.minute}
@@ -408,10 +434,11 @@ const Step2 = () => {
                                 e.preventDefault();
                                 handleAlignment("AM");
                               }}
-                              className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "AM"
-                                ? "bg-white text-black"
-                                : "bg-none text-gray-500"
-                                }`}
+                              className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
+                                time.period === "AM"
+                                  ? "bg-white text-black"
+                                  : "bg-none text-gray-500"
+                              }`}
                             >
                               AM
                             </button>
@@ -421,10 +448,11 @@ const Step2 = () => {
                                 e.preventDefault();
                                 handleAlignment("PM");
                               }}
-                              className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "PM"
-                                ? "bg-white text-black"
-                                : "bg-none text-gray-500"
-                                }`}
+                              className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
+                                time.period === "PM"
+                                  ? "bg-white text-black"
+                                  : "bg-none text-gray-500"
+                              }`}
                             >
                               PM
                             </button>
@@ -449,7 +477,10 @@ const Step2 = () => {
                           className="flex w-full text-[20px] h-[62px] p-[16px] rounded-[8px] border-[#FAF2EA] justify-between border items-center gap-2"
                         >
                           <span>
-                            {convertToReadableTime(reminder.hour, reminder.time)}
+                            {convertToReadableTime(
+                              reminder.hour,
+                              reminder.time
+                            )}
                           </span>
                           <button
                             type="button"
@@ -473,7 +504,10 @@ const Step2 = () => {
                     {loading ? (
                       <div className=" text-white items-center gap-3 justify-center flex w-full h-full">
                         Saving...{" "}
-                        <CircularProgress size={24} style={{ color: "white" }} />
+                        <CircularProgress
+                          size={24}
+                          style={{ color: "white" }}
+                        />
                       </div>
                     ) : (
                       "  Save Preferences"
