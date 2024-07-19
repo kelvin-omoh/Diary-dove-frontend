@@ -31,6 +31,7 @@ const Sidebar = () => {
     const { toggle, handleToggle } = useContext(ToggleContext);
 
     return (
+
         <>
             {!toggle && <div onClick={() => handleToggle(!toggle)} className='z-[100] fixed bg-[#000000B2] w-full h-full'></div>}
             <div className={` ${!toggle ? ' left-0 opacity-[1] ' : ' left-[-100vw] '}  md:opacity-[1] z-[100] ease-in-out  duration-300  opacity-0 transition-all bg-[#DA9658] text-white text-start flex justify-start flex-col md:left-0 fixed h-full top-0 shadow-xl w-[226px] md:w-[320px] pl-[24px] md:pl-[80px]`}>
@@ -74,6 +75,7 @@ const Sidebar = () => {
             </div>
         </>
     );
+
 }
 
 export default Sidebar;

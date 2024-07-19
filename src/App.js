@@ -17,6 +17,7 @@ import { PrivateRoute } from "./components/hooks/PrivateRoute";
 import { Usercontext, UserContextProvider } from "./context/userContext";
 import { ToggleContextProvider } from "./context/toggleContext";
 import LandingPage from "./pages/LandingPage";
+import WhatsAppVerification from "./components/Whatappverification/Whatappverification";
 
 function App() {
   return (
@@ -27,15 +28,24 @@ function App() {
           <Router>
             <Routes>
               <Route path="/login" element={<Login />} />
+              <Route
+                path="/verify-whatsapp"
+                element={<WhatsAppVerification />}
+              />
+
               <Route path="/sign-up" element={<Signup />} />
               <Route path="/verify" element={<Verification />} />
               <Route path="/verify-email" element={<EmailVerification />} />
               <Route path="/reset-password" element={<ForgetPassword />} />
               <Route path="/verify-email" element={<VerifyEmail />} />
               <Route path="/new-password" element={<CreateNewPassword />} />
-              <Route path="/dashboard" element={<PrivateRoute element={<Home />} />} />
+              <Route
+                path="/dashboard"
+                element={<PrivateRoute element={<Home />} />}
+              />
               <Route path="/" element={<LandingPage />} />
-              <Route path="/setup"
+              <Route
+                path="/setup"
                 element={<PrivateRoute element={<SetUp />} />}
               />
               <Route
