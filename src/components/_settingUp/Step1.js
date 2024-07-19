@@ -37,7 +37,7 @@ const Step1 = ({ activeStep, handleNext }) => {
             });
             console.log(res.data.data);
             if (res?.data?.data?.length > 0) {
-                navigate("/")
+                navigate("/dashboard")
             }
         } catch (error) {
             console.log(error);
@@ -101,7 +101,7 @@ const Step1 = ({ activeStep, handleNext }) => {
                                 </Box>
                                 <input disabled value={userInfo?.email} type="text" className=' px-[1em] text-[#8F96A3] w-full my-[8px] h-[40px] outline-none  rounded-[8px] border-[1px] border-[#EDEDED] ' name="" id="" />
 
-                                div
+
                             </Box>
                             <Box className=" rounded-[12px] mt-[16px] w-[306px] md:w-[595px] border-[#EDEDED] p-[16px] border-[1px]">
                                 <Box className=" flex justify-between w-full  ">

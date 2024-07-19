@@ -5,7 +5,7 @@ import list from '../../assets/Vector list.png'
 import edit from '../../assets/Vector 2.png'
 import { useGSAP } from '@gsap/react'
 import gsap from "gsap";
-import axios from'axios'
+import axios from 'axios'
 import { AiOutlineBook } from 'react-icons/ai'
 import { BiBookOpen } from 'react-icons/bi'
 import { addHours, format, parseISO } from 'date-fns';
@@ -175,20 +175,20 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                     )}
                     <div className={`w-full notes grid ${isGrid ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-1'} gap-[16px]`}>
                         {paginatedNotes && paginatedNotes.map((note, index) => (
-                            <div key={note.id} className='flex justify-between flex-col md:max-h-[208px] h-[200px] bg-[#FFFFFF] p-[24px]'>
+                            <div key={note.id} className='flex justify-between flex-col md:min-h-[208px] h-[200px] bg-[#FFFFFF] p-[24px]'>
                                 <div>
                                     <p className='text-[#E0A774] text-[12px] justify-start flex '>{formatNigerianTime(note.date)}</p>
-                                    <div className='mt-[8px]'>
+                                    <div className='mt-[8px] overflow-y-scroll'>
                                         {note?.content && (
-                                            <p className='hidden md:flex text-sm text-[#303236] justify-start text-left leading-[21px] overflow-hidden max-w-full'>
-                                                {note?.content.length > 230
-                                                    ? (isGrid ? `${note?.content.slice(0, 140)}${note?.content.length > 140 ? '...' : ''}` : `${note?.content.slice(0, 900)}${note?.content.length > 900 ? '...' : ''}`)
+                                            <p className='hidden md:flex text-sm text-[#303236] justify-start text-left leading-[21px]  max-w-full overflow-y-scroll'>
+                                                {note?.content.length > 170
+                                                    ? (isGrid ? `${note?.content.slice(0, 170)}${note?.content.length > 170 ? '...' : ''}` : `${note?.content.slice(0, 900)}${note?.content.length > 900 ? '...' : ''}`)
                                                     : note?.content
                                                 }
                                             </p>
                                         )}
                                         {note?.content && (
-                                            <p className='flex md:hidden text-[14px] md:text-[14px] text-[#303236] justify-start text-start leading-[16px] md:leading-[21px] '>
+                                            <p className='flex md:hidden text-[14px] md:text-[14px] text-[#303236] justify-start text-start leading-[16px] md:leading-[21px] overflow-y-scroll'>
                                                 {note?.content.length > 230 ? `${note?.content.slice(0, isGrid ? 90 : 200)}${note?.content.length > (isGrid ? 90 : 200) ? '...' : ''}` : note?.content}
                                             </p>
                                         )}
@@ -241,7 +241,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
 
                     </div>
 
-                    <Stack spacing={2} className={` grid items-center justify-around w-full     left-0 ${isGrid ? 'bottom-[5.5rem]' :  'bottom-[0.5rem]'}  pt-6`}>
+                    <Stack spacing={2} className={` grid items-center justify-around w-full     left-0 ${isGrid ? 'bottom-[5.5rem]' : 'bottom-[0.5rem]'}  pt-6`}>
                         <Pagination
                             count={pageCount}
                             page={currentPage}
