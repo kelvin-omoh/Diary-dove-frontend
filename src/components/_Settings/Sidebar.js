@@ -18,7 +18,7 @@ const Sidebar = () => {
     const location = useLocation();
     const { userInfo, logOut } = useContext(Usercontext)
     return (
-        <div className=' z-[100] fixed h-full top-[88px] left-0 shadow-xl w-[320px] text-center'>
+        <div className=' z-[100] bg-[#DA9658]  fixed h-full top-[0px] left-0 shadow-xl w-[320px] text-center'>
             <h1 className=' mt-[32px] leading-[48px] text-[32px] font-[600]'>Settings</h1>
             <ul className=' mt-[48px] flex flex-col items-center justify-center gap-[18px]'>
                 {links.map(link => (

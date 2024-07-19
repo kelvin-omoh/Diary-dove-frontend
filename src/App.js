@@ -14,7 +14,8 @@ import Settings from "./pages/Settings";
 import ChangeEmail from "./pages/ChangeEmail";
 import EmailVerification from "./components/_Verification/EmailVerification/EmailVerification";
 import { PrivateRoute } from "./components/hooks/PrivateRoute";
-import { Usercontext, UserContextProvider } from "./context/userContext";
+import { UserContextProvider } from "./context/userContext";
+import WhatappVerification from "./components/Whatappverification/Whatappverification";
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
             <Route path="/reset-password" element={<ForgetPassword />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/new-password" element={<CreateNewPassword />} />
+            <Route path="/verify-whatapp" element={<WhatappVerification />} />
+
             <Route path="/" element={<PrivateRoute element={<Home />} />} />
             <Route
               path="/setup"
