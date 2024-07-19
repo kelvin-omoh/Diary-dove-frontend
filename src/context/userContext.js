@@ -3,8 +3,14 @@ import React, { createContext, useEffect, useState } from "react";
 export const Usercontext = createContext({});
 
 export const UserContextProvider = ({ children }) => {
-    const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem('authData')) || {});
-    const [verifyEmail, setVerifyEmail] = useState('');
+    const [userInfo, setUserInfo] = useState(() => {
+        const storedAuthData = localStorage.getItem('authData');
+        return storedAuthData ? JSON.parse(storedAuthData) : {};
+    });
+    const [verifyEmail, setVerifyEmail] = useState(() => {
+        const storedVerifyEmail = localStorage.getItem('verifyEmail');
+        return storedVerifyEmail ? JSON.parse(storedVerifyEmail).email : '';
+    });
 
     useEffect(() => {
         const storedAuthData = localStorage.getItem('authData');
@@ -27,7 +33,7 @@ export const UserContextProvider = ({ children }) => {
     }, []);
 
     const setAuthInfo = (data) => {
-        console.log('Setting Auth Info:', data); // Debugging log
+        console.log(data); // Debugging log
         setUserInfo(data);
         localStorage.setItem('authData', JSON.stringify(data));
     };

@@ -143,8 +143,8 @@ const Login = () => {
   };
 
   return (
-    <div className="md:bg-[#FAF2EA] h-[100vh] w-[100vw] items-center justify-center flex  " >
-      <div className=" py-5 md:py-4 px-6 md:px-20 items-center justify-center flex h-fit md:w-[572px] bg-white ">
+    <div className="md:bg-[#FAF2EA] h-[100vh] rounded-[8px] w-[100vw] items-center justify-center flex  " >
+      <div className=" py-5 md:py-4 rounded-[8px] px-6 md:px-20 items-center justify-center flex h-fit md:w-[572px] bg-white ">
         <div className=" bg-gradient-to-b hidden relative left-sm left-md  from-[#DA9658] to-[#91643B] h-[101vh] w-[100vw]">
           <div className="bg-[#ffffff37] rounded-bl-full h-[55px] w-[100%] left-[315px] absolute top-0" />
           <div className="bg-[#ffffff37] rounded-tr-full h-[55px] w-[100%] right-[315px] absolute bottom-0" />
@@ -233,7 +233,7 @@ const Login = () => {
 
                 </label>
                 <div className=" grid gap-4">
-                  <button className="text-white bg-[#DA9658] h-[59px]  w-full py-[24px] rounded-lg">
+                  <button className="text-white bg-[#DA9658] h-full   w-full py-[24px] rounded-lg">
                     {isNewUser ? 'Login' : 'Sign Up'}
                   </button>
                   <div className="text-[#8F96A3]  grid grid-cols-3 items-center">

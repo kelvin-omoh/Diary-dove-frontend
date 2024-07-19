@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Popover } from '@mui/material';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import menu from '../../assets/Menu Candy Box.png';
-import list from '../../assets/Vector.png';
+import list from '../../assets/Vector 6.png';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { Box } from '@mui/material';
@@ -43,7 +43,7 @@ const HomeTab = ({ setAllTexts, allTexts, isGrid, setIsGrid, ss, sss }) => {
 
     return (
         <div className='w-full mb-[32px] flex justify-between items-center'>
-            <div className='bg-[#E0A7741A] flex gap-[4px] w-fit px-[4px] '>
+            <div className='bg-[#E0A7741A] rounded-lg flex gap-[4px] w-fit px-[4px] '>
                 <button
                     onClick={() => setIsGrid(true)}
                     className={`transition-all duration-300 ease-out ${isGrid && 'bg-[white]'} w-[48px] md:w-[148px] justify-center px-[16px] py-[8px] gap-[8px] rounded-lg flex my-[4px] items-center`}

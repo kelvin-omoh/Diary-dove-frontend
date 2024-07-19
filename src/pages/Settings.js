@@ -1,14 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { BsPerson } from 'react-icons/bs';
-import { FaEye, FaEyeSlash, FaKey } from 'react-icons/fa';
+import { FaBars, FaEye, FaEyeSlash, FaKey } from 'react-icons/fa';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Usercontext } from '../context/userContext';
 import ChangePasswordDialog from '../components/_Settings/ChangePasswordDialog';
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Layout } from '../components/_Settings/Layout';
-
+import call from '../assets/calling.png'
+import vector from '../assets/Vector (5).png'
+import { ToggleContext } from '../context/toggleContext';
 const Settings = () => {
     const navigate = useNavigate();
     const [newPasswordVisible, setNewPasswordVisible] = useState(false);
@@ -18,14 +20,15 @@ const Settings = () => {
     const [errors, setErrors] = useState({});
     const { userInfo, setAuthInfo } = useContext(Usercontext);
     const [selectedFile, setSelectedFile] = useState(null);
-
-
+    const [loading, setLoading] = useState(false)
+    const { toggle, handleToggle } = useContext(ToggleContext);
 
     const [userData, setUserData] = useState({
         fullname: '',
         username: '',
         email: '',
         phonenumber: '',
+        profilePicture: '',
         verified: false
     });
 
@@ -68,7 +71,6 @@ const Settings = () => {
         return Object.keys(errors).length === 0;
     };
 
-
     const getUserData = async () => {
         try {
             const response = await axios.get('api/users/personalinfo', {
@@ -78,10 +80,7 @@ const Settings = () => {
                 }
             });
 
-            console.log(response.data);
-
-            // Convert array to object
-            const newData = response.data.data
+            const newData = response.data.data;
             const updatedData = { ...userInfo };
 
             newData.forEach(item => {
@@ -91,8 +90,7 @@ const Settings = () => {
                     updatedData[key] = value;
                 }
             });
-            setAuthInfo(updatedData)
-
+            setAuthInfo(updatedData);
 
             const userDataArray = response.data.data;
             const userDataObject = userDataArray.reduce((acc, item) => {
@@ -111,24 +109,22 @@ const Settings = () => {
         }
     };
 
-
     useEffect(() => {
         getUserData();
-    }, [userInfo]);
+    }, []);
 
+    const memoizedUserData = useMemo(() => userData, [userData]);
 
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = (e) => {
-        e.preventDefault()
-
+        e.preventDefault();
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
     };
-
 
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
@@ -144,31 +140,49 @@ const Settings = () => {
         formData.append('profilePicture', selectedFile);
 
         try {
+            setLoading(true);
             const response = await axios.post('/api/users/uploadProfilePicture', formData, {
                 headers: {
                     Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log(response.data);
             toast.success('Uploaded profile picture successfully');
-            getUserData()
+
+            if (response.data && response.data.data && response.data.data.profilePicture) {
+                console.log(userInfo);
+                const profilePictureUrl = response.data.data.profilePicture;
+                const newdata = { ...userInfo, profilePicture: profilePictureUrl };
+                console.log(newdata);
+                setAuthInfo(newdata);
+                setUserData(newdata)
+                getUserData();
+            } else {
+                console.error('Unexpected response data:', response.data);
+            }
+            setLoading(false);
         } catch (error) {
+            setLoading(false);
             toast.error('Error while uploading profile picture');
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     };
 
+
     return (
         <Layout>
-            <div>
-                <div className="flex items-center  gap-[24px]">
-                    <p>Update profile picture</p>
+            <div className=' bg-white   h-[100vh]'>
+
+                <button onClick={() => handleToggle(!toggle)} className='  flex md:hidden justify-start w-full mb-[31.25px]'><FaBars className='size-[15px]' /></button>
+                <div className="flex items-center gap-[24px]">
+                    <p>  {selectedFile ? 'Upload profile picture' : 'Update profile picture'}</p>
                     <div className=''>
                         <input
                             type="file"
                             id="file-input"
-                            className="hidden"
+                            className="hidden bg-none"
                             onChange={handleFileChange}
                         />
 
@@ -180,33 +194,44 @@ const Settings = () => {
                             </span>
                         </label>
                             :
-                            <button
-                                type="button"
-                                className="py-2 px-4 mt-4 bg-[#DA9658] text-white rounded-lg"
-                                onClick={uploadProfilePicture}
-                            >
-                                Upload
-                            </button>
+                            <div className=' flex items-center gap-[24px]'>
+                                <button
+                                    type="button"
+                                    className="py-2 px-4 mt-4 bg-[#DA9658] flex items-center text-white rounded-lg"
+                                    onClick={uploadProfilePicture}
+                                >
+                                    {loading ? 'Uploading ' : 'Upload'}
+
+                                    {loading && <CircularProgress size={20} sx={{ color: "white" }} className=' text-white ml-[.5rem]' />}
+                                </button>
+                                <button
+                                    type="button"
+                                    className="py-2 px-4 mt-4 bg-[#ffffff] text-[black] rounded-lg"
+                                    onClick={uploadProfilePicture}
+                                >
+                                    Remove
+                                </button>
+                            </div>
                         }
 
 
                     </div>
 
                 </div>
-                <form className="w-[832px] flex flex-col justify-center gap-[32px] text-start mt-[60px] py-[24px]" action="">
-                    <label>
-                        <p className="text-[#8F96A3] mb-[24px] text-[18px] leading-[27px]">Personal Information</p>
+                <form className="w-[342px] md:w-[832px] flex flex-col justify-center gap-[16px] md:gap-[32px] text-start mt-[32px] md:mt-[60px] py-[24px]" action="">
+                    <label className=' border-b-0 md:border-b-[2px] pb-0 md:pb-[48px] border-[#F1F2F3]'>
+                        <p className="text-[#8F96A3]  mb-[16px] md:mb-[24px] text-[18px] leading-[27px]">Personal Information</p>
 
-                        <div className="flex items-center gap-[32px]">
+                        <div className="flex flex-col md:flex-row items-start md:items-center gap-[16px] md:gap-[32px]">
                             <div>
-                                <h1 className="text-[16px] leading-[24px]">Full Name</h1>
-                                <div className="flex h-[56px] w-[400px] px-[16px] items-center gap-[8px] border-[#F1F2F3] border-[2px] rounded-[8px]">
+                                <h1 className="text-[16px] mb-[8px] leading-[24px]">Full Name</h1>
+                                <div className="flex  h-[56px] w-[311px] md:w-[400px] px-[16px] items-center gap-[8px] border-[#F1F2F3] border-[1px] rounded-[8px]">
                                     <BsPerson className="text-[#B4B9C2]" />
                                     <input
-                                        value={userData.fullname}
+                                        value={memoizedUserData.fullname}
                                         disabled
-                                        onChange={(e) => setUserData({ ...userData, fullname: e.target.value })}
-                                        className="border-none text-[#8F96A3] bg-none outline-none"
+                                        // onChange={(e) => setUserData({ ...userData, fullname: e.target.value })}
+                                        className="border-none  disabled:bg-[#ffffff00] cursor-no-drop text-[#8F96A3] bg-none outline-none"
                                         type="text"
                                         placeholder="Steven Ade***"
                                     />
@@ -214,14 +239,14 @@ const Settings = () => {
                             </div>
 
                             <div>
-                                <h1 className="text-[16px] leading-[24px]">User Name</h1>
-                                <div className="flex h-[56px] w-[400px] px-[16px] items-center gap-[8px] border-[#F1F2F3] border-[2px] rounded-[8px]">
+                                <h1 className="text-[16px] mb-[8px] leading-[24px]">User Name</h1>
+                                <div className="flex  h-[56px] w-[311px] md:w-[400px] px-[16px] items-center gap-[8px] border-[#F1F2F3] border-[1px] rounded-[8px]">
                                     <BsPerson className="text-[#B4B9C2]" />
                                     <input
-                                        value={userData.username}
+                                        value={memoizedUserData.username}
                                         disabled
                                         onChange={(e) => setUserData({ ...userData, username: e.target.value })}
-                                        className="border-none bg-none text-[#8F96A3] outline-none"
+                                        className="border-none   disabled:bg-[#ffffff00] cursor-no-drop bg-none text-[#8F96A3] outline-none"
                                         type="text"
                                         placeholder="Steven Ade***"
                                     />
@@ -229,42 +254,58 @@ const Settings = () => {
                             </div>
                         </div>
                     </label>
-                    <label>
-                        <div className="mb-[24px] border-b-[3px] border-[#F1F2F3] flex items-center gap-[32px]">
+                    <div>
+                        <div className="pb-[48px] md:flex-row flex-col  border-b-[2px] md:border-b-[2px] md:border-[#F1F2F3] flex items-start md:items-center gap-[32px]">
                             <div>
-                                <h1 className="text-[16px] leading-[24px]">Email address</h1>
-                                <div className="flex h-[56px] w-[400px] justify-between items-center gap-[8px] rounded-[8px]">
-                                    <p className="text-[#8F96A3]">{userData.email.replace(/.{4}(?=@)/, '****')}</p>
+                                <h1 className="text-[16px] mb-[8px] leading-[24px]">Email address</h1>
+                                <div className="flex md:bg-[#fdfaf70a] bg-[#FDFAF7] md:h-auto md:px-0 px-[16px] h-[53px]  w-[311px] md:w-[400px] justify-between items-center gap-[8px] rounded-[8px]">
+                                    <p className=" flex  items-center gap-[4px] font-[400] leading-[24px] text-[#8F96A3]">
+                                        <span className=' hidden md:block'>Your email address is</span>{memoizedUserData.email.replace(/.{4}(?=@)/, '****')}
+                                    </p>
                                     <button onClick={() => navigate('/change-email')} className="text-[#DA9658] cursor-pointer ">Change</button>
                                 </div>
                             </div>
                             <div>
-                                <h1 className="text-[16px] leading-[24px]">Phone Number</h1>
-                                <div className="flex h-[56px] w-[400px] justify-between items-center gap-[8px] rounded-[8px]">
-                                    <p className="text-[#8F96A3]">
-                                        {userData.phonenumber.slice(0, -4) + '****'}
-                                    </p>
-                                    {/* <button className="text-[#DA9658]">Change</button> */}
+                                <h1 className="text-[16px] mb-[8px] leading-[24px]">Phone Number</h1>
+
+                                <div className="flex  justify-between h-[56px]  w-[311px] md:w-[400px] px-[16px] items-center gap-[8px] md:bg-[#fdfaf70a] bg-[#FDFAF7] md:border-[#F1F2F3] border-[#f1f2f300]  border-[1px] rounded-[8px]">
+                                    <div className=' items-center flex gap-[8px] '>
+                                        <img src={call} alt='phone' className=" size-[20px] text-[#B4B9C2]" />
+                                        <input
+                                            value={memoizedUserData.phonenumber.slice(0, -4) + '****'}
+                                            disabled
+                                            className="border-none  disabled:bg-[#ffffff00] cursor-no-drop text-[#8F96A3] bg-none outline-none"
+                                            type="text"
+                                        />
+                                    </div>
+
+                                    <button onClick={() => navigate('/change-email')} className="text-[#DA9658] cursor-pointer ">Change</button>
+
                                 </div>
                             </div>
                         </div>
 
-                        <div className="mt-[24px]">
-                            <p className="text-[#8F96A3] mt-[24px] text-[18px] leading-[27px]">Security and Privacy</p>
+                        <div className="mt-[40px] md:mt-[24px]">
+                            <p className="text-[#8F96A3] font-[400] mt-[24px] text-[18px] leading-[27px]">Security and Privacy</p>
 
-                            <div className=' flex justify-between items-center gap-3 mt-[24px]'>
-                                <h4>Password</h4>
-                                <button onClick={handleClickOpen} className=' text-[#DA9658]'>Change password?</button>
+                            <div className=' flex items-center gap-[100px] md:gap-[344px] mt-[24px]'>
+                                <h4 className=' text-[18px]  '>Password</h4>
+                                <button onClick={handleClickOpen} className='font-[500] text-[18px] outline-none text-[#DA9658]'>Change password?</button>
                             </div>
 
 
                         </div>
-                    </label>
+                    </div>
+                    <div className=' flex justify-between w-full  items-end'>
+                        <button onClick={(e) => {
+                            e.preventDefault()
+                            handleClickOpen(e)
+                        }} className="bg-[#DA9658] font-[500] mt-[72px] md:mt-[142px] w-[359px] h-[60px] rounded-[8px] text-center text-white">Save changes</button>
 
-                    <button onClick={(e) => {
-                        e.preventDefault()
-                        handleClickOpen(e)
-                    }} className="bg-[#DA9658] mt-[142px] w-[359px] h-[60px] rounded-[8px] text-center text-white">Save changes</button>
+                        <img src={vector} alt='phone' className="  hidden md:block h-[89px] mb-[80px] pl-[48px] absolute bottom-[0px] right-[80px] text-[#B4B9C2]" />
+                    </div>
+
+
                     <ChangePasswordDialog
                         handleClose={handleClose}
                         open={open}
@@ -273,7 +314,9 @@ const Settings = () => {
 
 
                 </form>
+
             </div>
+
         </Layout>
     );
 };

@@ -31,7 +31,7 @@ const Header = () => {
 
 
     const DrawerList = (
-        <div className=' px-[1rem] w-[20vw]'>
+        <div className=' px-0 md:px-[1rem] w-[20vw]'>
             <button onClick={() => setOpenNotification(!openNotification)} className='mt-[2rem] mb-[3rem] float-end'>
                 <BsX size={30} />
             </button>
@@ -82,7 +82,7 @@ const Header = () => {
 
     return (
         <>
-            <div className=' nav fixed top-0 left-0 w-full z-[100]     border-b-[1px] bg-white border-[#E5E5E5]  flex justify-between   px-[80px] py-[18px]  '>
+            <div className=' nav fixed top-0 left-0 w-full z-[100]     border-b-[1px] bg-white border-[#E5E5E5]  flex justify-between   px-[24px] md:px-[80px] py-[18px]  '>
 
                 {LogoFunction()}
 
