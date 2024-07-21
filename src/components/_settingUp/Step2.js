@@ -77,7 +77,7 @@ const Step2 = () => {
     inputValue = inputValue.replace(/[^0-9]/g, "");
 
     // Truncate to two characters
-    if (inputValue.length > 2) {
+    if (inputValue?.length > 2) {
       inputValue = inputValue.slice(0, 2);
     }
 

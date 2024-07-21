@@ -43,7 +43,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedNotes = allTexts?.slice(startIndex, startIndex + itemsPerPage);
-    const pageCount = Math.ceil(allTexts.length / itemsPerPage);
+    const pageCount = Math.ceil(allTexts?.length / itemsPerPage);
 
 
     const formatNigerianTime = (isoDateString) => {
@@ -71,7 +71,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                     <HomeTab setAllTexts={setAllTexts} allTexts={allTexts} isGrid={isGrid} setIsGrid={setIsGrid} />
 
                     {/* Notes */}
-                    {paginatedNotes && paginatedNotes.length === 0 && (
+                    {paginatedNotes && paginatedNotes?.length === 0 && (
                         <p className='mt-[5.1rem] flex gap-2 justify-center text-gray-400 text-[3rem] items-center mx-auto w-full'>
                             <BiBookOpen size={60} /> Your diary is Empty ooooo.
                         </p>

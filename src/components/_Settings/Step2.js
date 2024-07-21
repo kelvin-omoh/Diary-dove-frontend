@@ -83,11 +83,11 @@ const Step2 = () => {
     let inputValue = event.target.value;
 
     // Remove non-numeric characters
-    inputValue = inputValue.replace(/[^0-9]/g, "");
+    inputValue = inputValue?.replace(/[^0-9]/g, "");
 
     // Truncate to two characters
-    if (inputValue.length > 2) {
-      inputValue = inputValue.slice(0, 2);
+    if (inputValue?.length > 2) {
+      inputValue = inputValue?.slice(0, 2);
     }
 
     setCheckReminder(true);
@@ -98,11 +98,11 @@ const Step2 = () => {
     let inputValue = event.target.value;
 
     // Remove non-numeric characters
-    inputValue = inputValue.replace(/[^0-9]/g, "");
+    inputValue = inputValue?.replace(/[^0-9]/g, "");
 
     // Truncate to two characters
     if (inputValue.length > 2) {
-      inputValue = inputValue.slice(0, 2);
+      inputValue = inputValue?.slice(0, 2);
     }
 
     setTime((prevTime) => ({
@@ -322,8 +322,8 @@ const Step2 = () => {
                       <InputLabel
                         sx={{ outline: "none", border: "none" }}
                         className={`border outline-none  rounded-sm  ${!checkReminder
-                            ? "border-[#ff6a67] "
-                            : "border-[#F1F2F3] "
+                          ? "border-[#ff6a67] "
+                          : "border-[#F1F2F3] "
                           }`}
                         id="demo-simple-select-label"
                       ></InputLabel>
@@ -335,8 +335,8 @@ const Step2 = () => {
                         onChange={handleChange}
                         label=""
                         className={`border outline-none  rounded-sm  ${!checkReminder
-                            ? "border-[#ff6a67] "
-                            : "border-[#F1F2F3] "
+                          ? "border-[#ff6a67] "
+                          : "border-[#F1F2F3] "
                           }`}
                         onOpen={handleOpen}
                         onClose={handleClose}
@@ -414,8 +414,8 @@ const Step2 = () => {
                                 handleAlignment("AM");
                               }}
                               className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "AM"
-                                  ? "bg-white text-black"
-                                  : "bg-none text-gray-500"
+                                ? "bg-white text-black"
+                                : "bg-none text-gray-500"
                                 }`}
                             >
                               AM
@@ -427,8 +427,8 @@ const Step2 = () => {
                                 handleAlignment("PM");
                               }}
                               className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "PM"
-                                  ? "bg-white text-black"
-                                  : "bg-none text-gray-500"
+                                ? "bg-white text-black"
+                                : "bg-none text-gray-500"
                                 }`}
                             >
                               PM
