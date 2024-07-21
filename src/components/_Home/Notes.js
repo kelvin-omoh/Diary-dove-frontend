@@ -42,7 +42,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
     };
 
     const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginatedNotes = allTexts.slice(startIndex, startIndex + itemsPerPage);
+    const paginatedNotes = allTexts?.slice(startIndex, startIndex + itemsPerPage);
     const pageCount = Math.ceil(allTexts.length / itemsPerPage);
 
 
