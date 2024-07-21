@@ -252,7 +252,7 @@ const Login = () => {
           <div className=" grid py-4   gap-6 ">
             <div className=" font-[600] w-[342px] md:w-[412px] items-start justify-start flex">
               <h1 className=" h-full text-[32px]  ">
-                {isNewUser ? 'Log in to your Account' : 'Create Account'}
+                {isNewUser ? 'Log in to your Account ' : 'Create Account'}
               </h1>
             </div>
             <div className=" grid gap-4" >
