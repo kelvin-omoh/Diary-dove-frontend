@@ -387,8 +387,8 @@ const Step2 = () => {
                         <div className=" border w-[248px] h-[68px] flex place-content-center  border-[#FAF2EA] pl-[15.5px] pr-[9px] rounded-[8px]">
                           <input
                             placeholder="00"
-                            min={0}
-                            max={59}
+                            min={1}
+                            max={12}
                             maxLength={2}
                             className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                             type="number"

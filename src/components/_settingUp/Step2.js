@@ -112,6 +112,7 @@ const Step2 = () => {
     }));
   };
 
+
   const handleAlignment = (period) => {
     setTime((prevTime) => ({
       ...prevTime,
@@ -279,11 +280,10 @@ const Step2 = () => {
                   <FormControl fullWidth>
                     <InputLabel
                       sx={{ outline: "none", border: "none" }}
-                      className={`border outline-none  rounded-sm  ${
-                        !checkReminder
-                          ? "border-[#ff6a67] "
-                          : "border-[#F1F2F3] "
-                      }`}
+                      className={`border outline-none  rounded-sm  ${!checkReminder
+                        ? "border-[#ff6a67] "
+                        : "border-[#F1F2F3] "
+                        }`}
                       id="demo-simple-select-label"
                     ></InputLabel>
                     <Select
@@ -293,11 +293,10 @@ const Step2 = () => {
                       value={reminder}
                       onChange={handleChange}
                       label=""
-                      className={`border outline-none  rounded-sm  ${
-                        !checkReminder
-                          ? "border-[#ff6a67] "
-                          : "border-[#F1F2F3] "
-                      }`}
+                      className={`border outline-none  rounded-sm  ${!checkReminder
+                        ? "border-[#ff6a67] "
+                        : "border-[#F1F2F3] "
+                        }`}
                       onOpen={handleOpen}
                       onClose={handleClose}
                       IconComponent={() => <SelectIcon open={open} />}
@@ -326,8 +325,8 @@ const Step2 = () => {
                       <div className=" border w-[248px] h-[68px] flex place-content-center  border-[#FAF2EA] pl-[15.5px] pr-[9px] rounded-[8px]">
                         <input
                           placeholder="00"
-                          min={0}
-                          max={59}
+                          min={1}
+                          max={12}
                           className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                           type="number"
                           value={time.hour}
@@ -350,14 +349,13 @@ const Step2 = () => {
                           max={59}
                           maxLength={2}
                           className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
-                          type="number"
+                          type="text"
                           value={time.minute}
                           inputMode="numeric"
                           pattern="\d*"
                           onChange={(e) => {
-                            e.target.value = parseInt(
-                              e.target.value
-                            ).toLocaleString("en-US", {
+                            const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 2);
+                            e.target.value = parseInt(value || '0', 10).toLocaleString("en-US", {
                               minimumIntegerDigits: 2,
                               useGrouping: false,
                             });
@@ -372,11 +370,10 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment("AM");
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
-                              time.period === "AM"
-                                ? "bg-white text-black"
-                                : "bg-none text-gray-500"
-                            }`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "AM"
+                              ? "bg-white text-black"
+                              : "bg-none text-gray-500"
+                              }`}
                           >
                             AM
                           </button>
@@ -386,11 +383,10 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment("PM");
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
-                              time.period === "PM"
-                                ? "bg-white text-black"
-                                : "bg-none text-gray-500"
-                            }`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "PM"
+                              ? "bg-white text-black"
+                              : "bg-none text-gray-500"
+                              }`}
                           >
                             PM
                           </button>

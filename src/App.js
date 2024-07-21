@@ -18,51 +18,51 @@ import { Usercontext, UserContextProvider } from "./context/userContext";
 import { ToggleContextProvider } from "./context/toggleContext";
 import LandingPage from "./pages/LandingPage";
 import WhatsAppVerification from "./components/Whatappverification/Whatappverification";
+import GoogleCallback from "./components/_GoogleCallback/GoogleCallBack";
+import Dashboard1 from "./components/testDash";
 
 function App() {
   return (
     <UserContextProvider>
       <ToggleContextProvider>
-        <div className="App">
-          <Toaster position="top-right" reverseOrder={false} />
-          <Router>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route
-                path="/verify-whatsapp"
-                element={<WhatsAppVerification />}
-              />
-
-              <Route path="/sign-up" element={<Signup />} />
-              <Route path="/verify" element={<Verification />} />
-              <Route path="/verify-email" element={<EmailVerification />} />
-              <Route path="/reset-password" element={<ForgetPassword />} />
-              <Route path="/verify-email" element={<VerifyEmail />} />
-              <Route path="/new-password" element={<CreateNewPassword />} />
-              <Route
-                path="/dashboard"
-                element={<PrivateRoute element={<Home />} />}
-              />
-              <Route path="/" element={<LandingPage />} />
-              <Route
-                path="/setup"
-                element={<PrivateRoute element={<SetUp />} />}
-              />
-              <Route
-                path="/settings"
-                element={<PrivateRoute element={<Settings />} />}
-              />
-              <Route
-                path="/settings/reminder"
-                element={<PrivateRoute element={<Reminder />} />}
-              />
-              <Route
-                path="/change-email"
-                element={<PrivateRoute element={<ChangeEmail />} />}
-              />
-            </Routes>
-          </Router>
-        </div>
+        <Toaster position="top-right" reverseOrder={false} />
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/verify-whatsapp"
+              element={<WhatsAppVerification />}
+            />
+            <Route path="/auth/google/callback" element={<GoogleCallback />} />
+            <Route path="/sign-up" element={<Signup />} />
+            <Route path="/verify" element={<Verification />} />
+            <Route path="/verify-email" element={<EmailVerification />} />
+            <Route path="/reset-password" element={<ForgetPassword />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/new-password" element={<CreateNewPassword />} />
+            <Route
+              path="/dashboard"
+              element={<PrivateRoute element={<Home />} />}
+            />
+            <Route path="/" element={<LandingPage />} />
+            <Route
+              path="/setup"
+              element={<PrivateRoute element={<SetUp />} />}
+            />
+            <Route
+              path="/settings"
+              element={<PrivateRoute element={<Settings />} />}
+            />
+            <Route
+              path="/settings/reminder"
+              element={<PrivateRoute element={<Reminder />} />}
+            />
+            <Route
+              path="/change-email"
+              element={<PrivateRoute element={<ChangeEmail />} />}
+            />
+          </Routes>
+        </Router>
       </ToggleContextProvider>
     </UserContextProvider>
   );

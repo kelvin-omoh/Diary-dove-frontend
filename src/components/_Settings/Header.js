@@ -8,9 +8,9 @@ import { Usercontext } from '../../context/userContext';
 const Header = () => {
     const { userInfo, logOut } = useContext(Usercontext)
     return (
-        <div className=' w-full  md:pl-[321px]  bg-white  border-b-[1px]  rounded-none md:rounded-tl-[16px] right-0 z-10 fixed px-[24px] md:px-[80px] top-[0px] py-[26px] flex justify-between items-center h-[88px] '>
+        <div className='  rounded-none md:rounded-tl-[48px] fixed w-full md:w-[80vw]  bg-white px-[24px] md:px-[80px] top-[0px] py-[26px] flex justify-between  shadow-md shadow-[#f1f1f1e1] items-center h-[88px] '>
             <Link to="/dashboard">
-                <img src={logo} className='h-[36px] pl-0 md:pl-[80px]' alt='' />
+                <img src={logo} className='h-[36px] pl-0 md:pl-[0px]' alt='' />
             </Link>
             <div className='grid grid-cols-2 gap-[16px] items-center place-content-center'>
                 <img onClick={() => logOut()} src={logout} className=' cursor-pointer h-[19.5px]' alt='' />

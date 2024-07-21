@@ -188,7 +188,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                                             </p>
                                         )}
                                         {note?.content && (
-                                            <p className='flex md:hidden text-[14px] md:text-[14px] text-[#303236] justify-start text-start leading-[16px] md:leading-[21px] overflow-y-scroll'>
+                                            <p className='flex md:hidden text-[14px] md:text-[14px] text-[#5d739d] justify-start text-start leading-[16px] md:leading-[21px] overflow-y-scroll'>
                                                 {note?.content.length > 230 ? `${note?.content.slice(0, isGrid ? 90 : 200)}${note?.content.length > (isGrid ? 90 : 200) ? '...' : ''}` : note?.content}
                                             </p>
                                         )}
