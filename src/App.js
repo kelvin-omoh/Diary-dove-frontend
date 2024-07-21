@@ -32,7 +32,7 @@ function App() {
               path="/verify-whatsapp"
               element={<WhatsAppVerification />}
             />
-            <Route path="/auth/google/callback" element={<GoogleCallback />} />
+            <Route path="/auth/callback" element={<GoogleCallback />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/verify" element={<Verification />} />
             <Route path="/verify-email" element={<EmailVerification />} />
