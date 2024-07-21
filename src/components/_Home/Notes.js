@@ -5,111 +5,14 @@ import list from '../../assets/Vector list.png'
 import edit from '../../assets/Vector 2.png'
 import { useGSAP } from '@gsap/react'
 import gsap from "gsap";
-import axios from 'axios'
-import { AiOutlineBook } from 'react-icons/ai'
 import { BiBookOpen } from 'react-icons/bi'
 import { addHours, format, parseISO } from 'date-fns';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers'
-import dayjs from 'dayjs'
 import { PaginationItem } from '@mui/material'
 
-
-
-// const allNotes = [
-//     {
-//         id: 1,
-//         time: '12 pm',
-//         date: dayjs('2024-05-29'),
-//         description: 'Lorem ipsum dolor sit amet consectetur. Viverra mi suspendisse in sit volutpat lectus nam augue. In potenti suspendisse faucibus urna volutpat amet ullamcorper aliquet sit.'
-//     },
-//     {
-//         id: 2,
-//         time: '1 pm',
-//         date: dayjs('2024-05-30'),
-//         description: 'Quisque scelerisque eros ut elit sollicitudin, nec venenatis lectus commodo. Integer tincidunt risus ut sapien lacinia, ac egestas leo facilisis.'
-//     },
-//     {
-//         id: 3,
-//         time: '2 pm',
-//         date: dayjs('2024-07-01'),
-//         description: 'Nullam sed libero bibendum, tempus velit in, posuere neque. Sed vehicula ipsum et diam aliquet, sit amet fermentum ligula fringilla.'
-//     },
-//     {
-//         id: 4,
-//         time: '3 pm',
-//         date: dayjs('2024-07-02'),
-//         description: 'Aenean efficitur velit ac eros tempor, sit amet tincidunt mi feugiat. Maecenas vitae felis vel magna laoreet elementum.'
-//     },
-//     {
-//         id: 5,
-//         time: '4 pm',
-//         date: dayjs('2024-07-03'),
-//         description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec nec nunc eget libero efficitur aliquet.'
-//     },
-//     {
-//         id: 6,
-//         time: '5 pm',
-//         date: dayjs('2024-07-04'),
-//         description: 'Cras condimentum tortor nec odio facilisis, sed cursus ipsum varius. Sed vehicula urna ut sem vehicula, nec sollicitudin orci tempor.'
-//     },
-//     {
-//         id: 7,
-//         time: '6 pm',
-//         date: dayjs('2024-07-05'),
-//         description: 'Vivamus scelerisque ligula nec elit lacinia, nec tempus sapien laoreet. Phasellus ut urna ac justo interdum suscipit ut sed purus.'
-//     },
-//     {
-//         id: 8,
-//         time: '7 pm',
-//         date: dayjs('2024-07-07'),
-//         description: 'In non dui sit amet nisi fermentum tincidunt. Nulla facilisi. Proin fringilla turpis nec ex scelerisque, sit amet suscipit sapien hendrerit.'
-//     },
-//     {
-//         id: 9,
-//         time: '8 pm',
-//         date: dayjs('2024-07-07'),
-//         description: 'Fusce a nunc nec orci convallis vehicula. Vivamus ac dolor lacinia, laoreet lorem nec, viverra nunc. Aliquam id odio ut lorem interdum pretium.'
-//     },
-//     {
-//         id: 10,
-//         time: '9 pm',
-//         date: dayjs('2024-07-08'),
-//         description: 'Sed non urna varius, pharetra erat at, egestas est. Vestibulum ac dolor nec libero dictum gravida vel sit amet massa.'
-//     },
-//     {
-//         id: 11,
-//         time: '10 pm',
-//         date: dayjs('2024-07-09'),
-//         description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam pharetra velit non libero ullamcorper, a pharetra mi scelerisque.'
-//     },
-//     {
-//         id: 12,
-//         time: '11 pm',
-//         date: dayjs('2024-07-10'),
-//         description: 'Sed vehicula urna ut sem vehicula, nec sollicitudin orci tempor. In non dui sit amet nisi fermentum tincidunt. Nulla facilisi.'
-//     },
-//     {
-//         id: 13,
-//         time: '12 am',
-//         date: dayjs('2024-07-11'),
-//         description: 'Nullam sed libero bibendum, tempus velit in, posuere neque. Vivamus scelerisque ligula nec elit lacinia, nec tempus sapien laoreet.'
-//     },
-//     {
-//         id: 14,
-//         time: '1 am',
-//         date: dayjs('2024-07-12'),
-//         description: 'Quisque scelerisque eros ut elit sollicitudin, nec venenatis lectus commodo. Sed non urna varius, pharetra erat at, egestas est.'
-//     },
-//     {
-//         id: 15,
-//         time: '2 am',
-//         date: dayjs('2024-07-13'),
-//         description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec nec nunc eget libero efficitur aliquet.'
-//     }
-// ];
 
 
 

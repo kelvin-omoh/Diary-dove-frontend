@@ -2,16 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { LogoFunction } from "../components/Header";
 import vector1 from "../assets/Vector (3).png";
 import google from "../assets/icons8-google 1.png";
-import {
-  AiFillMail,
-  AiOutlineLock,
-  AiOutlineMail,
-  AiOutlinePhone,
-  AiOutlineUser,
-  AiTwotonePhone,
-} from "react-icons/ai";
-import { BsPhoneVibrate } from "react-icons/bs";
-import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -22,11 +12,8 @@ import person from "../assets/person.png";
 import email1 from "../assets/email.png";
 import phone from "../assets/calling.png";
 import password1 from "../assets/password.png";
-import logo1 from "../assets/DiaraDove Logo.png";
 import logo3 from "../assets/Diarylogo.png";
-
-import { z } from "zod";
-import { FaEye, FaEyeSlash, FaKey } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
   const [isNewUser, setIsNewUser] = useState(false);
@@ -135,11 +122,11 @@ const Signup = () => {
         navigate("/verify");
       }
     } catch (error) {
-      if (error?.response?.status == 400) {
+      if (error?.response?.status === 400) {
         console.log(error);
         error?.response?.data?.errors?.map((e) => toast.error(e));
       }
-      if (error?.response?.status == 400) {
+      if (error?.response?.status === 400) {
       } else {
         console.log(error);
       }

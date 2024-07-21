@@ -12,7 +12,7 @@ const CreateNewPassword = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState({});
-    const { verifyEmail, setVerifyEmail } = useContext(Usercontext)
+    const { verifyEmail } = useContext(Usercontext)
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
     const toggleNewPasswordVisibility = () => {

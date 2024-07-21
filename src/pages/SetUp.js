@@ -1,29 +1,14 @@
 import React, { useContext, useState } from 'react';
 import logo from '../assets/DiaraDove Logo.png';
-import { Stepper, Step, StepLabel, StepConnector, } from '@mui/material';
-import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
+import { StepConnector, } from '@mui/material';
+import { createTheme, styled } from '@mui/material/styles';
 
 import Step2 from '../components/_settingUp/Step2';
 import Step1 from '../components/_settingUp/Step1'
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import { Usercontext } from '../context/userContext';
 
 
-// Create a theme to customize the active step label color
-const theme = createTheme({
-    components: {
-        MuiStepLabel: {
-            styleOverrides: {
-                label: {
-                    '&.Mui-active': {
-                        color: 'white', // Set the active step label color to white
-                    },
-                },
-            },
-        },
-    },
-});
 
 // Custom connector to show line between steps with a specific width
 const CustomStepConnector = styled(StepConnector)(({ theme }) => ({
@@ -51,12 +36,7 @@ const CustomStepConnector = styled(StepConnector)(({ theme }) => ({
 }));
 
 const SetUp = () => {
-    const { userInfo } = useContext(Usercontext)
     const [activeStep, setActiveStep] = useState(0);
-    const navigate = useNavigate()
-
-
-
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);

@@ -1,8 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
-import { Usercontext } from "../../context/userContext";
 import useCheckToken from "./useCheckToken";
-import axios from "axios";
 
 
 

@@ -8,7 +8,7 @@ import { CircularProgress } from '@mui/material'
 const ForgetPassword = () => {
 
 
-    const { verifyEmail, setVerifyEmail, handleVerifyEmail } = useContext(Usercontext)
+    const { handleVerifyEmail } = useContext(Usercontext)
     const [email, setEmail] = useState('')
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate()

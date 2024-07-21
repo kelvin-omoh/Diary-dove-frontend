@@ -1,13 +1,11 @@
 // Sidebar.js
 import React, { useContext } from 'react';
-import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import { Usercontext } from '../../context/userContext';
 import { ToggleContext } from '../../context/toggleContext';
-import user from '../../assets/Vector.png';
 import close from '../../assets/Close Square.png';
 import vector from '../../assets/Vector (4).png';
-import notification from '../../assets/Notification 2a 2.png';
 import logoutIcon from '../../assets/logout2.png';
 import { IoNotificationsOutline } from "react-icons/io5";
 import { PiUserRectangle } from 'react-icons/pi';

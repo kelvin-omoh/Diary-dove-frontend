@@ -8,10 +8,9 @@ import axios from "axios";
 
 const Verification = () => {
   const navigate = useNavigate();
-  const { verifyEmail, setVerifyEmail } = useContext(Usercontext);
+  const { verifyEmail } = useContext(Usercontext);
   const [timer, setTimer] = useState(360); // 6 minutes countdown
   const [canResend, setCanResend] = useState(false);
-  const [message, setMessage] = useState("");
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
   const [otp, setOtp] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
@@ -91,14 +90,12 @@ const Verification = () => {
           <img src={tick} alt={"tick"} className=" mb-[40px] size-[125px]" />
         )}
         <div
-          className={` mb-[20px] md:mb-[40px] ${
-            isSuccess ? "h-[77px]  " : ""
-          }  `}
+          className={` mb-[20px] md:mb-[40px] ${isSuccess ? "h-[77px]  " : ""
+            }  `}
         >
           <h1
-            className={` font-[600] text-[20px] md:text-[32px] ${
-              isSuccess ? "mb-[12px]" : "mb-[16px]"
-            }  text-center`}
+            className={` font-[600] text-[20px] md:text-[32px] ${isSuccess ? "mb-[12px]" : "mb-[16px]"
+              }  text-center`}
           >
             {isSuccess ? "Verification Success" : "Verify your email address"}
           </h1>
@@ -122,9 +119,8 @@ const Verification = () => {
             </>
           )}
           <button
-            className={`${
-              isSuccess ? "mt-[12px]" : "mt-[20px]"
-            } text-[14px] md:text-[18px]`}
+            className={`${isSuccess ? "mt-[12px]" : "mt-[20px]"
+              } text-[14px] md:text-[18px]`}
           >
             {!isSuccess && (
               <>
@@ -155,9 +151,8 @@ const Verification = () => {
           onClick={() => {
             verifyOTP();
           }}
-          className={` w-full font-[500] rounded-[8px]  py-[16px] bg-[#DA9658] text-center text-white ${
-            isSuccess ? "w-[192px]" : "w-full"
-          }`}
+          className={` w-full font-[500] rounded-[8px]  py-[16px] bg-[#DA9658] text-center text-white ${isSuccess ? "w-[192px]" : "w-full"
+            }`}
         >
           {isSuccess ? "Continue to Login" : "Verify"}
         </button>

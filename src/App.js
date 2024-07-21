@@ -14,12 +14,11 @@ import Settings from "./pages/Settings";
 import ChangeEmail from "./pages/ChangeEmail";
 import EmailVerification from "./components/_Verification/EmailVerification/EmailVerification";
 import { PrivateRoute } from "./components/hooks/PrivateRoute";
-import { Usercontext, UserContextProvider } from "./context/userContext";
+import { UserContextProvider } from "./context/userContext";
 import { ToggleContextProvider } from "./context/toggleContext";
 import LandingPage from "./pages/LandingPage";
 import WhatsAppVerification from "./components/Whatappverification/Whatappverification";
 import GoogleCallback from "./components/_GoogleCallback/GoogleCallBack";
-import Dashboard1 from "./components/testDash";
 
 function App() {
   return (

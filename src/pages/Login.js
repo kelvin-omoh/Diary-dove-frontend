@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { LogoFunction } from "../components/Header";
 import vector1 from '../assets/Vector (3).png';
-import vector2 from '../assets/Frame 18.png';
 import Logo from '../assets/logo 2.png'
 // import phone from '../assets/Calling 1.png';
 import logo2 from '../assets/DiaraDove Logo (1).png';
 import google from '../assets/icons8-google 1.png';
-import { AiOutlineUser, AiOutlineMail, AiOutlineLock } from "react-icons/ai";
+import { AiOutlineLock } from "react-icons/ai";
 import axios from "axios";
 import gsap from "gsap";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,15 +16,13 @@ import Profile from "../assets/person.png"
 import Warning from "../assets/Warning.png"
 import { PiEyeLight, PiEyeSlashLight } from "react-icons/pi";
 
-import { FaEye, FaEyeSlash, FaKey } from 'react-icons/fa';
-
 
 
 const Login = () => {
 
   const navigate = useNavigate();
   const formRef = useRef(null);
-  const { verifyEmail, setVerifyEmail, handleVerifyEmail } = useContext(Usercontext)
+  const { handleVerifyEmail } = useContext(Usercontext)
   const { setAuthInfo, userInfo } = useContext(Usercontext)
   const [isNewUser, setIsNewUser] = useState(true);
   const [fullName, setFullName] = useState("");
@@ -172,7 +169,7 @@ const Login = () => {
       const formData = { username: userName, password };
       const response = await axios.post("api/users/login", formData);
       console.log("Response:", response.data);
-      if (response.data.status == 'success') {
+      if (response.data.status === 'success') {
         toast.success(response.data.message)
         getUserData();
         navigate("/setup")

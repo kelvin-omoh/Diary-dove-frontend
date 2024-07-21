@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import queryString from 'query-string';
+import React from 'react';
 
 const Dashboard1 = () => {
 

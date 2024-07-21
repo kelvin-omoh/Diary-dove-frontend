@@ -25,12 +25,7 @@ const WhatsAppVerification = () => {
     }
   }, [timer]);
 
-  const maskPhoneNumber = (phoneNumber) => {
-    if (!phoneNumber) {
-      return "******"; // Default masked value or handle accordingly
-    }
-    return `${phoneNumber.slice(0, 2)}***${phoneNumber.slice(-2)}`;
-  };
+
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -99,14 +94,12 @@ const WhatsAppVerification = () => {
           <img src={tick} alt={"tick"} className=" mb-[40px] size-[125px]" />
         )}
         <div
-          className={` mb-[20px] md:mb-[40px] ${
-            isSuccess ? "h-[77px]  " : ""
-          }  `}
+          className={` mb-[20px] md:mb-[40px] ${isSuccess ? "h-[77px]  " : ""
+            }  `}
         >
           <h1
-            className={` font-[600] text-[20px] md:text-[32px] ${
-              isSuccess ? "mb-[12px]" : "mb-[16px]"
-            }  text-center`}
+            className={` font-[600] text-[20px] md:text-[32px] ${isSuccess ? "mb-[12px]" : "mb-[16px]"
+              }  text-center`}
           >
             {isSuccess ? "Verification Success" : "Verify your WhatsApp number"}
           </h1>
@@ -129,9 +122,8 @@ const WhatsAppVerification = () => {
             </>
           )}
           <button
-            className={`${
-              isSuccess ? "mt-[12px]" : "mt-[20px]"
-            } text-[14px] md:text-[18px]`}
+            className={`${isSuccess ? "mt-[12px]" : "mt-[20px]"
+              } text-[14px] md:text-[18px]`}
           >
             {!isSuccess && (
               <>
@@ -162,9 +154,8 @@ const WhatsAppVerification = () => {
           onClick={() => {
             verifyOTP();
           }}
-          className={` w-full font-[500] rounded-[8px]  py-[16px] bg-[#DA9658] text-center text-white ${
-            isSuccess ? "w-[192px]" : "w-full"
-          }`}
+          className={` w-full font-[500] rounded-[8px]  py-[16px] bg-[#DA9658] text-center text-white ${isSuccess ? "w-[192px]" : "w-full"
+            }`}
         >
           {loading ? (
             <div className=" text-white items-center gap-3 justify-center flex w-full h-full">

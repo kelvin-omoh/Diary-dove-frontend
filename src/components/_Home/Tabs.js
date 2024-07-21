@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Popover } from '@mui/material';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import menu from '../../assets/Menu Candy Box.png';
@@ -26,19 +26,6 @@ const HomeTab = ({ setAllTexts, allTexts, isGrid, setIsGrid, ss, sss }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const handleDateSelect = (day) => {
-        if (!selectedStartDate || selectedEndDate) {
-            setSelectedStartDate(day);
-            setSelectedEndDate(null);
-        } else if (day.isBefore(selectedStartDate)) {
-            setSelectedStartDate(day);
-            setSelectedEndDate(null);
-        } else {
-            setSelectedEndDate(day);
-        }
-    };
-
 
 
     return (

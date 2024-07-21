@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { BsPerson } from 'react-icons/bs';
-import { FaBars, FaEye, FaEyeSlash, FaKey } from 'react-icons/fa';
+import { FaBars } from 'react-icons/fa';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Usercontext } from '../context/userContext';
 import ChangePasswordDialog from '../components/_Settings/ChangePasswordDialog';
-import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { Layout } from '../components/_Settings/Layout';
 import call from '../assets/calling.png'
 import vector from '../assets/Vector (5).png'

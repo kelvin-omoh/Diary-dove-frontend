@@ -1,10 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Button } from '@mui/material';
 import { FaEye, FaEyeSlash, FaKey } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';

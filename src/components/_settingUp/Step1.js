@@ -3,29 +3,26 @@ import whatsappIcon from '../../assets/Group (1).png';
 import googleIcon from '../../assets/icons8-google 1.png';
 import { Checkbox } from '@mui/material';
 import { useState } from 'react';
-import { Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineOppositeContent, TimelineDot } from '@mui/lab';
-import { Switch, Button, TextField } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { BsCircle, BsGoogle, BsWhatsapp } from 'react-icons/bs';
-import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
+import { Timeline, TimelineItem, TimelineSeparator, TimelineContent, TimelineDot } from '@mui/lab';
+import { Box, Typography } from '@mui/material';
 import ToggleIcon from './ToggleIcon';
 
 import { Usercontext } from '../../context/userContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Step1 = ({ activeStep, handleNext }) => {
+const Step1 = ({ handleNext }) => {
     const [google, setGoogle] = useState(false);
     const [whatsapp, setWhatsapp] = useState(false);
     const { setAuthInfo, userInfo } = useContext(Usercontext)
     const navigate = useNavigate()
-    const handleGoogleChange = (event) => {
-        setGoogle(event.target.checked);
-    };
+    // const handleGoogleChange = (event) => {
+    //     setGoogle(event.target.checked);
+    // };
 
-    const handleWhatsappChange = (event) => {
-        setWhatsapp(event.target.checked);
-    };
+    // const handleWhatsappChange = (event) => {
+    //     setWhatsapp(event.target.checked);
+    // };
 
     const getAllReminders = async () => {
         try {

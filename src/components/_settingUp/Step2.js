@@ -1,42 +1,30 @@
 import {
-  Checkbox,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  ThemeProvider,
-  ToggleButton,
-  ToggleButtonGroup,
   createTheme,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
 import {
   Box,
-  Typography,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
+  Typography
+
 } from "@mui/material";
 import {
   Timeline,
   TimelineItem,
   TimelineSeparator,
-  TimelineConnector,
   TimelineContent,
-  TimelineOppositeContent,
   TimelineDot,
 } from "@mui/lab";
 import {
   BsCheck,
-  BsChevronBarDown,
   BsChevronDown,
   BsChevronUp,
 } from "react-icons/bs";
 import trash from "../../assets/trash_2.png";
 import { useNavigate } from "react-router-dom";
-import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 import { Usercontext } from "../../context/userContext";
 import toast from "react-hot-toast";
@@ -66,20 +54,7 @@ const renderDashedLine = () => {
   return segments;
 };
 
-const timing = [
-  {
-    text: "Weekly",
-  },
-  {
-    text: "Monthly",
-  },
-  {
-    text: "Quarterly",
-  },
-  {
-    text: "Yearly",
-  },
-];
+
 
 const Step2 = () => {
   const [open, setOpen] = useState(false);
