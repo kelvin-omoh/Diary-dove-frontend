@@ -173,8 +173,6 @@ const Login = () => {
       const response = await axios.post("api/users/login", formData);
       console.log("Response:", response.data);
       if (response.data.status == 'success') {
-        // Redirect to frontend with tokens and user information as query params
-        const redirectUrl = `http://localhost:3000/dashboard?token=${token}&refreshtoken=${refreshtoken}&username=${user.username}&email=${user.email}&setup=${user.setup}`;
         toast.success(response.data.message)
         getUserData();
         navigate("/setup")
@@ -186,7 +184,6 @@ const Login = () => {
           email: response.data.data[3].email,
           setup: response.data.data[4].setup,
         });
-        return res.redirect(redirectUrl);
       }
     } catch (error) {
       console.log("Error:", error);
