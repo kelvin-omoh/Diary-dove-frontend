@@ -30,6 +30,12 @@ const Hero = () => {
 
                 <img
                     data-aos="slide-up"
+                    data-aos-delay="50"
+                    data-aos-duration="1000"
+                    data-aos-easing="ease-in-out"
+                    data-aos-mirror="true"
+                    data-aos-once="false"
+                    data-aos-anchor-placement="top-center"
                     src={hero}
                     className='absolute left-[50px] top-[336px] md:left-[30%] md:top-[456px] h-[261px] md:h-[652px] w-[291px] md:w-[727px] object-cover'
                     alt="Description"
