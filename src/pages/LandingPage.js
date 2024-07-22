@@ -85,7 +85,7 @@ const LandingPage = () => {
 
                     <div data-aos="fade-right"
 
-                        data-aos-offset="50"
+                        data-aos-offset="-50"
                         data-aos-delay="50"
                         data-aos-duration="800"
                         data-aos-easing="ease"
@@ -115,15 +115,14 @@ const LandingPage = () => {
                     <h1 className=' font-[600] mb-[32px] text-[20px] text-center  md:text-[40px]'>How it works</h1>
                     <div data-aos="zoom-out-up" className='  grid gap-[44px] px-6 md:grid-cols-2 grid-cols-1'>
                         {howItWorks.map((item) => (
-                            <div data-aos="zoom-in"
-
+                            <div data-aos="fade"
                                 data-aos-offset="200"
                                 data-aos-delay="50"
-                                data-aos-duration="800"
+                                data-aos-duration="1000"
                                 data-aos-easing="ease-in-out"
                                 data-aos-mirror="true"
                                 data-aos-once="false"
-                                data-aos-anchor-placement="top-center"
+
                                 key={item.title} className=' bg-[white] p-[32px] w-full md:items-start items-center rounded-lg justify-center  gap-[8px] md:text-start text-center flex flex-col'>
                                 <img src={item.img} alt={item.title} className='  size-[72px] ' />
                                 <h1 className=' font-[600] text-[20px]'>{item.title}</h1>
