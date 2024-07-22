@@ -200,9 +200,9 @@ const Home = () => {
                         </p>
                     </div>
                 </div>
-                <div>
+                <div className=" w-fit " >
                     <button
-                        className="text-white w-[100px] md:w-[189px]  px-[12px] py-[8px] md:px-[46px] md:py-[17px] text-[14px] md:text-[16px] rounded-[8px] bg-[#DA9658]"
+                        className="text-white  md:w-[189px] md:h-12  px-[12px] py-[8px] md:px-[46px] md:py-[17px] text-[14px] md:text-[16px] rounded-[8px] bg-[#DA9658]"
                         onClick={handleClickOpen}
                     >
                         Create note
@@ -232,7 +232,7 @@ const Home = () => {
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         placeholder="Enter description..."
-                        className="outline-none h-[144px] w-full"
+                        className="outline-none h-[144px]  w-full"
                         cols="30"
                         rows="10"
                     ></textarea>
