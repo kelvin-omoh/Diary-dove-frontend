@@ -142,6 +142,15 @@ const Login = () => {
     }
   };
 
+  const handleGoogleAuth=async()=>{
+      try {
+        const res=await axios.get('/auth/google')
+        console.log(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
   return (
     <div className="md:bg-[#FAF2EA] h-[100vh] rounded-[8px] w-[100vw] items-center justify-center flex  " >
       <div className=" py-5 md:py-4 rounded-[8px] px-6 md:px-20 items-center justify-center flex h-fit md:w-[572px] bg-white ">
@@ -241,7 +250,7 @@ const Login = () => {
                     <p className=" text-sm">Or continue with</p>
                     <hr className="text-[#d7d7d7] border-[#d8d8d9] border" />
                   </div>
-                  <div className=" gap-[16px] text-[18px] font-[400] border-[#F1F2F3] border p-[8px] w-full text-center rounded-lg items-center flex justify-center mx-auto">
+                  <div onClick={()=>handleGoogleAuth()} className=" cursor-pointer gap-[16px] text-[18px] font-[400] border-[#F1F2F3] border p-[8px] w-full text-center rounded-lg items-center flex justify-center mx-auto">
                     <img src={google} className="text-[#bfc5d0d3] size-[24px]" alt="Google" />
                     <p className="size-fit" >Google</p>
                   </div>

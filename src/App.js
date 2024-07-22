@@ -17,7 +17,7 @@ import { PrivateRoute } from "./components/hooks/PrivateRoute";
 import { Usercontext, UserContextProvider } from "./context/userContext";
 import { ToggleContextProvider } from "./context/toggleContext";
 import LandingPage from "./pages/LandingPage";
-
+import Footer from './components/_LandingPage/Footer'
 function App() {
   return (
     <UserContextProvider>
@@ -50,7 +50,11 @@ function App() {
                 path="/change-email"
                 element={<PrivateRoute element={<ChangeEmail />} />}
               />
+x              <Route path="/footer" element={<Footer />} />
+
+              
             </Routes>
+
           </Router>
         </div>
       </ToggleContextProvider>
