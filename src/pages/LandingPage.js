@@ -117,7 +117,7 @@ const LandingPage = () => {
                         {howItWorks.map((item) => (
                             <div data-aos="zoom-in"
 
-                                data-aos-offset="200"
+
                                 data-aos-delay="50"
                                 data-aos-duration="800"
                                 data-aos-easing="ease-in-out"
