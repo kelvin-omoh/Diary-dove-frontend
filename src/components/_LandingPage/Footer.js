@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 const Footer = () => {
     const navigate = useNavigate()
     return (
-        <div id='footer' className='  relative     w-full '>
+        <div data-aos="fadeInUp" id='footer' className='  relative     w-full '>
             <div className='  bg-[#1c1b1f]  pb-[24px] w-full    absolute top-[100%]     text-white rounded-t-[60px] pt-[65px] md:pt-[114px]'>
                 <div className=' flex justify-center items-center flex-col '>
                     <h1 className=' mx-auto   z-[4] relative  text-[20px] md:text-[40px] font-[500] '>Seamlessly capture your <span className=' text-[#DA9658]'> thoughts</span></h1>
