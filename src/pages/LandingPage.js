@@ -56,7 +56,7 @@ const LandingPage = () => {
         <div className='bg-gradient-to-t h-full   from-[#FAF2EA] ] to-[#fff9f3] '>
             <Header />
             <Hero />
-            <section className='   px-0 md:px-[80px] ' >
+            <section id="services" className=' md:pb-[80px] pb-[64px]  px-0 md:px-[80px] ' >
                 <section className='  mb-[56px]'>
 
 
@@ -91,14 +91,14 @@ const LandingPage = () => {
 
 
 
-                <section>
-                    <h1 id='howitworks' className=' font-[600] mb-[32px] text-[20px]  md:text-[40px]'>How it works</h1>
+                <section id={"how-it-works"}>
+                    <h1 className=' font-[600] mb-[32px] text-[20px] text-center  md:text-[40px]'>How it works</h1>
                     <div className='  grid gap-[44px] px-6 md:grid-cols-2 grid-cols-1'>
                         {howItWorks.map((item) => (
-                            <div key={item.title} className=' bg-[white] p-[32px] rounded-lg  gap-[8px] md:text-start text-center flex flex-col'>
-                                <img src={item.img} alt={item.title} className=' size-[72px] ' />
+                            <div key={item.title} className=' bg-[white] p-[32px] w-full md:items-start items-center rounded-lg justify-center  gap-[8px] md:text-start text-center flex flex-col'>
+                                <img src={item.img} alt={item.title} className='  size-[72px] ' />
                                 <h1 className=' font-[600] text-[20px]'>{item.title}</h1>
-                                <p className=' text-[14px] text-[#4C4B53] '>{item.description}</p>
+                                <p className=' text-[14px] text-[#8F96A3] '>{item.description}</p>
                             </div>
                         ))}
 

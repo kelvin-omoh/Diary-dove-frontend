@@ -17,12 +17,18 @@ import { PrivateRoute } from "./components/hooks/PrivateRoute";
 import { UserContextProvider } from "./context/userContext";
 import { ToggleContextProvider } from "./context/toggleContext";
 import LandingPage from "./pages/LandingPage";
-
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import WhatsAppVerification from "./components/Whatappverification/Whatappverification";
 import GoogleCallback from "./components/_GoogleCallback/GoogleCallBack";
+import { useEffect } from "react";
 
 
 function App() {
+
+  useEffect(() => {
+    AOS.init();
+  }, [])
   return (
     <UserContextProvider>
       <ToggleContextProvider>
