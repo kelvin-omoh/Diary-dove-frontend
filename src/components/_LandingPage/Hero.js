@@ -11,7 +11,7 @@ const Hero = () => {
     }, [])
     const navigate = useNavigate()
     return (
-        <div data-aos="fade-in" className=' bg-[#DA9658] overflow-x-hidden relative h-[642px]   md:h-[1108px] w-full   text-white'>
+        <div data-aos="fade-in" className=' bg-[#DA9658] overflow-hidden relative h-[642px]   md:h-[1108px] w-full   text-white'>
             <div className=" md:block hidden bar  duration-300    bg-white ">
 
             </div>
