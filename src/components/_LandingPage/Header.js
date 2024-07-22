@@ -9,9 +9,30 @@ import { LiaTimesSolid } from "react-icons/lia";
 
 const customScroll = (el) => {
     const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
-    const yOffset = -70;
+    const yOffset = -52;
+    const targetPosition = yCoordinate + yOffset;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    const duration = 80; // Duration of the scroll in milliseconds
+    let startTime = null;
 
-    window.scrollTo({ top: yCoordinate + yOffset, behavior: 'smooth' });
+    const scroll = (currentTime) => {
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1); // Ensure the progress doesn't exceed 1
+
+        window.scrollTo(0, startPosition + distance * easeInOutQuad(progress));
+
+        if (timeElapsed < duration) {
+            requestAnimationFrame(scroll);
+        }
+    };
+
+    const easeInOutQuad = (t) => {
+        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    };
+
+    requestAnimationFrame(scroll);
 };
 
 const Header = () => {
