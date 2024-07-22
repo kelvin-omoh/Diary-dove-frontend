@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import logo from '../../assets/DiaraDove Logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const focusedLinkRef = useRef(null);
+    const navigate = useNavigate();
 
     const links = [
         { name: 'Services', path: '/' },
-        { name: 'How it works',  path:'/se ' },
+        { name: 'How it works', path:'/se' },
         { name: 'Contact Us', path: '/footer' },
     ];
 
     const handleToggle = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
+
+    useEffect(() => {
+        if (focusedLinkRef.current) {
+            focusedLinkRef.current.focus();
+            focusedLinkRef.current = null; // Reset the ref after focusing
+        }
+    }, [focusedLinkRef]);
 
     const handleScroll = (id) => {
         const element = document.getElementById(id);
@@ -24,6 +33,9 @@ const Header = () => {
             const offsetPosition = elementPosition + window.pageYOffset + offset;
             smoothScrollTo(offsetPosition);
             setIsMobileMenuOpen(false); // Close the menu after clicking a link
+            
+            // Focus on the link after scrolling
+            focusedLinkRef.current = id;
         }
     };
 
@@ -51,8 +63,6 @@ const Header = () => {
         requestAnimationFrame(animation);
     };
 
-    const navigate = useNavigate();
-
     return (
         <div className='z-10 fixed top-0 w-[100vw] flex flex-row items-center py-[16px] justify-between px-[24px] md:px-[80px] bg-white'>
             <div>
@@ -63,10 +73,15 @@ const Header = () => {
             </button>
             <div className='hidden md:flex items-center justify-center'>
                 <ul className='flex gap-[56px] items-center'>
-                    {links.map(link => (
+                    {links.map((link) => (
                         <li key={link.name} onClick={() => setIsMobileMenuOpen(false)}>
-                            <Link to={link.path}  className='ease-in z-[50] relative transition-all duration-150 hover:text-[#dd9a5b]' >{link.name}</Link>
-                            
+                            <Link
+                                to={link.path}
+                                ref={link.name === focusedLinkRef.current ? focusedLinkRef : null}
+                                className='ease-in z-[50] relative transition-all duration-150 hover:text-[#dd9a5b]'
+                            >
+                                {link.name}
+                            </Link>
                         </li>
                     ))}
                 </ul>
@@ -79,7 +94,7 @@ const Header = () => {
             {/* Mobile menu */}
             <div className={`md:hidden flex-col z-[50] py-[30px] absolute top-[65px] left-0 text-white w-full flex items-center justify-center transition-all bg-black/80 backdrop-blur-sm duration-300 ease-in-out ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
                 <ul className='flex flex-col z-[50] relative justify-center gap-[20px] items-center'>
-                    {links.map(link => (
+                    {links.map((link) => (
                         <li key={link.name} onClick={() => setIsMobileMenuOpen(false)}>
                             <Link to={link.path} className='ease-in z-[50] relative transition-all duration-150 hover:text-[#dd9a5b]'>
                                 {link.name}
