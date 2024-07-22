@@ -25,7 +25,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
-
+  const [loading, setIsLoading] = useState(false);
   const { userInfo, handleVerifyEmail } = useContext(Usercontext);
   const navigate = useNavigate();
   const formRef = useRef(null); // Ref to target the form element
