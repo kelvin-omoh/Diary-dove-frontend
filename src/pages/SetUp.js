@@ -43,19 +43,26 @@ const SetUp = () => {
     };
 
     return (
-        <div className="w-full  overflow-x-hidden flex flex-col text-start mx-auto items-center">
-            <div>
-                <img className="mt-[40px] flex md:mt-20 h-12 w-44" src={logo} alt="DiaryDove Logo" />
+        <div className="w-full ">
+           <div className='w-fit  overflow-x-hidden flex flex-col text-start  mx-auto items-center '>
+            <div className='w-full'>
+            <img className="mt-[40px] mx-6 items-start   md:mt-20 h-12 w-44" src={logo} alt="DiaryDove Logo" />
+
             </div>
-            <div className=' text-start items-start'>
+            <div className=''>
                 <h5 className="mt-12 text-[20px] items-start  md:text-[40px] font-semibold">Let's set up a journal for your work</h5>
                 <p className="mt-5 mb-7  items-start flex text-start text-[#8F96A3] text-base">Select reminder preferences below</p>
-
             </div>
-
 
             {activeStep === 0 && <Step1 activeStep={activeStep} handleNext={handleNext} />}
             {activeStep === 1 && <Step2 activeStep={activeStep} handleNext={handleNext} />}
+           </div>
+
+          
+            
+          
+
+
 
 
 
