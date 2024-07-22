@@ -1,13 +1,13 @@
 // Sidebar.js
 import React, { useContext } from 'react';
-
-import { FaUserCircle } from 'react-icons/fa';
+import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import { Usercontext } from '../../context/userContext';
 import { ToggleContext } from '../../context/toggleContext';
+import user from '../../assets/Vector.png';
 import close from '../../assets/Close Square.png';
 import vector from '../../assets/Vector (4).png';
-
+import notification from '../../assets/Notification 2a 2.png';
 import logoutIcon from '../../assets/logout2.png';
 import { IoNotificationsOutline } from "react-icons/io5";
 import { PiUserRectangle } from 'react-icons/pi';
@@ -32,7 +32,6 @@ const Sidebar = () => {
 
     return (
         <>
-
             {toggle && <div onClick={() => handleToggle(!toggle)} className='z-[100] block md:hidden fixed bg-[#000000B2] w-full h-full'></div>}
             <div className={` ${toggle ? ' left-0 opacity-[1] ' : ' left-[-100vw] '}  md:opacity-[1] z-[100] ease-in-out  duration-300  opacity-0 transition-all bg-[#DA9658] text-white text-start flex justify-start flex-col md:left-0 fixed h-[100vh] top-0 shadow-xl w-[226px] md:w-full pl-[24px] md:pl-[80px]`}>
                 <div className={` ${toggle ? ' left-0 opacity-[1] ' : ' left-[-100vw] '}  md:opacity-[1] z-[100] ease-in-out  duration-300  opacity-0 transition-all  text-white text-start flex justify-start flex-col md:left-0 fixed h-[100vh] top-0 shadow-sm w-[226px] md:w-[320px] pl-[24px] md:pl-[80px]`}>
@@ -72,7 +71,6 @@ const Sidebar = () => {
                             </button>
                             <img className='absolute md:relative md:bottom-0 bottom-[-100px] left-[-57px] h-[89px]' src={vector} alt="" />
                         </div>
-
                     </div>
                 </div>
             </div>

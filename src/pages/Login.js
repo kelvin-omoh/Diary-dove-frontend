@@ -15,6 +15,7 @@ import { useGSAP } from "@gsap/react";
 import Profile from "../assets/person.png"
 import Warning from "../assets/Warning.png"
 import { PiEyeLight, PiEyeSlashLight } from "react-icons/pi";
+import { CircularProgress } from "@mui/material";
 
 
 
@@ -32,7 +33,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false)
   const location = useLocation();
-
+  const [loading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -165,8 +166,10 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const formData = { username: userName, password };
+      console.log(formData);
       const response = await axios.post("api/users/login", formData);
       console.log("Response:", response.data);
       if (response.data.status === 'success') {
@@ -182,17 +185,19 @@ const Login = () => {
           setup: response.data.data[4].setup,
         });
       }
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.log("Error:", error);
       console.log(error.status);
 
       if (error.response.status === 400) {
 
-        toast.error(error.response.data.message)
+        error.response.data.message && toast.error(error.response.data.message)
       }
-      error?.response?.data?.errors?.map(i =>
-        toast.error(i)
-      )
+      if (Array.isArray(error?.response?.data?.errors)) {
+        error.response.data.errors.forEach(i => toast.error(i));
+      }
       console.log(error?.response?.data?.errors?.map(i => i));
 
     }
@@ -267,7 +272,7 @@ const Login = () => {
                       type="text"
                       id="userName"
                       required
-                      className="outline-none w-full"
+                      className="outline-none bg-none w-full"
                       placeholder="user Name"
                       value={userName}
                       onChange={(e) => setUserName(e.target.value)}
@@ -279,44 +284,47 @@ const Login = () => {
                 <div className="w-full items-start justify-start flex gap-[8px] flex-col" htmlFor="userName" >
                   <p>Password</p>
                   <div className="border-[#bfc5d0d3] w-full p-4 rounded-lg border gap-2  flex items-center">
-                    <AiOutlineLock className="text-[#bfc5d0d3]" size={20} />
+                    <AiOutlineLock className="text-[#bfc5d0d3] size-5 " />
                     <input
                       type={visible ? 'text' : 'password'}
                       id="password"
                       required
-                      className="outline-none w-full"
+                      className="outline-none bg-none w-full"
                       placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
 
                     <div className=" text-gray-400" onClick={() => setVisible(!visible)}>
-                      {visible ? < PiEyeLight /> : <PiEyeSlashLight />}
+                      {visible ? < PiEyeLight className="size-5" /> : <PiEyeSlashLight className=" size-5" />}
                     </div>
 
                   </div>
-                  <button onClick={() => {
-                 
 
-                
-                
-                     navigate('/reset-password')
-                  
-                  
-                  
-                  }
-                  
-                    } className=' text-[#DA9658] text-xs leading-4'>Forgot Password</button>
+                  <button type="button" onClick={() => navigate('/reset-password')} className=' text-[#DA9658] text-xs leading-4'>Forgot Password</button>
+
 
                 </div>
                 <div className=" grid gap-4">
-                  <button className="text-white bg-[#DA9658] h-full   w-full py-[24px] rounded-lg">
-                    {isNewUser ? 'Login' : 'Sign Up'}
+                  <button className="text-white bg-[#DA9658] h-full   w-full py-[12px] rounded-lg">
+
+                    {!loading &&
+                      <>
+                        {isNewUser ? 'Login' : 'Sign Up'}
+                      </>
+                    }
+                    {loading && (
+                      <CircularProgress
+                        size={20}
+                        sx={{ color: "white" }}
+                        className=" text-white ml-[.5rem]"
+                      />
+                    )}
                   </button>
-                  <div className="text-[#8F96A3]  grid grid-cols-3 items-center">
-                    <hr className="text-[#d7d7d7] border-[#d8d8d9] border" />
-                    <p className=" text-sm">Or continue with</p>
-                    <hr className="text-[#d7d7d7] border-[#d8d8d9] border" />
+                  <div className="text-[#8F96A3] flex justify-center items-center">
+                    <hr className="text-[#d7d7d7] w-[106px] md:w-full mx-[.3rem] border-[#F1F2F3] border" />
+                    <p className="text-sm px-[14px] whitespace-nowrap">Or continue with</p>
+                    <hr className="text-[#d7d7d7] w-[106px] md:w-full mx-[.3rem] border-[#F1F2F3] border" />
                   </div>
 
                   <div onClick={() => handleGoogleAuth()} className=" gap-[16px] text-[18px] font-[400] border-[#F1F2F3] border p-[8px] w-full text-center rounded-lg  cursor-pointer items-center flex justify-center mx-auto">
