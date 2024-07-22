@@ -56,7 +56,7 @@ const LandingPage = () => {
         <div className='bg-gradient-to-t h-full pb-[4rem]    from-[#FAF2EA] ] to-[#fff9f3] '>
             <Header />
             <Hero />
-            <section data-aos="fade-up-left" id="services" className=' overflow-hidden md:pb-[80px] pb-[64px]  px-0  ' >
+            <section data-aos="fade-up-left" id="services" className=' md:px-[80px] overflow-hidden md:pb-[80px] pb-[64px]  px-0  ' >
                 <section className=' overflow-hidden  mb-[56px]'>
 
 
@@ -70,12 +70,12 @@ const LandingPage = () => {
                         data-aos-once="false"
                         data-aos-anchor-placement="top-center"
 
-                        id='services' className='  justify-between flex md:flex-row flex-col h-full  gap-[24.5] md:gap-[163px] pt-[56px] items-center text-start'>
-                        <div className='px-[24px]  text-center justify-center md:px-0 w-full md:w-[753px] '>
+                        id='services' className='  justify-between flex  md:flex-row flex-col h-full  gap-[24.5] md:gap-[163px] pt-[56px] items-center text-start'>
+                        <div className='px-[24px]  text-center md:text-start justify-center md:px-0 w-full md:w-[753px] '>
                             <h1 className=' font-[600] text-[20px] md:leading-[48px] leading-6 md:text-[40px]'>Get reminded of your daily <br /> schedules effortlessly</h1>
                             <p className=' text-[#8F96A3] font-[400] md:text-[18px] md:leading-[27px] md:text-start leading-4 text-[12px] text-center mt-[16px]'>Set reminders to let you know it's time your jot down your thoughts so far. <br />
                                 Be reminded to take a break and put down your thoughs through your email or whatsapp and create multiple reminders for different times through out the day. </p>
-                            <button onClick={() => navigate("#howitworks")} className=' mt-[32px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[16px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </button>
+                            <button onClick={() => navigate("#howitworks")} className=' mt-[32px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </button>
                         </div>
                         <div className='bg-gradient-to-t px-[48px] md:px-0 from-[#FAF2EA] ] to-[#fff9f3] md:w-auto w-full'>
                             <img data-aos="fade-in" className=" h-full md:h-[496px] object-contain w-[512px] " src={screen1} alt="" />
@@ -97,7 +97,7 @@ const LandingPage = () => {
                         <div className='px-[24px] md:px-0 w-full md:w-[753px] '>
                             <h1 className=' font-[600] text-[20px] md:text-[40px]'>Easily create and edit your diary entries in seconds</h1>
                             <p className=' text-[#8F96A3] font-[400] text-[12px] md:text-start text-center md:text-[18px] md:leading-[27px] leading-4 mt-[16px]'>Safe and secure space to be one with your thoughts not matter when , no matter where. Create multiple diaries entries throughout the day either with our website or by replying our reminders to you.</p>
-                            <button className=' mt-[32px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[16px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </button>
+                            <button className=' mt-[32px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </button>
                         </div>
                         <div className='bg-gradient-to-t px-[48px] md:px-0 from-[#FAF2EA]  to-[#fff9f3] md:w-auto w-full'>
                             <img data-aos="fade" className=" h-full md:h-[496px] object-contain w-[512px] " src={screen2} alt="" />

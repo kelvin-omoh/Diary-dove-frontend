@@ -11,7 +11,7 @@ const Footer = () => {
                 <div className=' flex justify-center items-center flex-col '>
                     <h1 className=' mx-auto   z-[4] relative  text-[20px] md:text-[40px] font-[500] '>Seamlessly capture your <span className=' text-[#DA9658]'> thoughts</span></h1>
                     <p className=' mt-[8px] md:text-[16px] text-[#E9EAED] text-[12px] z-[4] relative'>Accessible anytime through Email and WhatsApp</p>
-                    <button onClick={() => navigate("/sign-up")} className=' px-[32px] mb-[32px] md:mb-[114px] relative z-[4] py-[16px] mt-[40px] bg-white rounded-lg text-black text-[18px]'>Sign up for free</button>
+                    <button onClick={() => navigate("/sign-up")} className=' px-[32px] mb-[32px] md:mb-[114px] relative z-[4] py-[12px] mt-[40px] bg-white rounded-lg text-black text-[18px]'>Sign up for free</button>
                 </div>
 
                 <div className='  px-[24px] md:px-[80px]   flex flex-col md:flex-row justify-between   w-full md:w-[100vw] border-y-[1px] border-[#4C4B53] py-[32px] '>
