@@ -1,55 +1,42 @@
 import {
-  Checkbox,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  ThemeProvider,
-  ToggleButton,
-  ToggleButtonGroup,
   createTheme,
 } from "@mui/material";
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Box,
   Typography,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
 } from "@mui/material";
 import {
   Timeline,
   TimelineItem,
   TimelineSeparator,
-  TimelineConnector,
   TimelineContent,
-  TimelineOppositeContent,
   TimelineDot,
 } from "@mui/lab";
 import {
   BsCheck,
-  BsChevronBarDown,
   BsChevronDown,
   BsChevronUp,
 } from "react-icons/bs";
 import trash from "../../assets/trash_2.png";
 import { useNavigate } from "react-router-dom";
-import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 import { Usercontext } from "../../context/userContext";
 import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
 import ErrorBoundary from "../../Utils";
 
-const checkboxTheme = createTheme({
-  palette: {
-    customColor: {
-      main: "#DA9658",
-    },
-  },
-});
+
 
 const renderDashedLine = () => {
   const segments = [];
@@ -93,14 +80,34 @@ const Step2 = () => {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
+    let inputValue = event.target.value;
+
+    // Remove non-numeric characters
+    inputValue = inputValue?.replace(/[^0-9]/g, "");
+
+    // Truncate to two characters
+    if (inputValue?.length > 2) {
+      inputValue = inputValue?.slice(0, 2);
+    }
+
     setCheckReminder(true);
-    setReminder(event.target.value);
+    setReminder(inputValue);
   };
 
-  const handleTimeChange = (field, value) => {
+  const handleTimeChange = (field, event) => {
+    let inputValue = event.target.value;
+
+    // Remove non-numeric characters
+    inputValue = inputValue?.replace(/[^0-9]/g, "");
+
+    // Truncate to two characters
+    if (inputValue.length > 2) {
+      inputValue = inputValue?.slice(0, 2);
+    }
+
     setTime((prevTime) => ({
       ...prevTime,
-      [field]: value,
+      [field]: inputValue,
     }));
   };
 
@@ -156,7 +163,6 @@ const Step2 = () => {
     const allTimes = [...reminders.map((r) => r.time)];
     const token = extractToken(userInfo.token);
 
-
     setLoading(true);
     try {
       const res = await axios.post(
@@ -199,7 +205,6 @@ const Step2 = () => {
         toast.error("Error fetching reminders");
       }
     }
-
   };
 
   const deleteReminder = async (id) => {
@@ -248,7 +253,6 @@ const Step2 = () => {
 
   return (
     <ErrorBoundary>
-
       <div ref={containerRef} className=" flex flex-col   gap-[16px]">
         <Timeline sx={{ padding: "0px" }}>
           <TimelineItem
@@ -299,7 +303,6 @@ const Step2 = () => {
             <TimelineContent sx={{ py: "14px", px: "12px" }}>
               <Typography
                 className="  text-[#DA9658] text-[16px] md:text-[18px] leading-[24px]"
-
                 component="span"
               >
                 Schedule Notification
@@ -363,8 +366,9 @@ const Step2 = () => {
                         <div className=" border w-[248px] h-[68px] flex place-content-center  border-[#FAF2EA] pl-[15.5px] pr-[9px] rounded-[8px]">
                           <input
                             placeholder="00"
-                            min={0}
-                            max={59}
+                            min={1}
+                            max={12}
+                            maxLength={2}
                             className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                             type="number"
                             value={time.hour}
@@ -377,7 +381,7 @@ const Step2 = () => {
                                 minimumIntegerDigits: 2,
                                 useGrouping: false,
                               });
-                              handleTimeChange("hour", e.target.value);
+                              handleTimeChange("hour", e);
                             }}
                           />
 
@@ -385,6 +389,7 @@ const Step2 = () => {
                             placeholder="00"
                             min={0}
                             max={59}
+                            maxLength={2}
                             className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                             type="number"
                             value={time.minute}
@@ -449,7 +454,10 @@ const Step2 = () => {
                           className="flex w-full text-[20px] h-[62px] p-[16px] rounded-[8px] border-[#FAF2EA] justify-between border items-center gap-2"
                         >
                           <span>
-                            {convertToReadableTime(reminder.hour, reminder.time)}
+                            {convertToReadableTime(
+                              reminder.hour,
+                              reminder.time
+                            )}
                           </span>
                           <button
                             type="button"
@@ -473,7 +481,10 @@ const Step2 = () => {
                     {loading ? (
                       <div className=" text-white items-center gap-3 justify-center flex w-full h-full">
                         Saving...{" "}
-                        <CircularProgress size={24} style={{ color: "white" }} />
+                        <CircularProgress
+                          size={24}
+                          style={{ color: "white" }}
+                        />
                       </div>
                     ) : (
                       "  Save Preferences"

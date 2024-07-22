@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { BsPerson } from 'react-icons/bs';
-import { FaBars, FaEye, FaEyeSlash, FaKey } from 'react-icons/fa';
+import { FaBars } from 'react-icons/fa';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Usercontext } from '../context/userContext';
 import ChangePasswordDialog from '../components/_Settings/ChangePasswordDialog';
-import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { Layout } from '../components/_Settings/Layout';
 import call from '../assets/calling.png'
 import vector from '../assets/Vector (5).png'
@@ -68,7 +68,7 @@ const Settings = () => {
         }
 
         setErrors(errors);
-        return Object.keys(errors).length === 0;
+        return Object.keys(errors)?.length === 0;
     };
 
     const getUserData = async () => {
@@ -173,7 +173,7 @@ const Settings = () => {
 
     return (
         <Layout>
-            <div className=' bg-white   h-[100vh]'>
+            <div className=' bg-white   h-full'>
 
                 <button onClick={() => handleToggle(!toggle)} className='  flex md:hidden justify-start w-full mb-[31.25px]'><FaBars className='size-[15px]' /></button>
                 <div className="flex items-center gap-[24px]">
@@ -300,7 +300,7 @@ const Settings = () => {
                         <button onClick={(e) => {
                             e.preventDefault()
                             handleClickOpen(e)
-                        }} className="bg-[#DA9658] font-[500] mt-[72px] md:mt-[142px] w-[359px] h-[60px] rounded-[8px] text-center text-white">Save changes</button>
+                        }} className="bg-[#DA9658] font-[500] mt-[72px] md:mt-[128px] w-[359px] h-[60px] rounded-[8px] text-center text-white">Save changes</button>
 
                         <img src={vector} alt='phone' className="  hidden md:block h-[89px] mb-[80px] pl-[48px] absolute bottom-[0px] right-[80px] text-[#B4B9C2]" />
                     </div>

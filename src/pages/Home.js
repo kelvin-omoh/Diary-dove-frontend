@@ -51,7 +51,7 @@ const Home = () => {
         }
     }, [userInfo?.token]);
 
-    const handleSave = async () => {
+    const handle = async () => {
         const getCurrentDateTime = () => {
             const currentDate = new Date();
             const time = currentDate.toLocaleTimeString("en-US", {
@@ -66,7 +66,6 @@ const Home = () => {
             return { time, date };
         };
 
-        const { time, date } = getCurrentDateTime();
 
         try {
             if (editIndex !== null) {
