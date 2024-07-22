@@ -53,17 +53,17 @@ const LandingPage = () => {
     const navigate = useNavigate()
 
     return (
-        <div className='bg-gradient-to-t overflow-x-hidden from-[#FAF2EA] ] to-[#fff9f3] '>
+        <div className='bg-gradient-to-t h-full   from-[#FAF2EA] ] to-[#fff9f3] '>
             <Header />
             <Hero />
             <section className='   px-0 md:px-[80px] ' >
-                <section className=' mb-[56px]'>
+                <section className='  mb-[56px]'>
 
 
-                    <div id='services' className='  justify-between flex md:flex-row flex-col  gap-[24.5] md:gap-[163px] pt-[56px] items-center text-start'>
-                        <div className='px-[24px] md:px-0 w-full md:w-[753px] '>
-                            <h1 className=' font-[600] text-[20px] md:text-[40px]'>Get reminded of your daily <br /> schedules effortlessly</h1>
-                            <p className=' text-[#8F96A3] font-[400] text-[18px] mt-[16px]'>Set reminders to let you know it's time your jot down your thoughts so far. <br />
+                    <div id='services' className='  justify-between flex md:flex-row flex-col h-full  gap-[24.5] md:gap-[163px] pt-[56px] items-center text-start'>
+                        <div className='px-[24px]  text-center justify-center md:px-0 w-full md:w-[753px] '>
+                            <h1 className=' font-[600] text-[20px] md:leading-[48px] leading-6 md:text-[40px]'>Get reminded of your daily <br /> schedules effortlessly</h1>
+                            <p className=' text-[#8F96A3] font-[400] md:text-[18px] md:leading-[27px] md:text-start leading-4 text-[12px] text-center mt-[16px]'>Set reminders to let you know it's time your jot down your thoughts so far. <br />
                                 Be reminded to take a break and put down your thoughs through your email or whatsapp and create multiple reminders for different times through out the day. </p>
                             <button onClick={() => navigate("#howitworks")} className=' mt-[32px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[16px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </button>
                         </div>
@@ -75,8 +75,8 @@ const LandingPage = () => {
 
                     <div className=' flex flex-col  justify-between  md:flex-row-reverse gap-[24.5] md:gap-[163px] mt-[56px] items-center text-start'>
                         <div className='px-[24px] md:px-0 w-full md:w-[753px] '>
-                            <h1 className=' font-[600] text-[20px] md:text-[40px]'>Easily Track and Categorize Your Expenses</h1>
-                            <p className=' text-[#8F96A3] font-[400] text-[18px] mt-[16px]'>Safe and secure space to be one with your thoughts not matter when , no matter where. Create multiple diaries entries throughout the day either with our website or by replying our reminders to you.</p>
+                            <h1 className=' font-[600] text-[20px] md:text-[40px]'>Easily create and edit your diary entries in seconds</h1>
+                            <p className=' text-[#8F96A3] font-[400] text-[12px] md:text-start text-center md:text-[18px] md:leading-[27px] leading-4 mt-[16px]'>Safe and secure space to be one with your thoughts not matter when , no matter where. Create multiple diaries entries throughout the day either with our website or by replying our reminders to you.</p>
                             <button className=' mt-[32px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[16px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </button>
                         </div>
                         <div className='bg-gradient-to-t px-[48px] md:px-0 from-[#FAF2EA]  to-[#fff9f3] md:w-auto w-full'>
@@ -93,9 +93,9 @@ const LandingPage = () => {
 
                 <section>
                     <h1 id='howitworks' className=' font-[600] mb-[32px] text-[20px]  md:text-[40px]'>How it works</h1>
-                    <div className='  grid gap-[44px] md:grid-cols-2 grid-cols-1'>
+                    <div className='  grid gap-[44px] px-6 md:grid-cols-2 grid-cols-1'>
                         {howItWorks.map((item) => (
-                            <div key={item.title} className=' bg-[white] p-[32px] rounded-lg gap-[8px] text-start flex flex-col'>
+                            <div key={item.title} className=' bg-[white] p-[32px] rounded-lg  gap-[8px] md:text-start text-center flex flex-col'>
                                 <img src={item.img} alt={item.title} className=' size-[72px] ' />
                                 <h1 className=' font-[600] text-[20px]'>{item.title}</h1>
                                 <p className=' text-[14px] text-[#4C4B53] '>{item.description}</p>

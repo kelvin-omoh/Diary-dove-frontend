@@ -13,7 +13,7 @@ const Footer = () => {
                 <button onClick={() => navigate("/sign-up")} className=' px-[32px] mb-[32px] md:mb-[114px] relative z-[4] py-[16px] mt-[40px] bg-white rounded-lg text-black text-[18px]'>Sign up for free</button>
 
                 <div className='  px-[24px] md:px-[80px]   flex flex-col md:flex-row justify-between   w-full md:w-[100vw] border-y-[1px] border-[#4C4B53] py-[32px] '>
-                    <div className=' mb-[20px] md:mb-0 flex-1'>
+                    <div className=' mb-[20px] md:block grid items-center justify-center  md:mb-0 flex-1'>
                         <img src={logo} alt=" logo" className=' h-[36px] ' />
                     </div>
                     <div className=' flex gap-[94px]  text-[14px] flex-row justify-between   text-start items-start '>
@@ -35,7 +35,7 @@ const Footer = () => {
                     </div>
 
                 </div>
-                <div className=' flex flex-col md:flex-row text-[12px] md:text-[14px] items-center    w-full py-[25.5px] justify-center md:justify-between px-[24px] md:px-[80px]'>
+                <div className=' flex flex-col md:flex-row text-[12px] md:text-[14px] items-center    w-full pt-[25.5px] justify-center md:justify-between px-[24px] md:px-[80px]'>
                     <ul className=' md:mx-0 mx-auto  flex gap-[8px] md:gap-[56px]'>
                         <li>Terms of Service</li>
                         <li>Privacy policy</li>

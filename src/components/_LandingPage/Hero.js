@@ -11,22 +11,26 @@ const Hero = () => {
     }, [])
     const navigate = useNavigate()
     return (
-        <div className=' bg-[#DA9658] relative h-[610px] md:h-[1143px] mt-[3rem] md:mt-[5rem] text-white'>
-            <div className=" md:block hidden bar absolute duration-300 top-[4rem] left-[20%]  bg-white w-[50em] h-[14em]">
+        <div className=' bg-[#DA9658] relative h-[570px]  md:h-[1108px]   text-white'>
+            <div className=" md:block hidden bar  duration-300    bg-white ">
 
             </div>
-            <h1 className=' main text-[20px] md:text-[64px] text-white pt-[80px] font-[600] '>Take control of your day <br className=' hidden md:block' /> with <br className=' md:hidden block' /> DiaryDove</h1>
-            <p className=' md:text-[18px] font-[400] mt-[16px]  text-[14px]'>Simplify your daily life and achieve your goals</p>
-            <button onClick={() => navigate("/sign-up")} className=' py-[16px] bg-white text-[14px] md:text-[16px] rounded-lg mt-[32px] text-black px-[24px]'>
+            <div className=' grid gap-8  justify-center items-center text-center'>
+                <div className='grid gap-4'><h1 className=' main text-[20px] md:text-[64px] text-white pt-[80px] font-[600] '>Take control of your day <br className=' hidden md:block' /> with <br className=' md:hidden block' /> DiaryDove</h1>
+            <p className=' md:text-[18px] font-[400]   text-[14px]'>Simplify your daily life and achieve your goals</p></div>
+                
+           <div className=' w-full  items-center justify-center'><button onClick={() => navigate("/sign-up")} className='  bg-white text-[14px] md:text-[16px] rounded-lg  text-black px-4 py-2'>
                 Sign up for free
-            </button>
-            <img src={hero} className=' flex justify-center items-center mx-auto mt-[66px] md:mt-[88px] h-[283.95px] md:h-[652px] w-[259.4px] md:w-[727px]' alt="" />
+            </button></div> 
+            </div>
+            
+            <img src={hero} className=' absolute top-[284px] left-[50px] md:top-[456px]   md:left-[357px] h-[261px] md:h-[652px] w-[291x] md:w-[727px]' alt="" />
 
 
             <div>
-                <img src={vector} className=' absolute left-[-25px] md:left-[90%]   bottom-[504px] md:bottom-[206px]  h-[65px] md:h-[89px] ' alt="" />
-                <img src={vector} className=' absolute right-[-20px] md:left-[-40px]  bottom-[200px] md:bottom-[53px]  h-[65px] md:h-[89px] ' alt="" />
-                <img src={vector} className=' absolute left-[-25px] md:left-[80px]  bottom-[17px] md:bottom-[845px]   h-[65px] md:h-[89px] ' alt="" />
+                <img src={vector} className=' absolute  top-[34px] md:top-[157px] md:left-[80px] left-[-33px]  h-[69px] md:w-[130px] md:h-[106px]  ' alt="" />
+                <img src={vector} className=' absolute left-[338px] md:left-[1230px] top-[291px] md:top-[796px md:w-[130px] md:h-[106px] w-[84px]  h-[69px]  ' alt="" />
+                <img src={vector} className=' absolute top-[434px] md:top-[949px] left-[-42px] md:left-[-65px]  w-[84px] h-[69px] md:w-[130px] md:h-[106px]  ' alt="" />
             </div>
         </div>
     )

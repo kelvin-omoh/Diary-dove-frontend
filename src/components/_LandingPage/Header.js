@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import logo from '../../assets/DiaraDove Logo.png'
-import { Link, useNavigate } from 'react-router-dom'
-import { FaBars, FaTimes } from 'react-icons/fa'
+import React, { useState } from 'react';
+import logo from '../../assets/DiaraDove Logo.png';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const links = [
-        'Services',
-        'How it works',
-        'Contact Us',
+        { name: 'Services', path: '/' },
+        { name: 'How it works',  path:'/se ' },
+        { name: 'Contact Us', path: '/footer' },
     ];
 
     const handleToggle = () => {
@@ -50,10 +50,11 @@ const Header = () => {
 
         requestAnimationFrame(animation);
     };
-    const navigate = useNavigate()
+
+    const navigate = useNavigate();
 
     return (
-        <div className=' z-10 fixed top-0 w-[100vw] flex flex-row items-center py-[16px] justify-between px-[24px] md:px-[80px] bg-white'>
+        <div className='z-10 fixed top-0 w-[100vw] flex flex-row items-center py-[16px] justify-between px-[24px] md:px-[80px] bg-white'>
             <div>
                 <img src={logo} alt='logo' className='h-[36px]' />
             </div>
@@ -63,7 +64,10 @@ const Header = () => {
             <div className='hidden md:flex items-center justify-center'>
                 <ul className='flex gap-[56px] items-center'>
                     {links.map(link => (
-                        <Link key={link}>{link}</Link>
+                        <li key={link.name} onClick={() => setIsMobileMenuOpen(false)}>
+                            <Link to={link.path}  className='ease-in z-[50] relative transition-all duration-150 hover:text-[#dd9a5b]' >{link.name}</Link>
+                            
+                        </li>
                     ))}
                 </ul>
                 <div className='flex gap-[16px] items-center ml-[64px]'>
@@ -72,13 +76,15 @@ const Header = () => {
                 </div>
             </div>
 
-            {/* mobile */}
-            <div className={`md:hidden flex-col z-[50]  py-[30px] absolute top-[65px] left-0 text-white w-full flex items-center justify-center transition-all bg-black/80 backdrop-blur-sm duration-300 ease-in-out ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+            {/* Mobile menu */}
+            <div className={`md:hidden flex-col z-[50] py-[30px] absolute top-[65px] left-0 text-white w-full flex items-center justify-center transition-all bg-black/80 backdrop-blur-sm duration-300 ease-in-out ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
                 <ul className='flex flex-col z-[50] relative justify-center gap-[20px] items-center'>
                     {links.map(link => (
-                        <a href={`#${link.replace(/\s+/g, '').toLowerCase()}`} onClick={() => handleScroll(link.replace(/\s+/g, '').toLowerCase())} className='ease-in z-[50] relative transition-all duration-150 hover:text-[#dd9a5b]' key={link}>
-                            {link}
-                        </a>
+                        <li key={link.name} onClick={() => setIsMobileMenuOpen(false)}>
+                            <Link to={link.path} className='ease-in z-[50] relative transition-all duration-150 hover:text-[#dd9a5b]'>
+                                {link.name}
+                            </Link>
+                        </li>
                     ))}
                 </ul>
                 <div className='flex flex-col z-[50] relative gap-[20px] mt-[24px] justify-center items-center'>
@@ -87,7 +93,7 @@ const Header = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Header;

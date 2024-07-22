@@ -17,13 +17,16 @@ import { PrivateRoute } from "./components/hooks/PrivateRoute";
 import { UserContextProvider } from "./context/userContext";
 import { ToggleContextProvider } from "./context/toggleContext";
 import LandingPage from "./pages/LandingPage";
+
 import WhatsAppVerification from "./components/Whatappverification/Whatappverification";
 import GoogleCallback from "./components/_GoogleCallback/GoogleCallBack";
+
 
 function App() {
   return (
     <UserContextProvider>
       <ToggleContextProvider>
+
         <Toaster position="top-right" reverseOrder={false} />
         <Router>
           <Routes>
@@ -62,6 +65,7 @@ function App() {
             />
           </Routes>
         </Router>
+
       </ToggleContextProvider>
     </UserContextProvider>
   );
