@@ -197,6 +197,10 @@ const Login = () => {
       }
       if (Array.isArray(error?.response?.data?.errors)) {
         error.response.data.errors.forEach(i => toast.error(i));
+        error.response.data.message && toast.error(error.response.data.message)
+      }
+      if (Array.isArray(error?.response?.data?.errors)) {
+        error.response.data.errors.forEach(i => toast.error(i));
       }
       console.log(error?.response?.data?.errors?.map(i => i));
 
@@ -300,9 +304,7 @@ const Login = () => {
                     </div>
 
                   </div>
-
                   <button type="button" onClick={() => navigate('/reset-password')} className=' text-[#DA9658] text-xs leading-4'>Forgot Password</button>
-
 
                 </div>
                 <div className=" grid gap-4">
