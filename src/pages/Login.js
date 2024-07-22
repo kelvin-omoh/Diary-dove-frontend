@@ -306,9 +306,7 @@ const Login = () => {
                     </div>
 
                   </div>
-
                   <button type="button" onClick={() => navigate('/reset-password')} className=' text-[#DA9658] text-xs leading-4'>Forgot Password</button>
-
 
                 </div>
                 <div className=" grid gap-4">
