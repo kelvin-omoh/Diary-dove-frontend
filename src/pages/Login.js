@@ -276,7 +276,7 @@ const Login = () => {
 
                   </div>
                 </label>
-                <label className="w-full items-start justify-start flex gap-[8px] flex-col" htmlFor="userName" >
+                <div className="w-full items-start justify-start flex gap-[8px] flex-col" htmlFor="userName" >
                   <p>Password</p>
                   <div className="border-[#bfc5d0d3] w-full p-4 rounded-lg border gap-2  flex items-center">
                     <AiOutlineLock className="text-[#bfc5d0d3]" size={20} />
@@ -295,9 +295,20 @@ const Login = () => {
                     </div>
 
                   </div>
-                  <button onClick={() => navigate('/reset-password')} className=' text-[#DA9658] text-xs leading-4'>Forgot Password</button>
+                  <button onClick={() => {
+                 
 
-                </label>
+                
+                
+                     navigate('/reset-password')
+                  
+                  
+                  
+                  }
+                  
+                    } className=' text-[#DA9658] text-xs leading-4'>Forgot Password</button>
+
+                </div>
                 <div className=" grid gap-4">
                   <button className="text-white bg-[#DA9658] h-full   w-full py-[24px] rounded-lg">
                     {isNewUser ? 'Login' : 'Sign Up'}

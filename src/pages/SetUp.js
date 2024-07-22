@@ -10,62 +10,63 @@ import { Usercontext } from "../context/userContext";
 
 // Custom connector to show line between steps with a specific width
 const CustomStepConnector = styled(StepConnector)(({ theme }) => ({
-  alternativeLabel: {
-    top: 22,
-    left: "calc(0% + 0px)", // Center the connector line
-    right: "calc(0% + 50px)",
-  },
-  active: {
-    "& .MuiStepConnector-line": {
-      borderColor: "white",
+    alternativeLabel: {
+        top: 22,
+        left: "calc(0% + 0px)", // Center the connector line
+        right: "calc(0% + 50px)",
     },
-  },
-  completed: {
-    "& .MuiStepConnector-line": {
-      borderColor: "grey",
+    active: {
+        "& .MuiStepConnector-line": {
+            borderColor: "white",
+        },
     },
-  },
-  line: {
-    borderColor: "grey",
-    borderTopWidth: 2,
-    borderRadius: 1,
-    width: "300px",
-  },
+    completed: {
+        "& .MuiStepConnector-line": {
+            borderColor: "grey",
+        },
+    },
+    line: {
+        borderColor: "grey",
+        borderTopWidth: 2,
+        borderRadius: 1,
+        width: "300px",
+    },
 }));
 
 const SetUp = () => {
-  const [activeStep, setActiveStep] = useState(0);
+    const [activeStep, setActiveStep] = useState(0);
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
 
-  return (
-    <div className="w-full  overflow-x-hidden flex flex-col text-start mx-auto items-center">
-      <div>
-        <img
-          className="mt-[40px] flex md:mt-20 h-12 w-44"
-          src={logo}
-          alt="DiaryDove Logo"
-        />
-      </div>
-      <div className=" text-start items-start">
-        <h5 className="mt-12 text-[20px] items-start  md:text-[40px] font-semibold">
-          Let's set up a journal for your work
-        </h5>
-        <p className="mt-5 mb-7  items-start flex text-start text-[#8F96A3] text-base">
-          Select reminder preferences below
-        </p>
-      </div>
+    return (
+        <div className="w-full ">
+            <div className='w-fit  overflow-x-hidden flex flex-col text-start  mx-auto items-center '>
+                <div className='w-full'>
+                    <img className="mt-[40px] mx-6 items-start   md:mt-20 h-12 w-44" src={logo} alt="DiaryDove Logo" />
 
-      {activeStep === 0 && (
-        <Step1 activeStep={activeStep} handleNext={handleNext} />
-      )}
-      {activeStep === 1 && (
-        <Step2 activeStep={activeStep} handleNext={handleNext} />
-      )}
+                </div>
+                <div className=''>
+                    <h5 className="mt-12 text-[20px] items-start  md:text-[40px] font-semibold">Let's set up a journal for your work</h5>
+                    <p className="mt-5 mb-7  items-start flex text-start text-[#8F96A3] text-base">Select reminder preferences below</p>
+                </div>
 
-      {/* <button
+                {activeStep === 0 && <Step1 activeStep={activeStep} handleNext={handleNext} />}
+                {activeStep === 1 && <Step2 activeStep={activeStep} handleNext={handleNext} />}
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+            {/* <button
                 className="mt-[72px] mb-[5rem]  w-[300px]  md:w-[400px] py-[16px]  bg-[#DA9658]  bg-primary text-white rounded"
                 onClick={activeStep === 1 ? (
 
@@ -77,8 +78,8 @@ const SetUp = () => {
             >
                 {activeStep === 1 ? 'Done' : 'Continue'}
             </button> */}
-    </div>
-  );
+        </div>
+    );
 };
 
 export default SetUp;
