@@ -22,6 +22,7 @@ import 'aos/dist/aos.css';
 import WhatsAppVerification from "./components/Whatappverification/Whatappverification";
 import GoogleCallback from "./components/_GoogleCallback/GoogleCallBack";
 import { useEffect } from "react";
+import Success from "./pages/SuccesFulPage";
 
 
 function App() {
@@ -51,6 +52,10 @@ function App() {
             <Route
               path="/dashboard"
               element={<PrivateRoute element={<Home />} />}
+            />
+            <Route
+              path="/success"
+              element={<Success />}
             />
             <Route path="/" element={<LandingPage />} />
             <Route

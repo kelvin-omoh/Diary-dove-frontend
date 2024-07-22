@@ -28,10 +28,10 @@ const Footer = () => {
                         </div>
                         <div className=' text-[14px] '>
                             <ul className='  grid gap-[16px] '>
-                                <li className=' text-white font-[700] '>About Us</li>
-                                <li className='text-[#8F96A3]'>Be free to get in touch with us</li>
-                                <li className='text-[#8F96A3]'>Nigeria: +234 (803) 854 1242</li>
-                                <li className='text-[#8F96A3]'>contanctus@diarydoce.com</li>
+                                <li className=' text-white font-[700] capitalize '>contact us</li>
+                                <li className='text-[#8F96A3] capitalize'>Be free to get in touch with us</li>
+                                <li className='text-[#8F96A3] capitalize'>Nigeria: +234 (803) 854 1242</li>
+                                <li className='text-[#8F96A3] capitalize'>contanctus@diarydoce.com</li>
                             </ul>
                         </div>
                     </div>

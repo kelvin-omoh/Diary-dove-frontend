@@ -47,7 +47,7 @@ const VerifyEmail = () => {
                     otp
                 });
                 toast.success(response.data.message);
-                navigate('/new-password');
+                navigate('/success');
             } else {
                 toast.error('OTP verification is incorrect');
             }

@@ -14,6 +14,7 @@ const Verification = () => {
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
   const [otp, setOtp] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => {
@@ -43,10 +44,11 @@ const Verification = () => {
 
   useEffect(() => {
     console.log(verifyEmail);
-    if (verifyEmail.length < 0) {
+    if (verifyEmail.length < 1) {
       toast.error("email verification is required ?");
     }
   }, [verifyEmail]);
+
   console.log(verifyEmail);
   const verifyOTP = async () => {
     try {

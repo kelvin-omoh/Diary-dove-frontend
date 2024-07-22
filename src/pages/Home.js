@@ -43,6 +43,7 @@ const Home = () => {
     }
   };
 
+
   useEffect(() => {
     if (
       userInfo.token !== "" &&
@@ -52,6 +53,9 @@ const Home = () => {
       getAllNotes();
     }
   }, [userInfo?.token]);
+
+        const { time, date } = getCurrentDateTime();
+
 
   const handleSave = async () => {
     const getCurrentDateTime = () => {
@@ -181,6 +185,7 @@ const Home = () => {
     }
   };
 
+
   return (
     <div className="bg-[#FDFAF7]">
       <Header />
@@ -197,6 +202,7 @@ const Home = () => {
               <BsPerson className="size-[40px]" />
             </div>
           )}
+
 
           <div className="flex flex-col items-start">
             <h1 className="leading-[21px] m-0 md:leading-[30px] font-[600] md:font-[700] text-[14px] md:text-[20px]">
@@ -223,6 +229,7 @@ const Home = () => {
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
+
 
       <Dialog
         onClose={handleClose}
@@ -268,6 +275,7 @@ const Home = () => {
                   "Save"
                 )}
               </button>
+
             </div>
           </div>
         </DialogContent>

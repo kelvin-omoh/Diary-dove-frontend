@@ -25,7 +25,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
-
+  const [loading, setIsLoading] = useState(false);
   const { userInfo, handleVerifyEmail } = useContext(Usercontext);
   const navigate = useNavigate();
   const formRef = useRef(null); // Ref to target the form element
@@ -140,7 +140,20 @@ const Signup = () => {
     if (userInfo?.token) {
       navigate("/dashboard");
     }
-  }, [userInfo?.token]);
+
+  }, [userInfo?.token])
+
+  const handleGoogleAuth = async () => {
+    try {
+      // window.location.href = 'http://localhost:8000/auth/google';
+      window.location.href = 'https://dairydoveii.onrender.com/auth/google/';
+    } catch (error) {
+      console.error('Error during Google authentication:', error);
+    }
+  };
+
+
+
   return (
     <div className="bg-[#FDFAF7] w-full relative h-full py-0 md:py-[25.5px] flex">
       <div className="bg-gradient-to-b hidden relative left-sm left-md from-[#DA9658] to-[#91643B] h-[101vh] w-[100vw]">
@@ -363,22 +376,19 @@ const Signup = () => {
 
           <button
             type="submit"
-            className="text-white bg-[#DA9658] mt-[8px] w-full py-[24px] rounded-lg"
+            className="text-white bg-[#DA9658] mt-[8px] w-full py-[12px] rounded-lg"
           >
             {!isNewUser ? "Sign Up" : "Login"}
           </button>
-          <div className="text-[#8F96A3] grid grid-cols-3 items-center">
-            <hr className="text-[#d7d7d7] border-[#d8d8d9] border" />
-            <p>Or sign up with</p>
-            <hr className="text-[#d7d7d7] border-[#d8d8d9] border" />
+          <div className="text-[#8F96A3] flex justify-center items-center">
+            <hr className="text-[#d7d7d7] w-[106px] md:w-full mx-[.3rem] border-[#F1F2F3] border" />
+            <p className="text-sm px-[14px] whitespace-nowrap">Or continue with</p>
+            <hr className="text-[#d7d7d7] w-[106px] md:w-full mx-[.3rem] border-[#F1F2F3] border" />
           </div>
-          <div className=" gap-[8px] text-[18px] font-[400] border-[#F1F2F3] border-1 border p-[8px] w-full text-center rounded-lg items-center flex justify-center mx-auto">
-            <img
-              src={google}
-              className="text-[#bfc5d0d3] cursor-pointer size-[24px]"
-              alt="Google"
-            />{" "}
-            Google
+          <div onClick={() => handleGoogleAuth()} className=" gap-[16px] text-[18px] font-[400] border-[#F1F2F3] border p-[8px] w-full text-center rounded-lg  cursor-pointer items-center flex justify-center mx-auto">
+
+            <img src={google} className="text-[#bfc5d0d3] size-[24px]" alt="Google" />
+            <p className="size-fit" >Google</p>
           </div>
         </form>
       </div>
