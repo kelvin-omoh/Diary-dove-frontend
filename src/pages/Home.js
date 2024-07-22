@@ -72,6 +72,8 @@ const Home = () => {
             return { time, date };
         };
 
+        const { time, date } = getCurrentDateTime();
+
         try {
             if (editIndex !== null) {
                 // Update existing note
@@ -187,7 +189,7 @@ const Home = () => {
 
 
     return (
-        <div className="bg-[#FDFAF7]">
+        <div className="h-[170vh] pb-[3rem] md:h-full bg-[#FDFAF7]">
             <Header />
             <div className="pt-[104px] py-[32px] items-center flex gap-3 md:justify-between px-[24px] md:px-[80px]">
                 <div className="flex items-center gap-[12px]">
@@ -208,14 +210,14 @@ const Home = () => {
                         <h1 className="leading-[21px] m-0 md:leading-[30px] font-[600] md:font-[700] text-[14px] md:text-[20px]">
                             Welcome {formatLastName(userInfo?.fullname)}
                         </h1>
-                        <p className="text-[#7C7B87] text-[12px] md:text-[16px] leading-6">
+                        <p className="text-[#7C7B87] text-[12px] md:text-[16px] items-start text-start leading-6">
                             What are you writing about today?
                         </p>
                     </div>
                 </div>
                 <div>
                     <button
-                        className="text-white w-[100px] md:w-[189px]  px-[12px] py-[12px] md:px-[46px] md:py-[17px] text-[14px] md:text-[16px] rounded-[8px] bg-[#DA9658]"
+                        className="text-white w-[100px] md:w-[189px]  px-[12px] py-[8px] md:px-[46px] md:py-[17px] text-[14px] md:text-[16px] rounded-[8px] bg-[#DA9658]"
                         onClick={handleClickOpen}
                     >
                         Create note
