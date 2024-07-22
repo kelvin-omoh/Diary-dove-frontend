@@ -56,7 +56,7 @@ const LandingPage = () => {
         <div className='bg-gradient-to-t h-full pb-[4rem]    from-[#FAF2EA] ] to-[#fff9f3] '>
             <Header />
             <Hero />
-            <section data-aos="fade-up-left" id="services" className=' overflow-hidden md:pb-[80px] pb-[64px]  px-0 md:px-[80px] ' >
+            <section data-aos="fade-up-left" id="services" className=' overflow-hidden md:pb-[80px] pb-[64px]  px-0  ' >
                 <section className=' overflow-hidden  mb-[56px]'>
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import logo from '../../assets/DiaraDove Logo.png';
 import { useNavigate } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
@@ -51,6 +51,8 @@ const Header = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
+  
+
 
     const navigate = useNavigate();
 
@@ -64,15 +66,15 @@ const Header = () => {
             </button>
             <div className='hidden md:flex items-center justify-center'>
                 <ul className='flex gap-[56px] items-center'>
-                    {links.map(link => (
+                    {links.map((link) => (
                         <li key={link.name} onClick={() => setIsMobileMenuOpen(false)}>
                             <Link to={link.path} className='ease-in z-[50] relative transition-all duration-150 hover:text-[#dd9a5b]' >{link.name}</Link>
 
                         </li>
                     ))}
                 </ul>
-                <div className='flex gap-[16px] items-center ml-[64px]'>
-                    <button onClick={() => navigate("/login")} className='rounded-lg border border-[#F1F2F3] px-[24px] py-[8px]'>Sign In</button>
+                <div className='flex gap-[16px]  items-center ml-[64px]'>
+                    <button onClick={() => navigate("/login")} className='rounded-lg w-[158px] border border-[#F1F2F3] px-[24px] py-[8px]'>sign In</button>
                     <button onClick={() => navigate("/sign-up")} className='bg-[#DA9658] text-white rounded-lg px-[24px] py-[8px]'>Sign up for free</button>
                 </div>
             </div>
@@ -80,7 +82,7 @@ const Header = () => {
             {/* Mobile menu */}
             <div className={`md:hidden flex-col z-[50] py-[30px] absolute top-[65px] left-0 text-white w-full flex items-center justify-center transition-all bg-black/80 backdrop-blur-sm duration-300 ease-in-out ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
                 <ul className='flex flex-col z-[50] relative justify-center gap-[20px] items-center'>
-                    {links.map(link => (
+                    {links.map((link) => (
                         <li key={link.name} onClick={() => setIsMobileMenuOpen(false)}>
                             <Link to={link.path} scroll={customScroll} className='ease-in z-[50] relative transition-all duration-150 hover:text-[#dd9a5b]'>
                                 {link.name}
@@ -90,8 +92,9 @@ const Header = () => {
                     ))}
                 </ul>
                 <div className='flex flex-col z-[50] relative gap-[20px] mt-[24px] justify-center items-center'>
-                    <button onClick={() => navigate("/login")} className='rounded-lg border z-[50] relative hover:bg-[#8c6138] ease-in transition-all duration-150 border-[#F1F2F3] px-[24px] py-[8px]'>Sign In</button>
-                    <button onClick={() => navigate("/sign-up")} className='bg-[#DA9658] z-[50] relative hover:bg-[#8c6138] ease-in transition-all duration-150 text-white rounded-lg px-[24px] py-[8px]'>Sign up for free</button>
+                    <button onClick={() => navigate("/login")} className='border z-[50] relative hover:bg-[#f39844] hover:border-none ease-in transition-all duration-150 text-white rounded-lg px-[24px] py-[8px] w-full '>Sign In</button>
+                    <button onClick={() => navigate("/sign-up")} className='bg-[#DA9658] z-[50] relative  hover:bg-[#f39844] hover:border-yellow-20ease-in transition-all duration-150 text-white rounded-lg px-[24px] py-[8px] w-full
+                    '>Sign up for free</button>
                 </div>
             </div>
         </div>
