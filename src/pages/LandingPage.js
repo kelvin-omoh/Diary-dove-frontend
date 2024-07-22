@@ -53,7 +53,7 @@ const LandingPage = () => {
     const navigate = useNavigate()
 
     return (
-        <div className='bg-gradient-to-t h-full   from-[#FAF2EA] ] to-[#fff9f3] '>
+        <div className='bg-gradient-to-t h-full pb-[4rem]   from-[#FAF2EA] ] to-[#fff9f3] '>
             <Header />
             <Hero />
             <section data-aos="fade-up-left" id="services" className=' md:pb-[80px] pb-[64px]  px-0 md:px-[80px] ' >
@@ -115,9 +115,8 @@ const LandingPage = () => {
                     <h1 className=' font-[600] mb-[32px] text-[20px] text-center  md:text-[40px]'>How it works</h1>
                     <div data-aos="zoom-out-up" className='  grid gap-[44px] px-6 md:grid-cols-2 grid-cols-1'>
                         {howItWorks.map((item) => (
-                            <div data-aos="zoom-in"
-
-
+                            <div data-aos="fade-in"
+                                data-aos-offset="-30"
                                 data-aos-delay="50"
                                 data-aos-duration="800"
                                 data-aos-easing="ease-in-out"
