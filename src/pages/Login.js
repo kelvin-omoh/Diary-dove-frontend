@@ -33,7 +33,6 @@ const Login = () => {
 
   const [loading, setIsLoading] = useState(false);
 
-
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get("token");
@@ -179,20 +178,16 @@ const Login = () => {
       console.log(error.status);
 
       if (error.response.status === 400) {
-
-
-        error.response.data.message && toast.error(error.response.data.message)
+        error.response.data.message && toast.error(error.response.data.message);
       }
       if (Array.isArray(error?.response?.data?.errors)) {
-        error.response.data.errors.forEach(i => toast.error(i));
-        error.response.data.message && toast.error(error.response.data.message)
+        error.response.data.errors.forEach((i) => toast.error(i));
+        error.response.data.message && toast.error(error.response.data.message);
       }
       if (Array.isArray(error?.response?.data?.errors)) {
-        error.response.data.errors.forEach(i => toast.error(i));
+        error.response.data.errors.forEach((i) => toast.error(i));
       }
-      console.log(error?.response?.data?.errors?.map(i => i));
-
-
+      console.log(error?.response?.data?.errors?.map((i) => i));
     }
   };
 
@@ -303,8 +298,10 @@ const Login = () => {
                   </div>
                 </label>
 
-                <div className="w-full items-start justify-start flex gap-[8px] flex-col" htmlFor="userName" >
-
+                <div
+                  className="w-full items-start justify-start flex gap-[8px] flex-col"
+                  htmlFor="userName"
+                >
                   <p>Password</p>
                   <div className="border-[#bfc5d0d3] w-full p-4 rounded-lg border gap-2  flex items-center">
                     <AiOutlineLock className="text-[#bfc5d0d3] size-5 " />
@@ -318,25 +315,29 @@ const Login = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
 
-
-                    <div className=" text-gray-400" onClick={() => setVisible(!visible)}>
-                      {visible ? < PiEyeLight className="size-5" /> : <PiEyeSlashLight className=" size-5" />}
-                      {visible ? < PiEyeLight className="size-5" /> : <PiEyeSlashLight className=" size-5" />}
-
+                    <div
+                      className=" text-gray-400"
+                      onClick={() => setVisible(!visible)}
+                    >
+                      {visible ? (
+                        <PiEyeLight className="size-5" />
+                      ) : (
+                        <PiEyeSlashLight className=" size-5" />
+                      )}
                     </div>
                   </div>
 
-                  <button type="button" onClick={() => navigate('/reset-password')} className=' text-[#DA9658] text-xs leading-4'>Forgot Password</button>
-
+                  <button
+                    type="button"
+                    onClick={() => navigate("/reset-password")}
+                    className=" text-[#DA9658] text-xs leading-4"
+                  >
+                    Forgot Password
+                  </button>
                 </div>
                 <div className=" grid gap-4">
                   <button className="text-white bg-[#DA9658] h-full   w-full py-[12px] rounded-lg">
-
-                    {!loading &&
-                      <>
-                        {isNewUser ? 'Login' : 'Sign Up'}
-                      </>
-                    }
+                    {!loading && <>{isNewUser ? "Login" : "Sign Up"}</>}
                     {loading && (
                       <CircularProgress
                         size={20}
@@ -344,11 +345,12 @@ const Login = () => {
                         className=" text-white ml-[.5rem]"
                       />
                     )}
-
                   </button>
                   <div className="text-[#8F96A3] flex justify-center items-center">
                     <hr className="text-[#d7d7d7] w-[106px] md:w-full mx-[.3rem] border-[#F1F2F3] border" />
-                    <p className="text-sm px-[14px] whitespace-nowrap">Or continue with</p>
+                    <p className="text-sm px-[14px] whitespace-nowrap">
+                      Or continue with
+                    </p>
                     <hr className="text-[#d7d7d7] w-[106px] md:w-full mx-[.3rem] border-[#F1F2F3] border" />
                   </div>
 
