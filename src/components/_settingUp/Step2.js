@@ -6,11 +6,7 @@ import {
   createTheme,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
-import {
-  Box,
-  Typography
-
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import {
   Timeline,
   TimelineItem,
@@ -18,11 +14,7 @@ import {
   TimelineContent,
   TimelineDot,
 } from "@mui/lab";
-import {
-  BsCheck,
-  BsChevronDown,
-  BsChevronUp,
-} from "react-icons/bs";
+import { BsCheck, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import trash from "../../assets/trash_2.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -54,12 +46,10 @@ const renderDashedLine = () => {
   return segments;
 };
 
-
-
 const Step2 = () => {
   const [open, setOpen] = useState(false);
   const [reminders, setReminders] = useState([]);
-  const [reminder, setReminder] = useState("");
+  const [reminder, setReminder] = useState("Everyday"); // Set "Everyday" as the default value
   const [time, setTime] = useState({ hour: "", minute: "", period: "AM" });
   const [checkReminder, setCheckReminder] = useState(true);
   const navigate = useNavigate();
@@ -86,7 +76,6 @@ const Step2 = () => {
       [field]: inputValue,
     }));
   };
-
 
   const handleAlignment = (period) => {
     setTime((prevTime) => ({
@@ -255,10 +244,11 @@ const Step2 = () => {
                   <FormControl fullWidth>
                     <InputLabel
                       sx={{ outline: "none", border: "none" }}
-                      className={`border outline-none  rounded-sm  ${!checkReminder
-                        ? "border-[#ff6a67] "
-                        : "border-[#F1F2F3] "
-                        }`}
+                      className={`border outline-none  rounded-sm  ${
+                        !checkReminder
+                          ? "border-[#ff6a67] "
+                          : "border-[#F1F2F3] "
+                      }`}
                       id="demo-simple-select-label"
                     ></InputLabel>
                     <Select
@@ -268,10 +258,11 @@ const Step2 = () => {
                       value={reminder}
                       onChange={handleChange}
                       label=""
-                      className={`border outline-none  rounded-sm  ${!checkReminder
-                        ? "border-[#ff6a67] "
-                        : "border-[#F1F2F3] "
-                        }`}
+                      className={`border outline-none  rounded-sm  ${
+                        !checkReminder
+                          ? "border-[#ff6a67] "
+                          : "border-[#F1F2F3] "
+                      }`}
                       onOpen={handleOpen}
                       onClose={handleClose}
                       IconComponent={() => <SelectIcon open={open} />}
@@ -329,8 +320,13 @@ const Step2 = () => {
                           inputMode="numeric"
                           pattern="\d*"
                           onChange={(e) => {
-                            const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 2);
-                            e.target.value = parseInt(value || '0', 10).toLocaleString("en-US", {
+                            const value = e.target.value
+                              .replace(/[^0-9]/g, "")
+                              .slice(0, 2);
+                            e.target.value = parseInt(
+                              value || "0",
+                              10
+                            ).toLocaleString("en-US", {
                               minimumIntegerDigits: 2,
                               useGrouping: false,
                             });
@@ -345,10 +341,11 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment("AM");
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "AM"
-                              ? "bg-white text-black"
-                              : "bg-none text-gray-500"
-                              }`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
+                              time.period === "AM"
+                                ? "bg-white text-black"
+                                : "bg-none text-gray-500"
+                            }`}
                           >
                             AM
                           </button>
@@ -358,22 +355,25 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment("PM");
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "PM"
-                              ? "bg-white text-black"
-                              : "bg-none text-gray-500"
-                              }`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
+                              time.period === "PM"
+                                ? "bg-white text-black"
+                                : "bg-none text-gray-500"
+                            }`}
                           >
                             PM
                           </button>
                         </div>
                       </div>
-                      <button
-                        type="button"
-                        className="bg-[#DA9658] h-[34px] w-[34px] flex items-center justify-center text-[32px] font-light text-white rounded-full "
-                        onClick={addReminder}
-                      >
-                        +
-                      </button>
+                      <div className="flex items-center justify-center w-[34px] h-[34px]">
+                        <button
+                          type="button"
+                          className="bg-[#DA9658] h-full w-full flex items-center justify-center text-[32px] font-light text-white rounded-full "
+                          onClick={addReminder}
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                   </FormControl>
                 </label>
