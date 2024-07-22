@@ -31,6 +31,7 @@ import {
 import { BsCheck } from "react-icons/bs";
 import trash from "../../assets/trash_2.png";
 import { useNavigate } from "react-router-dom";
+import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 import { Usercontext } from "../../context/userContext";
 import toast from "react-hot-toast";
@@ -65,6 +66,16 @@ const Step2 = () => {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
+    let inputValue = event.target.value;
+
+    // Remove non-numeric characters
+    inputValue = inputValue?.replace(/[^0-9]/g, "");
+
+    // Truncate to two characters
+    if (inputValue?.length > 2) {
+      inputValue = inputValue?.slice(0, 2);
+    }
+
     setCheckReminder(true);
     setReminder(event.target.value);
   };

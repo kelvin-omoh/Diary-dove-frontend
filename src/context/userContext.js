@@ -14,11 +14,9 @@ export const UserContextProvider = ({ children }) => {
 
     useEffect(() => {
         const storedAuthData = localStorage.getItem('authData');
-        console.log('Stored Auth Data:', storedAuthData); // Debugging log
         if (storedAuthData) {
             const parsedData = JSON.parse(storedAuthData);
             if (parsedData?.token) {
-                console.log('Parsed Auth Data:', parsedData); // Debugging log
                 setUserInfo(parsedData);
             }
         }
@@ -26,7 +24,6 @@ export const UserContextProvider = ({ children }) => {
 
     useEffect(() => {
         const storedVerifyEmail = localStorage.getItem('verifyEmail');
-        console.log('Stored Verify Email:', storedVerifyEmail); // Debugging log
         if (storedVerifyEmail) {
             setVerifyEmail(JSON.parse(storedVerifyEmail).email);
         }
@@ -44,6 +41,7 @@ export const UserContextProvider = ({ children }) => {
     };
 
     const logOut = () => {
+        console.log('Logging out'); // Debugging log
         setUserInfo({});
         localStorage.removeItem('authData');
         localStorage.removeItem('verifyEmail');

@@ -14,55 +14,64 @@ import Settings from "./pages/Settings";
 import ChangeEmail from "./pages/ChangeEmail";
 import EmailVerification from "./components/_Verification/EmailVerification/EmailVerification";
 import { PrivateRoute } from "./components/hooks/PrivateRoute";
-import { Usercontext, UserContextProvider } from "./context/userContext";
+import { UserContextProvider } from "./context/userContext";
 import { ToggleContextProvider } from "./context/toggleContext";
 import LandingPage from "./pages/LandingPage";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import WhatsAppVerification from "./components/Whatappverification/Whatappverification";
+import GoogleCallback from "./components/_GoogleCallback/GoogleCallBack";
+import { useEffect } from "react";
+
 
 function App() {
+
+  useEffect(() => {
+    AOS.init();
+  }, [])
   return (
     <UserContextProvider>
       <ToggleContextProvider>
-        <div className="App">
-          <Toaster position="top-right" reverseOrder={false} />
-          <Router>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route
-                path="/verify-whatsapp"
-                element={<WhatsAppVerification />}
-              />
 
-              <Route path="/sign-up" element={<Signup />} />
-              <Route path="/verify" element={<Verification />} />
-              <Route path="/verify-email" element={<EmailVerification />} />
-              <Route path="/reset-password" element={<ForgetPassword />} />
-              <Route path="/verify-email" element={<VerifyEmail />} />
-              <Route path="/new-password" element={<CreateNewPassword />} />
-              <Route
-                path="/dashboard"
-                element={<PrivateRoute element={<Home />} />}
-              />
-              <Route path="/" element={<LandingPage />} />
-              <Route
-                path="/setup"
-                element={<PrivateRoute element={<SetUp />} />}
-              />
-              <Route
-                path="/settings"
-                element={<PrivateRoute element={<Settings />} />}
-              />
-              <Route
-                path="/settings/reminder"
-                element={<PrivateRoute element={<Reminder />} />}
-              />
-              <Route
-                path="/change-email"
-                element={<PrivateRoute element={<ChangeEmail />} />}
-              />
-            </Routes>
-          </Router>
-        </div>
+        <Toaster position="top-right" reverseOrder={false} />
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/verify-whatsapp"
+              element={<WhatsAppVerification />}
+            />
+            <Route path="/auth/callback" element={<GoogleCallback />} />
+            <Route path="/sign-up" element={<Signup />} />
+            <Route path="/verify" element={<Verification />} />
+            <Route path="/verify-email" element={<EmailVerification />} />
+            <Route path="/reset-password" element={<ForgetPassword />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/new-password" element={<CreateNewPassword />} />
+            <Route
+              path="/dashboard"
+              element={<PrivateRoute element={<Home />} />}
+            />
+            <Route path="/" element={<LandingPage />} />
+            <Route
+              path="/setup"
+              element={<PrivateRoute element={<SetUp />} />}
+            />
+            <Route
+              path="/settings"
+              element={<PrivateRoute element={<Settings />} />}
+            />
+            <Route
+              path="/settings/reminder"
+              element={<PrivateRoute element={<Reminder />} />}
+            />
+            <Route
+              path="/change-email"
+              element={<PrivateRoute element={<ChangeEmail />} />}
+            />
+          </Routes>
+        </Router>
+
       </ToggleContextProvider>
     </UserContextProvider>
   );

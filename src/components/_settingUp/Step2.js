@@ -1,42 +1,30 @@
 import {
-  Checkbox,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  ThemeProvider,
-  ToggleButton,
-  ToggleButtonGroup,
   createTheme,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
 import {
   Box,
-  Typography,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
+  Typography
+
 } from "@mui/material";
 import {
   Timeline,
   TimelineItem,
   TimelineSeparator,
-  TimelineConnector,
   TimelineContent,
-  TimelineOppositeContent,
   TimelineDot,
 } from "@mui/lab";
 import {
   BsCheck,
-  BsChevronBarDown,
   BsChevronDown,
   BsChevronUp,
 } from "react-icons/bs";
 import trash from "../../assets/trash_2.png";
 import { useNavigate } from "react-router-dom";
-import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 import { Usercontext } from "../../context/userContext";
 import toast from "react-hot-toast";
@@ -66,20 +54,7 @@ const renderDashedLine = () => {
   return segments;
 };
 
-const timing = [
-  {
-    text: "Weekly",
-  },
-  {
-    text: "Monthly",
-  },
-  {
-    text: "Quarterly",
-  },
-  {
-    text: "Yearly",
-  },
-];
+
 
 const Step2 = () => {
   const [open, setOpen] = useState(false);
@@ -102,7 +77,7 @@ const Step2 = () => {
     inputValue = inputValue.replace(/[^0-9]/g, "");
 
     // Truncate to two characters
-    if (inputValue.length > 2) {
+    if (inputValue?.length > 2) {
       inputValue = inputValue.slice(0, 2);
     }
 
@@ -111,6 +86,7 @@ const Step2 = () => {
       [field]: inputValue,
     }));
   };
+
 
   const handleAlignment = (period) => {
     setTime((prevTime) => ({
@@ -279,11 +255,10 @@ const Step2 = () => {
                   <FormControl fullWidth>
                     <InputLabel
                       sx={{ outline: "none", border: "none" }}
-                      className={`border outline-none  rounded-sm  ${
-                        !checkReminder
-                          ? "border-[#ff6a67] "
-                          : "border-[#F1F2F3] "
-                      }`}
+                      className={`border outline-none  rounded-sm  ${!checkReminder
+                        ? "border-[#ff6a67] "
+                        : "border-[#F1F2F3] "
+                        }`}
                       id="demo-simple-select-label"
                     ></InputLabel>
                     <Select
@@ -293,11 +268,10 @@ const Step2 = () => {
                       value={reminder}
                       onChange={handleChange}
                       label=""
-                      className={`border outline-none  rounded-sm  ${
-                        !checkReminder
-                          ? "border-[#ff6a67] "
-                          : "border-[#F1F2F3] "
-                      }`}
+                      className={`border outline-none  rounded-sm  ${!checkReminder
+                        ? "border-[#ff6a67] "
+                        : "border-[#F1F2F3] "
+                        }`}
                       onOpen={handleOpen}
                       onClose={handleClose}
                       IconComponent={() => <SelectIcon open={open} />}
@@ -326,8 +300,8 @@ const Step2 = () => {
                       <div className=" border w-[248px] h-[68px] flex place-content-center  border-[#FAF2EA] pl-[15.5px] pr-[9px] rounded-[8px]">
                         <input
                           placeholder="00"
-                          min={0}
-                          max={59}
+                          min={1}
+                          max={12}
                           className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                           type="number"
                           value={time.hour}
@@ -350,14 +324,13 @@ const Step2 = () => {
                           max={59}
                           maxLength={2}
                           className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
-                          type="number"
+                          type="text"
                           value={time.minute}
                           inputMode="numeric"
                           pattern="\d*"
                           onChange={(e) => {
-                            e.target.value = parseInt(
-                              e.target.value
-                            ).toLocaleString("en-US", {
+                            const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 2);
+                            e.target.value = parseInt(value || '0', 10).toLocaleString("en-US", {
                               minimumIntegerDigits: 2,
                               useGrouping: false,
                             });
@@ -372,11 +345,10 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment("AM");
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
-                              time.period === "AM"
-                                ? "bg-white text-black"
-                                : "bg-none text-gray-500"
-                            }`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "AM"
+                              ? "bg-white text-black"
+                              : "bg-none text-gray-500"
+                              }`}
                           >
                             AM
                           </button>
@@ -386,11 +358,10 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment("PM");
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
-                              time.period === "PM"
-                                ? "bg-white text-black"
-                                : "bg-none text-gray-500"
-                            }`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "PM"
+                              ? "bg-white text-black"
+                              : "bg-none text-gray-500"
+                              }`}
                           >
                             PM
                           </button>

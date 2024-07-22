@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "https://dairydoveii.onrender.com/api/$1"
+        }
+    ]
+}

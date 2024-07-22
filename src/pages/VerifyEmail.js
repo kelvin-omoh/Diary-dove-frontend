@@ -28,7 +28,7 @@ const VerifyEmail = () => {
 
     const maskEmail = (email) => {
         const [name, domain] = email.split("@");
-        const maskedName = name.length > 2 ? name[0] + "***" + name[name.length - 1] : name;
+        const maskedName = name?.length > 2 ? name[0] + "***" + name[name.length - 1] : name;
         return `${maskedName}@${domain}`;
     };
 
