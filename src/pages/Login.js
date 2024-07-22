@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { LogoFunction } from "../components/Header";
 import vector1 from '../assets/Vector (3).png';
-import vector2 from '../assets/Frame 18.png';
 import Logo from '../assets/logo 2.png'
 // import phone from '../assets/Calling 1.png';
 import logo2 from '../assets/DiaraDove Logo (1).png';
 import google from '../assets/icons8-google 1.png';
-import { AiOutlineUser, AiOutlineMail, AiOutlineLock } from "react-icons/ai";
+import { AiOutlineLock } from "react-icons/ai";
 import axios from "axios";
 import gsap from "gsap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Usercontext } from "../context/userContext";
 import toast from "react-hot-toast";
 import { useGSAP } from "@gsap/react";
@@ -17,15 +16,13 @@ import Profile from "../assets/person.png"
 import Warning from "../assets/Warning.png"
 import { PiEyeLight, PiEyeSlashLight } from "react-icons/pi";
 
-import { FaEye, FaEyeSlash, FaKey } from 'react-icons/fa';
-
 
 
 const Login = () => {
 
   const navigate = useNavigate();
   const formRef = useRef(null);
-  const { verifyEmail, setVerifyEmail, handleVerifyEmail } = useContext(Usercontext)
+  const { handleVerifyEmail } = useContext(Usercontext)
   const { setAuthInfo, userInfo } = useContext(Usercontext)
   const [isNewUser, setIsNewUser] = useState(true);
   const [fullName, setFullName] = useState("");
@@ -34,6 +31,29 @@ const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false)
+  const location = useLocation();
+
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const token = queryParams.get('token');
+    const username = queryParams.get('username');
+    const email = queryParams.get('email');
+    const refreshtoken = queryParams.get('refreshtoken');
+    const setup = queryParams.get('setup');
+
+    if (token && refreshtoken) {
+      setAuthInfo({
+        token,
+        username,
+        email,
+        refreshtoken,
+        setup
+      });
+
+
+    }
+  }, [location.search]);
 
 
   useGSAP(() => {
@@ -106,6 +126,39 @@ const Login = () => {
 
 
 
+  useEffect(() => {
+    if (userInfo?.token) {
+      navigate("/dashboard")
+    }
+  }, [userInfo?.token])
+
+
+  const getUserData = async () => {
+    try {
+      const response = await axios.get('api/users/personalinfo', {
+        headers: {
+          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const newData = response.data.data;
+      const updatedData = { ...userInfo };
+
+      newData.forEach(item => {
+        const [key] = Object.keys(item);
+        const [value] = Object.values(item);
+        if (!(key in updatedData)) {
+          updatedData[key] = value;
+        }
+      });
+      setAuthInfo(updatedData);
+
+    } catch (error) {
+      toast.error('Error while getting user information');
+      console.log(error);
+    }
+  };
 
 
 
@@ -116,14 +169,17 @@ const Login = () => {
       const formData = { username: userName, password };
       const response = await axios.post("api/users/login", formData);
       console.log("Response:", response.data);
-      if (response.data.status == 'success') {
+      if (response.data.status === 'success') {
         toast.success(response.data.message)
+        getUserData();
         navigate("/setup")
         handleVerifyEmail(email)
         setAuthInfo({
           token: response.data.data[0].token,
-          username: response.data.data[1].username,
-          email: response.data.data[2].email,
+          refreshtoken: response.data.data[1].refreshtoken,
+          username: response.data.data[2].username,
+          email: response.data.data[3].email,
+          setup: response.data.data[4].setup,
         });
       }
     } catch (error) {
@@ -142,14 +198,15 @@ const Login = () => {
     }
   };
 
-  const handleGoogleAuth=async()=>{
-      try {
-        const res=await axios.get('/auth/google')
-        console.log(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-  }
+
+  const handleGoogleAuth = async () => {
+    try {
+      // window.location.href = 'http://localhost:8000/auth/google';
+      window.location.href = 'https://dairydoveii.onrender.com/auth/google/';
+    } catch (error) {
+      console.error('Error during Google authentication:', error);
+    }
+  };
 
   return (
     <div className="md:bg-[#FAF2EA] h-[100vh] rounded-[8px] w-[100vw] items-center justify-center flex  " >
@@ -194,7 +251,7 @@ const Login = () => {
           <div className=" grid py-4   gap-6 ">
             <div className=" font-[600] w-[342px] md:w-[412px] items-start justify-start flex">
               <h1 className=" h-full text-[32px]  ">
-                {isNewUser ? 'Log in to your Account' : 'Create Account'}
+                {isNewUser ? 'Log in to your Account ' : 'Create Account'}
               </h1>
             </div>
             <div className=" grid gap-4" >
@@ -250,7 +307,9 @@ const Login = () => {
                     <p className=" text-sm">Or continue with</p>
                     <hr className="text-[#d7d7d7] border-[#d8d8d9] border" />
                   </div>
-                  <div onClick={()=>handleGoogleAuth()} className=" cursor-pointer gap-[16px] text-[18px] font-[400] border-[#F1F2F3] border p-[8px] w-full text-center rounded-lg items-center flex justify-center mx-auto">
+
+                  <div onClick={() => handleGoogleAuth()} className=" gap-[16px] text-[18px] font-[400] border-[#F1F2F3] border p-[8px] w-full text-center rounded-lg  cursor-pointer items-center flex justify-center mx-auto">
+
                     <img src={google} className="text-[#bfc5d0d3] size-[24px]" alt="Google" />
                     <p className="size-fit" >Google</p>
                   </div>

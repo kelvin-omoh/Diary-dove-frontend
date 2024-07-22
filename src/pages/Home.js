@@ -66,7 +66,6 @@ const Home = () => {
             return { time, date };
         };
 
-        const { time, date } = getCurrentDateTime();
 
         try {
             if (editIndex !== null) {

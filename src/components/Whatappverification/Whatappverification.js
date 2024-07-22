@@ -1,36 +1,31 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Usercontext } from "../context/userContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import Inputs from "../components/_Verification/Inputs";
-import tick from "../assets/Tick Circle.png";
+import Inputs from "../_Verification/Inputs";
+import tick from "../../assets/Tick Circle.png";
 import axios from "axios";
+import { CircularProgress } from "@mui/material";
+import { Usercontext } from "../../context/userContext";
 
-const Verification = () => {
+const WhatsAppVerification = () => {
   const navigate = useNavigate();
-  const { verifyEmail } = useContext(Usercontext);
+  const { verifyWhatsApp, logOut } = useContext(Usercontext); // Removed setVerifyWhatsApp
   const [timer, setTimer] = useState(360); // 6 minutes countdown
-  const [canResend, setCanResend] = useState(false);
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
   const [otp, setOtp] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => {
         setTimer((prev) => prev - 1);
       }, 1000);
       return () => clearInterval(interval);
-    } else {
-      setCanResend(true);
     }
   }, [timer]);
 
-  const maskEmail = (email) => {
-    const [name, domain] = email.split("@");
-    const maskedName =
-      name.length > 2 ? name[0] + "***" + name[name.length - 1] : name;
-    return `${maskedName}@${domain}`;
-  };
+
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -42,43 +37,52 @@ const Verification = () => {
   };
 
   useEffect(() => {
-    console.log(verifyEmail);
-    if (verifyEmail.length < 0) {
-      toast.error("email verification is required ?");
+    console.log(verifyWhatsApp);
+    if (!verifyWhatsApp) {
+      toast.error("WhatsApp number verification is required.");
     }
-  }, [verifyEmail]);
-  console.log(verifyEmail);
-  const verifyOTP = async () => {
-    try {
-      if (otp.length === 6) {
-        const response = await axios.post("/api/users/verifyOTP", {
-          email: verifyEmail,
-          otp,
-        });
+  }, [verifyWhatsApp]);
 
-        localStorage.removeItem("verifyEmail");
-        toast.success(response.data.message);
-        navigate("/new-password");
-      } else {
-        toast.error("otp verification is incorrect");
+  const verifyOTP = async () => {
+    if (!isSuccess) {
+      setLoading(true);
+      try {
+        if (otp.length === 6) {
+          const response = await axios.post("/api/verify-whatsapp", {
+            phoneNumber: verifyWhatsApp,
+            otp,
+          });
+
+          localStorage.removeItem("verifyWhatsApp");
+          toast.success(response.data.message);
+          setIsSuccess(true);
+          logOut();
+        } else {
+          toast.error("OTP verification is incorrect.");
+        }
+      } catch (error) {
+        console.log(error.response.data.message);
+        toast.error(error.response.data.message);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+    } else {
+      logOut();
+      navigate("/");
     }
   };
 
   const handleResendOfCode = async () => {
     try {
-      const res = await axios.post("/api/users/resendOTPCode", {
-        email: verifyEmail,
+      const res = await axios.post("/api/resend-whatsapp-code", {
+        phoneNumber: verifyWhatsApp,
       });
       console.log(res);
       toast.success(res.data.message);
       setTimer(360);
     } catch (error) {
       toast.error(
-        "An error occurred while resending code, please try again later....."
+        "An error occurred while resending code, please try again later..."
       );
     }
   };
@@ -97,18 +101,16 @@ const Verification = () => {
             className={` font-[600] text-[20px] md:text-[32px] ${isSuccess ? "mb-[12px]" : "mb-[16px]"
               }  text-center`}
           >
-            {isSuccess ? "Verification Success" : "Verify your email address"}
+            {isSuccess ? "Verification Success" : "Verify your WhatsApp number"}
           </h1>
           {!isSuccess && (
             <>
               <p className=" text-[#8F96A3] text-[14px] md:text-[18px]  w-full leading-[27px] ">
-                A verification email has been sent to your email
-                <span className=" text-[#DA9658]">
+                Enter the code sent to 08032******. Wrong number?
+                {/*}  <span className=" text-[#DA9658]">
                   {" "}
-                  {maskEmail(verifyEmail)}
-                </span>
-                , copy the code provided in the email to complete your account
-                verification.
+                  {maskPhoneNumber(verifyWhatsApp)}
+                </span> */}
               </p>
               <Inputs
                 otp={otp}
@@ -116,6 +118,7 @@ const Verification = () => {
                 otpValues={otpValues}
                 setOtpValues={setOtpValues}
               />
+              <p className=" my-[20px]">Didn’t receive code?</p>
             </>
           )}
           <button
@@ -154,11 +157,18 @@ const Verification = () => {
           className={` w-full font-[500] rounded-[8px]  py-[16px] bg-[#DA9658] text-center text-white ${isSuccess ? "w-[192px]" : "w-full"
             }`}
         >
-          {isSuccess ? "Continue to Login" : "Verify"}
+          {loading ? (
+            <div className=" text-white items-center gap-3 justify-center flex w-full h-full">
+              Verifying...{" "}
+              <CircularProgress size={24} style={{ color: "white" }} />
+            </div>
+          ) : (
+            <> {isSuccess ? "Continue to Login" : "Verify"} </>
+          )}
         </button>
       </div>
     </div>
   );
 };
 
-export default Verification;
+export default WhatsAppVerification;

@@ -2,16 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { LogoFunction } from "../components/Header";
 import vector1 from "../assets/Vector (3).png";
 import google from "../assets/icons8-google 1.png";
-import {
-  AiFillMail,
-  AiOutlineLock,
-  AiOutlineMail,
-  AiOutlinePhone,
-  AiOutlineUser,
-  AiTwotonePhone,
-} from "react-icons/ai";
-import { BsPhoneVibrate } from "react-icons/bs";
-import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -22,11 +12,8 @@ import person from "../assets/person.png";
 import email1 from "../assets/email.png";
 import phone from "../assets/calling.png";
 import password1 from "../assets/password.png";
-import logo1 from "../assets/DiaraDove Logo.png";
 import logo3 from "../assets/Diarylogo.png";
-
-import { z } from "zod";
-import { FaEye, FaEyeSlash, FaKey } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
   const [isNewUser, setIsNewUser] = useState(false);
@@ -39,8 +26,7 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
 
-  const { verifyEmail, setVerifyEmail, handleVerifyEmail } =
-    useContext(Usercontext);
+  const { userInfo, handleVerifyEmail } = useContext(Usercontext);
   const navigate = useNavigate();
   const formRef = useRef(null); // Ref to target the form element
   const toggleNewPasswordVisibility = () => {
@@ -136,11 +122,11 @@ const Signup = () => {
         navigate("/verify");
       }
     } catch (error) {
-      if (error?.response?.status == 400) {
+      if (error?.response?.status === 400) {
         console.log(error);
         error?.response?.data?.errors?.map((e) => toast.error(e));
       }
-      if (error?.response?.status == 400) {
+      if (error?.response?.status === 400) {
       } else {
         console.log(error);
       }
@@ -150,6 +136,12 @@ const Signup = () => {
     }
   };
 
+
+  useEffect(() => {
+    if (userInfo?.token) {
+      navigate("/dashboard")
+    }
+  }, [userInfo?.token])
   return (
     <div className="bg-[#FDFAF7] w-full relative h-full py-0 md:py-[25.5px] flex">
       <div className="bg-gradient-to-b hidden relative left-sm left-md from-[#DA9658] to-[#91643B] h-[101vh] w-[100vw]">
@@ -204,17 +196,15 @@ const Signup = () => {
         <div className="bg-[#E0A7741A]  p-[4px] rounded-[8px] flex gap-[4px] w-[342px] md:w-[412px] mx-[24px] md:mx-[80px]">
           <button
             onClick={() => navigate("/login")}
-            className={`transition-all duration-300 ease-out ${
-              isNewUser && "bg-[white]"
-            } w-full justify-center  px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
+            className={`transition-all duration-300 ease-out ${isNewUser && "bg-[white]"
+              } w-full justify-center  px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
           >
             Existing User
           </button>
           <button
             onClick={() => navigate("/sign-up")}
-            className={`transition-all duration-300 ease-out ${
-              !isNewUser && "bg-[white]"
-            } w-full justify-center px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
+            className={`transition-all duration-300 ease-out ${!isNewUser && "bg-[white]"
+              } w-full justify-center px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
           >
             New User
           </button>
@@ -337,9 +327,8 @@ const Signup = () => {
               /> */}
 
               <div
-                className={`${
-                  errors.newPassword ? "border-red-500" : ""
-                } flex  relative w-full items-center gap-[8px]`}
+                className={`${errors.newPassword ? "border-red-500" : ""
+                  } flex  relative w-full items-center gap-[8px]`}
               >
                 <img src={password1} className="text-[#B4B9C2]" />
                 <input

@@ -11,7 +11,7 @@ import { CircularProgress } from '@mui/material';
 const Verification = () => {
 
     const navigate = useNavigate()
-    const { verifyEmail, setVerifyEmail, logOut } = useContext(Usercontext)
+    const { verifyEmail, logOut } = useContext(Usercontext)
     const [timer, setTimer] = useState(360); // 6 minutes countdown
     const [canResend, setCanResend] = useState(false);
     const [message, setMessage] = useState("");

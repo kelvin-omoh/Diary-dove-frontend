@@ -8,15 +8,26 @@ export const Layout = ({ children }) => {
     console.log(toggle);
     return (
 
-        <div className='bg-[#DA9658] w-[100vw] h-[100vh] relative'>
-            <Header />
+        <div className=' w-[100vw] h-full relative'>
+
             <Sidebar />
-            <div className='bg-[#DA9658] ml-0 md:ml-[320px] pt-[104px] relative z-0 px-[144px] pb-[80px]'>
-                <div className='absolute top-0 right-0 rounded-tl-[16px] w-full px-[24px] md:px-[80px] pt-[103px] md:pt-[152px] ml-[220px] bg-[#ffffff]'>
-                    {React.Children.map(children, (child) => {
-                        return React.cloneElement(child, { toggle, handleToggle });
-                    })}
+            <div className=' ml-0 md:ml-[320px] h-full relative '>
+                <div className={` z-0 md:z-[100]' : ' md:z-[100] z-[0]'} relative h-fit w-full`}>
+
+                    <div className=' w-full bg-white  h-[100vh]   shadow-lg rounded-l-[48px] '>
+                        <Header />
+                        <div className='px-[24px] md:px-[80px] h-full overflow-y-scroll pt-[48px]'>
+                            <div className=' rounded-full pt-[81px] '>
+                                {React.Children.map(children, (child) => {
+                                    return React.cloneElement(child, { toggle, handleToggle });
+                                })}
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
+
             </div>
         </div>
 

@@ -4,14 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
 * {
   font-family: "Fredoka", sans-serif;
   font-optical-sizing: auto;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-style: normal;
-  scroll-behavior: smooth;
-
-
 }
