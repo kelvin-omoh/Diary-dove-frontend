@@ -12,7 +12,7 @@ import person from "../assets/person.png";
 import email1 from "../assets/email.png";
 import phone from "../assets/calling.png";
 import password1 from "../assets/password.png";
-import logo3 from "../assets/Diarylogo.png";
+import logo3 from "../assets/DiaraDove Logo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
@@ -136,11 +136,11 @@ const Signup = () => {
     }
   };
 
-
   useEffect(() => {
     if (userInfo?.token) {
-      navigate("/dashboard")
+      navigate("/dashboard");
     }
+
   }, [userInfo?.token])
 
   const handleGoogleAuth = async () => {
@@ -151,6 +151,7 @@ const Signup = () => {
       console.error('Error during Google authentication:', error);
     }
   };
+
 
 
   return (
@@ -207,15 +208,17 @@ const Signup = () => {
         <div className="bg-[#E0A7741A]  p-[4px] rounded-[8px] flex gap-[4px] w-[342px] md:w-[412px] mx-[24px] md:mx-[80px]">
           <button
             onClick={() => navigate("/login")}
-            className={`transition-all duration-300 ease-out ${isNewUser && "bg-[white]"
-              } w-full justify-center  px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
+            className={`transition-all duration-300 ease-out ${
+              isNewUser && "bg-[white]"
+            } w-full justify-center  px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
           >
             Existing User
           </button>
           <button
             onClick={() => navigate("/sign-up")}
-            className={`transition-all duration-300 ease-out ${!isNewUser && "bg-[white]"
-              } w-full justify-center px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
+            className={`transition-all duration-300 ease-out ${
+              !isNewUser && "bg-[white]"
+            } w-full justify-center px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
           >
             New User
           </button>
@@ -338,8 +341,9 @@ const Signup = () => {
               /> */}
 
               <div
-                className={`${errors.newPassword ? "border-red-500" : ""
-                  } flex  relative w-full items-center gap-[8px]`}
+                className={`${
+                  errors.newPassword ? "border-red-500" : ""
+                } flex  relative w-full items-center gap-[8px]`}
               >
                 <img src={password1} className="text-[#B4B9C2]" />
                 <input

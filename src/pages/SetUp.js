@@ -1,37 +1,35 @@
-import React, { useContext, useState } from 'react';
-import logo from '../assets/DiaraDove Logo.png';
-import { StepConnector, } from '@mui/material';
-import { createTheme, styled } from '@mui/material/styles';
+import React, { useContext, useState } from "react";
+import logo from "../assets/DiaraDove Logo.png";
+import { StepConnector } from "@mui/material";
+import { createTheme, styled } from "@mui/material/styles";
 
-import Step2 from '../components/_settingUp/Step2';
-import Step1 from '../components/_settingUp/Step1'
-import { useNavigate } from 'react-router-dom';
-import { Usercontext } from '../context/userContext';
-
-
+import Step2 from "../components/_settingUp/Step2";
+import Step1 from "../components/_settingUp/Step1";
+import { useNavigate } from "react-router-dom";
+import { Usercontext } from "../context/userContext";
 
 // Custom connector to show line between steps with a specific width
 const CustomStepConnector = styled(StepConnector)(({ theme }) => ({
     alternativeLabel: {
         top: 22,
-        left: 'calc(0% + 0px)', // Center the connector line
-        right: 'calc(0% + 50px)',
+        left: "calc(0% + 0px)", // Center the connector line
+        right: "calc(0% + 50px)",
     },
     active: {
-        '& .MuiStepConnector-line': {
-            borderColor: 'white',
+        "& .MuiStepConnector-line": {
+            borderColor: "white",
         },
     },
     completed: {
-        '& .MuiStepConnector-line': {
-            borderColor: 'grey',
+        "& .MuiStepConnector-line": {
+            borderColor: "grey",
         },
     },
     line: {
-        borderColor: 'grey',
+        borderColor: "grey",
         borderTopWidth: 2,
         borderRadius: 1,
-        width: '300px',
+        width: "300px",
     },
 }));
 
@@ -44,24 +42,19 @@ const SetUp = () => {
 
     return (
         <div className="w-full ">
-           <div className='w-fit  overflow-x-hidden flex flex-col text-start  mx-auto items-center '>
-            <div className='w-full'>
-            <img className="mt-[40px] mx-6 items-start   md:mt-20 h-12 w-44" src={logo} alt="DiaryDove Logo" />
+            <div className='w-fit  overflow-x-hidden flex flex-col text-start  mx-auto items-center '>
+                <div className='w-full'>
+                    <img className="mt-[40px] mx-6 items-start   md:mt-20 h-12 w-44" src={logo} alt="DiaryDove Logo" />
 
+                </div>
+                <div className=''>
+                    <h5 className="mt-12 text-[20px] items-start  md:text-[40px] font-semibold">Let's set up a journal for your work</h5>
+                    <p className="mt-5 mb-7  items-start flex text-start text-[#8F96A3] text-base">Select reminder preferences below</p>
+                </div>
+
+                {activeStep === 0 && <Step1 activeStep={activeStep} handleNext={handleNext} />}
+                {activeStep === 1 && <Step2 activeStep={activeStep} handleNext={handleNext} />}
             </div>
-            <div className=''>
-                <h5 className="mt-12 text-[20px] items-start  md:text-[40px] font-semibold">Let's set up a journal for your work</h5>
-                <p className="mt-5 mb-7  items-start flex text-start text-[#8F96A3] text-base">Select reminder preferences below</p>
-            </div>
-
-            {activeStep === 0 && <Step1 activeStep={activeStep} handleNext={handleNext} />}
-            {activeStep === 1 && <Step2 activeStep={activeStep} handleNext={handleNext} />}
-           </div>
-
-          
-            
-          
-
 
 
 
@@ -80,9 +73,6 @@ const SetUp = () => {
             >
                 {activeStep === 1 ? 'Done' : 'Continue'}
             </button> */}
-
-
-
         </div>
     );
 };

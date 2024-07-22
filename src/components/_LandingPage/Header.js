@@ -37,12 +37,13 @@ const customScroll = (el) => {
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+    const focusedLinkRef = useRef(null);
+    const navigate = useNavigate();
 
     const links = [
-        { name: 'Services', path: '#services' },
-        { name: 'How it works', path: '#how-it-works' },
-        { name: 'Contact Us', path: '#footer' },
+        { name: 'Services', path: '/' },
+        { name: 'How it works', path: '/se ' },
+        { name: 'Contact Us', path: '/footer' },
     ];
 
 
@@ -51,10 +52,50 @@ const Header = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
-  
+    useEffect(() => {
+        if (focusedLinkRef.current) {
+            focusedLinkRef.current.focus();
+            focusedLinkRef.current = null; // Reset the ref after focusing
+        }
+    }, [focusedLinkRef]);
 
+    const handleScroll = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+            const offset = -90; // Adjust this value for your desired offset
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset + offset;
+            smoothScrollTo(offsetPosition);
+            setIsMobileMenuOpen(false); // Close the menu after clicking a link
 
-    const navigate = useNavigate();
+            // Focus on the link after scrolling
+            focusedLinkRef.current = id;
+        }
+    };
+
+    const smoothScrollTo = (targetPosition) => {
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const duration = 200; // Duration in milliseconds
+        let startTime = null;
+
+        const animation = (currentTime) => {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const run = ease(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        };
+
+        const ease = (t, b, c, d) => {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        };
+
+        requestAnimationFrame(animation);
+    };
 
     return (
         <div className='z-10 fixed top-0 w-[100vw] flex flex-row items-center py-[16px] justify-between px-[24px] md:px-[80px] bg-white'>
