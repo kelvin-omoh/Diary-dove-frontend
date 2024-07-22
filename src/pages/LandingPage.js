@@ -53,10 +53,10 @@ const LandingPage = () => {
     const navigate = useNavigate()
 
     return (
-        <div className='bg-gradient-to-t h-full pb-[50px] overflow-x-hidden    from-[#FAF2EA] ] to-[#fff9f3] '>
+        <div className='bg-gradient-to-t h-full   from-[#FAF2EA] ] to-[#fff9f3] '>
             <Header />
             <Hero />
-            <section data-aos="fade-up-left" id="services" className=' overflow-x-hidden md:pb-[80px] pb-[64px]  px-0 md:px-[80px] ' >
+            <section data-aos="fade-up-left" id="services" className=' md:pb-[80px] pb-[64px]  px-0 md:px-[80px] ' >
                 <section className='  mb-[56px]'>
 
 
@@ -64,8 +64,8 @@ const LandingPage = () => {
 
                         data-aos-offset="-200"
                         data-aos-delay="50"
-                        data-aos-duration="800"
-                        data-aos-easing="ease"
+                        data-aos-duration="500"
+                        data-aos-easing="ease-in-out"
                         data-aos-mirror="true"
                         data-aos-once="false"
                         data-aos-anchor-placement="top-center"
@@ -78,17 +78,17 @@ const LandingPage = () => {
                             <button onClick={() => navigate("#howitworks")} className=' mt-[32px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[16px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </button>
                         </div>
                         <div className='bg-gradient-to-t px-[48px] md:px-0 from-[#FAF2EA] ] to-[#fff9f3] md:w-auto w-full'>
-                            <img className=" h-full md:h-[496px] object-contain w-[512px] " src={screen1} alt="" />
+                            <img data-aos="fade-in" className=" h-full md:h-[496px] object-contain w-[512px] " src={screen1} alt="" />
                         </div>
                     </div>
 
 
                     <div data-aos="fade-right"
 
-                        data-aos-offset="-50"
+                        data-aos-offset="-200"
                         data-aos-delay="50"
                         data-aos-duration="800"
-                        data-aos-easing="ease"
+                        data-aos-easing="ease-in-out"
                         data-aos-mirror="true"
                         data-aos-once="false"
                         data-aos-anchor-placement="top-center"
@@ -100,7 +100,7 @@ const LandingPage = () => {
                             <button className=' mt-[32px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[16px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </button>
                         </div>
                         <div className='bg-gradient-to-t px-[48px] md:px-0 from-[#FAF2EA]  to-[#fff9f3] md:w-auto w-full'>
-                            <img className=" h-full md:h-[496px] object-contain w-[512px] " src={screen2} alt="" />
+                            <img data-aos="fade" className=" h-full md:h-[496px] object-contain w-[512px] " src={screen2} alt="" />
                         </div>
                     </div>
 
@@ -115,14 +115,15 @@ const LandingPage = () => {
                     <h1 className=' font-[600] mb-[32px] text-[20px] text-center  md:text-[40px]'>How it works</h1>
                     <div data-aos="zoom-out-up" className='  grid gap-[44px] px-6 md:grid-cols-2 grid-cols-1'>
                         {howItWorks.map((item) => (
-                            <div data-aos="fade"
+                            <div data-aos="zoom-in"
+
                                 data-aos-offset="200"
                                 data-aos-delay="50"
-                                data-aos-duration="1000"
+                                data-aos-duration="800"
                                 data-aos-easing="ease-in-out"
                                 data-aos-mirror="true"
                                 data-aos-once="false"
-
+                                data-aos-anchor-placement="top-center"
                                 key={item.title} className=' bg-[white] p-[32px] w-full md:items-start items-center rounded-lg justify-center  gap-[8px] md:text-start text-center flex flex-col'>
                                 <img src={item.img} alt={item.title} className='  size-[72px] ' />
                                 <h1 className=' font-[600] text-[20px]'>{item.title}</h1>
