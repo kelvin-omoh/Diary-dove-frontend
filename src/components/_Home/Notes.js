@@ -69,7 +69,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
           {/* Notes */}
           {paginatedNotes && paginatedNotes?.length === 0 && (
             <p className="mt-[5.1rem] flex gap-2 justify-center text-gray-400 text-[3rem] items-center mx-auto w-full">
-              <BiBookOpen size={60} /> Your diary is Empty ooooo.
+              <BiBookOpen size={60} /> Your diary is Empty.
             </p>
           )}
           <div
