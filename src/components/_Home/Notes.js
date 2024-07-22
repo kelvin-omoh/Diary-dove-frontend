@@ -100,6 +100,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                                 }`
                             : note?.content}
                         </p>
+
                       )}
                       {note?.content && (
                         <p className=" md:hidden text-[14px] md:text-[14px] text-[#5d739d] justify-start text-start leading-[16px] md:leading-[21px] overflow-y-scroll">
@@ -142,6 +143,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                   </div>
                 </div>
               ))}
+
 
             {/* {paginatedNotes.map((note, index) => (
                             <div key={note.id} className='flex justify-between flex-col md:max-h-[208px] h-[200px] bg-[#FFFFFF] p-[24px]'>

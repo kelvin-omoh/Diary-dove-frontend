@@ -188,6 +188,7 @@ const Login = () => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
+      setIsLoading(false);
       console.log("Error:", error);
       console.log(error.status);
 
@@ -301,10 +302,13 @@ const Login = () => {
 
                     <div className=" text-gray-400" onClick={() => setVisible(!visible)}>
                       {visible ? < PiEyeLight className="size-5" /> : <PiEyeSlashLight className=" size-5" />}
+                      {visible ? < PiEyeLight className="size-5" /> : <PiEyeSlashLight className=" size-5" />}
                     </div>
 
                   </div>
+
                   <button type="button" onClick={() => navigate('/reset-password')} className=' text-[#DA9658] text-xs leading-4'>Forgot Password</button>
+
 
                 </div>
                 <div className=" grid gap-4">

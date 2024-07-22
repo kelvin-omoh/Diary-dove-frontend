@@ -114,8 +114,8 @@ const Header = () => {
                         </li>
                     ))}
                 </ul>
-                <div className='flex gap-[16px] items-center ml-[64px]'>
-                    <button onClick={() => navigate("/login")} className='rounded-lg border border-[#F1F2F3] px-[24px] py-[8px]'>Sign In</button>
+                <div className='flex gap-[16px]  items-center ml-[64px]'>
+                    <button onClick={() => navigate("/login")} className='rounded-lg w-[158px] border border-[#F1F2F3] px-[24px] py-[8px]'>sign In</button>
                     <button onClick={() => navigate("/sign-up")} className='bg-[#DA9658] text-white rounded-lg px-[24px] py-[8px]'>Sign up for free</button>
                 </div>
             </div>
@@ -133,8 +133,9 @@ const Header = () => {
                     ))}
                 </ul>
                 <div className='flex flex-col z-[50] relative gap-[20px] mt-[24px] justify-center items-center'>
-                    <button onClick={() => navigate("/login")} className='rounded-lg border z-[50] relative hover:bg-[#8c6138] ease-in transition-all duration-150 border-[#F1F2F3] px-[24px] py-[8px]'>Sign In</button>
-                    <button onClick={() => navigate("/sign-up")} className='bg-[#DA9658] z-[50] relative hover:bg-[#8c6138] ease-in transition-all duration-150 text-white rounded-lg px-[24px] py-[8px]'>Sign up for free</button>
+                    <button onClick={() => navigate("/login")} className='border z-[50] relative hover:bg-[#f39844] hover:border-none ease-in transition-all duration-150 text-white rounded-lg px-[24px] py-[8px] w-full '>Sign In</button>
+                    <button onClick={() => navigate("/sign-up")} className='bg-[#DA9658] z-[50] relative  hover:bg-[#f39844] hover:border-yellow-20ease-in transition-all duration-150 text-white rounded-lg px-[24px] py-[8px] w-full
+                    '>Sign up for free</button>
                 </div>
             </div>
         </div>

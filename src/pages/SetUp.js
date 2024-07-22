@@ -61,11 +61,6 @@ const SetUp = () => {
 
 
 
-
-
-
-
-
             {/* <button
                 className="mt-[72px] mb-[5rem]  w-[300px]  md:w-[400px] py-[16px]  bg-[#DA9658]  bg-primary text-white rounded"
                 onClick={activeStep === 1 ? (
