@@ -9,7 +9,18 @@ import {
   ToggleButtonGroup,
   createTheme,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import {
+  BsCheck,
+  BsChevronDown,
+  BsChevronUp,
+} from "react-icons/bs";
 import {
   Box,
   Typography,
@@ -28,7 +39,6 @@ import {
   TimelineOppositeContent,
   TimelineDot,
 } from "@mui/lab";
-import { BsCheck } from "react-icons/bs";
 import trash from "../../assets/trash_2.png";
 import { useNavigate } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
@@ -55,6 +65,7 @@ const renderDashedLine = () => {
   return segments;
 };
 
+
 const Step2 = () => {
   const [open, setOpen] = useState(false);
   const [reminders, setReminders] = useState([]);
@@ -65,20 +76,25 @@ const Step2 = () => {
   const { userInfo, logOut } = useContext(Usercontext);
   const [loading, setLoading] = useState(false);
 
+  const extractToken = (token) => {
+    return token;
+  };
+
   const handleChange = (event) => {
     let inputValue = event.target.value;
 
     // Remove non-numeric characters
-    inputValue = inputValue?.replace(/[^0-9]/g, "");
+    inputValue = inputValue.replace(/[^0-9]/g, "");
 
     // Truncate to two characters
-    if (inputValue?.length > 2) {
-      inputValue = inputValue?.slice(0, 2);
+    if (inputValue.length > 2) {
+      inputValue = inputValue.slice(0, 2);
     }
 
     setCheckReminder(true);
-    setReminder(event.target.value);
+    setReminder(inputValue);
   };
+
 
   const handleTimeChange = (field, event) => {
     let inputValue = event.target.value;
@@ -104,54 +120,102 @@ const Step2 = () => {
     }));
   };
 
-  const addReminder = async () => {
-    if (time.hour !== "" && time.minute !== "") {
-      const newReminder = {
-        reminder: reminder !== "" ? reminder : "No Reminder Name",
-        time: `${time.hour}:${time.minute} ${time.period.toLowerCase()}`,
-      };
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-      setReminders([...reminders, newReminder]);
-      // Clear form after adding
-      setTime({ hour: "", minute: "", period: "AM" });
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const SelectIcon = ({ open }) => {
+    return (
+      <div className=" text-[#B4B9C2] pr-[1.2rem]">
+        {!open ? <BsChevronDown /> : <BsChevronUp />}
+      </div>
+    );
+  };
+
+
+  const addReminder = async () => {
+    if (checkReminder && isValidReminder) {
+      setCheckReminder(true);
+      if (time.hour !== "" && time.minute !== "") {
+        // Parse hour and minute from the time object
+        const hour = parseInt(time.hour, 10);
+        const minute = parseInt(time.minute, 10);
+
+        // Create a new reminder with hour and minute as separate properties
+        const newReminder = {
+          reminder: reminder !== "" ? reminder : "No Reminder Name",
+          hour: hour.toString(),       // Store hour
+          time: minute.toString(),   // Store minute
+        };
+
+        setReminders([...reminders, newReminder]);
+        // Clear form after adding
+        setTime({ hour: "", minute: "", period: "AM" });
+        setReminder("");
+      }
+    } else {
+      setCheckReminder(false);
     }
   };
 
-  const extractToken = (token) => {
-    // Assume token is already in the correct format
-    return token;
-  };
 
   const savePreferences = async () => {
-    const allTimes = [...reminders.map((r) => r.time)];
-    console.log(allTimes);
+    // Format all times to match the required "12:30 am" format
+    const formattedTimes = reminders.map((r) => {
+      // Default to empty strings if hour or minute are undefined
+      const hour = r.hour !== undefined ? parseInt(r.hour, 10) : 0;
+      const minute = r.minute !== undefined ? parseInt(r.minute, 10) : 0;
 
-    const token = extractToken(userInfo.token); // Ensure the token is properly extracted
-    console.log("Extracted Token:", token); // Log the token for debugging
+      // Validate hour and minute ranges
+      if (isNaN(hour) || isNaN(minute) || hour < 1 || hour > 12 || minute < 0 || minute > 59) {
+        console.error(`Invalid time values: hour=${hour}, minute=${minute}`);
+        return ""; // or handle the error as appropriate
+      }
+
+      // Determine period based on hour
+      const period = hour >= 12 ? "PM" : "AM";
+
+      // Convert hour to 12-hour format and adjust for 12 AM/PM cases
+      const formattedHour = (hour % 12) || 12;
+      const formattedMinute = minute.toString().padStart(2, "0");
+
+      // Format time as "h:mm am/pm"
+      return `${formattedHour}:${formattedMinute} ${period.toLowerCase()}`;
+    });
+
+    // Filter out any invalid or empty times
+    const validTimes = formattedTimes.filter(time => time !== "");
+
+    console.log(validTimes); // Check the formatted times
+
+    const token = extractToken(userInfo.token);
+
     setLoading(true);
     try {
       const res = await axios.post(
-        "/api/users/setup",
+        "/api/reminders/addnew",
         {
-          times: allTimes,
+          times: validTimes,
         },
         {
           headers: {
-            Authorization: token ? `Bearer ${token}` : "",
+            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
             "Content-Type": "application/json",
           },
         }
       );
-      console.log(res.data);
       toast.success("Reminder saved successfully");
       navigate("/dashboard");
     } catch (error) {
-      console.log(error.response);
       if (error.response?.status === 401) {
-        // Handle unauthorized (token expired) error
-        logOut(); // Call logout function if token expires
-        toast.error("Session expired. Please log in again."); // Show user a message
+        logOut();
+        toast.error("Session expired. Please log in again.");
       } else {
+        console.log(error.response);
         toast.error(error.response?.data?.message || "An error occurred");
       }
     } finally {
@@ -159,30 +223,86 @@ const Step2 = () => {
     }
   };
 
-  const deleteReminder = (index) => {
-    const updatedReminders = [...reminders];
-    updatedReminders.splice(index, 1);
-    setReminders(updatedReminders);
+
+  const getAllReminders = async () => {
+    if (userInfo?.token?.length > 4) {
+      try {
+        const res = await axios.get("/api/reminders", {
+          headers: {
+            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+            "Content-Type": "application/json",
+          },
+        });
+        setReminders(res.data.data);
+      } catch (error) {
+        toast.error("Error fetching reminders");
+      }
+    }
   };
+
+  const deleteReminder = async (id) => {
+    try {
+      await axios.delete(`/api/reminders/delete/${id}`, {
+        headers: {
+          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+          "Content-Type": "application/json",
+        },
+      });
+      setReminders(reminders.filter((reminder) => reminder.id !== id));
+      toast.success("Reminder deleted successfully");
+    } catch (error) {
+      toast.error("Error deleting reminder");
+    }
+  };
+
+  useEffect(() => {
+    getAllReminders();
+  }, [userInfo?.token]);
+
+
+  const isValidReminder = () => {
+    return daysOfWeek.includes(reminder);
+  };
+
+  const convertToReadableTime = (hour, time) => {
+    let hours = hour;
+    let minutes = time;
+
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+
+    return `${hours}:${minutes} ${ampm}`;
+  };
+
+
+
+  const containerRef = useRef(null);
+
+  const handleResize = useCallback((entry) => {
+    // Your resize handling logic here
+    console.log("Resized:", entry.contentRect);
+  }, []);
 
   const daysOfWeek = ["Everyday"];
 
   return (
-    <div className="flex flex-col mt-[24px] gap-[16px]">
+    <div ref={containerRef} className="flex flex-col mt-[24px] gap-[16px]">
       <Timeline sx={{ padding: "0px" }}>
         <TimelineItem
           className="w-[306px] h-0  md:w-[595px] "
           sx={{
             "&::before": {
               display: "none",
-              height:'0rem',
-            }, minHeight:"50px",
-            
+              height: '0rem',
+            }, minHeight: "50px",
+
           }}
         >
           <TimelineSeparator className="grid m-0 size-fit ">
             <TimelineDot
-              sx={{ background: "#ff000000", boxShadow: "none", marginBottom:'0', padding:'0', marginTop:'0'  }}
+              sx={{ background: "#ff000000", boxShadow: "none", marginBottom: '0', padding: '0', marginTop: '0' }}
               className="shadow-none m-0 size-fit bg-[#DA9658]"
             >
               <div className="size-[24px]  font-thin font-[fantasy] text-white rounded-full grid place-content-center bg-[#DA9658]">
@@ -191,9 +311,9 @@ const Step2 = () => {
             </TimelineDot>
             {renderDashedLine()}
           </TimelineSeparator>
-          <TimelineContent  sx={{ background: "#ff000000", boxShadow: "none", marginBottom:'0', paddingX:'12px', paddingTop:'0',paddingBottom:'0', marginTop:'0'  }}>
+          <TimelineContent sx={{ background: "#ff000000", boxShadow: "none", marginBottom: '0', paddingX: '12px', paddingTop: '0', paddingBottom: '0', marginTop: '0' }}>
             <Typography
-               className="text-[#222222] text-[14px] font-[400] p-0 leading-[24px]"
+              className="text-[#222222] text-[14px] font-[400] p-0 leading-[24px]"
               component="span"
             >
               Connect social network
@@ -203,25 +323,25 @@ const Step2 = () => {
         </TimelineItem>
 
         <TimelineItem
-         className="w-[306px] h-10  md:w-[595px] "
+          className="w-[306px] h-10  md:w-[595px] "
           sx={{
             "&::before": {
               display: "none",
-              height:'3rem',
+              height: '3rem',
 
             },
-          
+
             "& .MuiTimelineDot-root": {
-            marginTop: 0,
-            marginBottom: 0,
-          },
-              "&::before": {
-                display: "none",
-              },
+              marginTop: 0,
+              marginBottom: 0,
+            },
+            "&::before": {
+              display: "none",
+            },
           }}
         >
           <TimelineSeparator>
-                      
+
             <TimelineDot
               sx={{ background: "#ff000000", boxShadow: "none" }}
               className="shadow-none bg-none"
@@ -229,7 +349,7 @@ const Step2 = () => {
               <div className="size-[24px] rounded-full border-[7px] border-[#DA9658]"></div>
             </TimelineDot>
           </TimelineSeparator>
-          <TimelineContent  sx={{ background: "#ff000000", boxShadow: "none", marginBottom:'0', paddingX:'9px', paddingTop:'0',paddingBottom:'0', marginTop:'0'  }}>
+          <TimelineContent sx={{ background: "#ff000000", boxShadow: "none", marginBottom: '0', paddingX: '9px', paddingTop: '0', paddingBottom: '0', marginTop: '0' }}>
             <Typography
 
               className="text-[#DA9658] text-[14px] font-[400] p-0 leading-[24px]"
@@ -238,7 +358,7 @@ const Step2 = () => {
               Reminder Time
             </Typography>
             <Box className="w-[306px] md:w-[595px]">
-             
+
 
               <form className="w-[306px] md:w-[359px]" action="">
                 <label
@@ -319,11 +439,10 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment("AM");
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
-                              time.period === "AM"
-                                ? "bg-white text-black"
-                                : "bg-none text-gray-500"
-                            }`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "AM"
+                              ? "bg-white text-black"
+                              : "bg-none text-gray-500"
+                              }`}
                           >
                             AM
                           </button>
@@ -333,11 +452,10 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment("PM");
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
-                              time.period === "PM"
-                                ? "bg-white text-black"
-                                : "bg-none text-gray-500"
-                            }`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "PM"
+                              ? "bg-white text-black"
+                              : "bg-none text-gray-500"
+                              }`}
                           >
                             PM
                           </button>
@@ -355,17 +473,19 @@ const Step2 = () => {
                 </label>
 
                 <div className="flex gap-[8px] items-center">
-                  <div className="w-[248px] grid gap-[8px]">
+                  <div className=" w-[248px] grid gap-[8px] ">
                     {reminders.map((reminder, index) => (
                       <div
                         key={index}
-                        className="flex w-full h-[62px] px-[16px] rounded-[8px] border-[#FAF2EA] justify-between border items-center gap-2"
+                        className="flex w-full h-[62px] p-[16px] rounded-[8px] border-[#FAF2EA] justify-between border items-center gap-2"
                       >
-                        <span>{` ${reminder.time}`}</span>
+                        <span>
+                          {convertToReadableTime(reminder.hour, reminder.time)}
+                        </span>
                         <button
                           type="button"
                           className="text-white px-2 py-1 rounded"
-                          onClick={() => deleteReminder(index)}
+                          onClick={() => deleteReminder(reminder.id)}
                         >
                           <img className="h-[18px]" src={trash} alt="trash" />
                         </button>
