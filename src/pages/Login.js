@@ -178,11 +178,8 @@ const Login = () => {
       console.log(error.status);
 
       if (error.response.status === 400) {
-        error.response.data.message && toast.error(error.response.data.message);
-      }
-      if (Array.isArray(error?.response?.data?.errors)) {
-        error.response.data.errors.forEach((i) => toast.error(i));
-        error.response.data.message && toast.error(error.response.data.message);
+
+        error.response.data.message && toast.error(error.response.data.message)
       }
       if (Array.isArray(error?.response?.data?.errors)) {
         error.response.data.errors.forEach((i) => toast.error(i));
@@ -259,9 +256,8 @@ const Login = () => {
             </button>
             <button
               onClick={() => navigate("/sign-up")}
-              className={`transition-all duration-300 ease-out ${
-                !isNewUser ? "bg-[white]" : ""
-              } w-[148px] justify-center px-[16px] py-[8px] gap-[8px] rounded-lg flex my-[4px] items-center`}
+              className={`transition-all duration-300 ease-out ${!isNewUser ? "bg-[white]" : ""
+                } w-[148px] justify-center px-[16px] py-[8px] gap-[8px] rounded-lg flex my-[4px] items-center`}
             >
               New User
             </button>
