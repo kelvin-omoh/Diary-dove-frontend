@@ -41,15 +41,20 @@ const Home = () => {
                 console.error("Error fetching notes:", error);
             }
         }
-
     };
 
-    useEffect(() => {
-        if (userInfo.token !== '' && userInfo.token !== undefined && userInfo.token !== null) {
 
+    useEffect(() => {
+        if (
+            userInfo.token !== "" &&
+            userInfo.token !== undefined &&
+            userInfo.token !== null
+        ) {
             getAllNotes();
         }
     }, [userInfo?.token]);
+
+
 
     const handleSave = async () => {
         const getCurrentDateTime = () => {
@@ -66,32 +71,37 @@ const Home = () => {
             return { time, date };
         };
 
-        const { time, date } = getCurrentDateTime();
-
         try {
             if (editIndex !== null) {
                 // Update existing note
-                const response = await axios.patch(`api/diaries/${editIndex}`, { content: text }, {
-                    headers: {
-                        Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-                        "Content-Type": "application/json",
-                    },
-                });
+                const response = await axios.patch(
+                    `api/diaries/${editIndex}`,
+                    { content: text },
+                    {
+                        headers: {
+                            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
                 console.log(response);
                 // setAllTexts(response.data.data);
                 getAllNotes();
-                toast.success('Note updated successfully');
+                toast.success("Note updated successfully");
             } else {
                 // Create new note
-                const response = await axios.post("api/diaries/", { content: text }, {
-                    headers: {
-                        Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-                        "Content-Type": "application/json",
-                    },
-                });
+                const response = await axios.post(
+                    "api/diaries/",
+                    { content: text },
+                    {
+                        headers: {
+                            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
                 setAllTexts((prevNotes) => [response.data.data, ...prevNotes]);
-                toast.success('Note created successfully');
-
+                toast.success("Note created successfully");
             }
         } catch (error) {
             toast.error("Failed to save note");
@@ -104,9 +114,9 @@ const Home = () => {
     };
 
     const handleEdit = (index) => {
-        const noteToEdit = allTexts.find(note => note.id === index);
+        const noteToEdit = allTexts.find((note) => note.id === index);
         setEditIndex(index);
-        setText(noteToEdit?.content || '');
+        setText(noteToEdit?.content || "");
         setOpen(true);
     };
 
@@ -117,8 +127,8 @@ const Home = () => {
                     Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
                 },
             });
-            setAllTexts(prev => prev.filter(note => note.id !== index));
-            toast.success('Note deleted successfully');
+            setAllTexts((prev) => prev.filter((note) => note.id !== index));
+            toast.success("Note deleted successfully");
         } catch (error) {
             toast.error("Failed to delete note");
             console.error("Error deleting note:", error);
@@ -129,7 +139,6 @@ const Home = () => {
     const handleSaveOrUpdate = async () => {
         if (editIndex !== null) {
             handleSave();
-
         } else {
             createNote();
         }
@@ -165,44 +174,47 @@ const Home = () => {
     const formatLastName = (str) => {
         if (str && str?.includes(" ")) {
             const names = str.split(" ");
-            const lastName = names.pop(); // Get the last word  
-            const formattedName = `${names.join(" ")} ${lastName.charAt(0).toUpperCase()}.`; // Join the non-last names and add formatted last name  
+            const lastName = names.pop(); // Get the last word
+            const formattedName = `${names.join(" ")} ${lastName
+                .charAt(0)
+                .toUpperCase()}.`; // Join the non-last names and add formatted last name
             return formattedName;
         } else {
-            return str; // Return the name as is if there is no space  
+            return str; // Return the name as is if there is no space
         }
     };
 
 
-
     return (
-        <div className="h-[170vh] pb-[3rem] md:h-full bg-[#FDFAF7]">
+        <div className="bg-[#FDFAF7]">
             <Header />
             <div className="pt-[104px] py-[32px] items-center flex gap-3 md:justify-between px-[24px] md:px-[80px]">
                 <div className="flex items-center gap-[12px]">
-
-                    {userInfo?.profilePicture ?
-                        <img src={userInfo?.profilePicture} className=' rounded-full size-[50px]' alt='' />
-                        :
+                    {userInfo?.profilePicture ? (
+                        <img
+                            src={userInfo?.profilePicture}
+                            className=" rounded-full size-[50px]"
+                            alt=""
+                        />
+                    ) : (
                         <div className="bg-orange-300 p-[10px] text-white rounded-full">
-
                             <BsPerson className="size-[40px]" />
                         </div>
-                    }
+                    )}
 
 
                     <div className="flex flex-col items-start">
                         <h1 className="leading-[21px] m-0 md:leading-[30px] font-[600] md:font-[700] text-[14px] md:text-[20px]">
                             Welcome {formatLastName(userInfo?.fullname)}
                         </h1>
-                        <p className="text-[#7C7B87] text-[12px] md:text-[16px] items-start text-start leading-6">
+                        <p className="text-[#7C7B87] text-[12px] md:text-[16px] leading-6">
                             What are you writing about today?
                         </p>
                     </div>
                 </div>
                 <div className=" w-fit " >
                     <button
-                        className="text-white  md:w-[189px] md:h-12  px-[12px] py-[8px] md:px-[46px] md:py-[17px] text-[14px] md:text-[16px] rounded-[8px] bg-[#DA9658]"
+                        className="text-white w-[100px] md:w-[189px]  px-[12px] py-[12px] md:px-[46px] md:py-[17px] text-[14px] md:text-[16px] rounded-[8px] bg-[#DA9658]"
                         onClick={handleClickOpen}
                     >
                         Create note
@@ -210,7 +222,13 @@ const Home = () => {
                 </div>
             </div>
 
-            <Notes setAllTexts={setAllTexts} allTexts={allTexts} onEdit={handleEdit} onDelete={handleDelete} />
+            <Notes
+                setAllTexts={setAllTexts}
+                allTexts={allTexts}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+            />
+
 
             <Dialog
                 onClose={handleClose}
@@ -246,12 +264,16 @@ const Home = () => {
                             >
                                 {loading ? (
                                     <div className="text-white  items-center gap-3 justify-center flex w-full h-full">
-                                        {editIndex ? 'Editing...' : 'Saving...'}  <CircularProgress size={24} style={{ color: 'white' }} />
+                                        {editIndex ? "Editing..." : "Saving..."}{" "}
+                                        <CircularProgress size={24} style={{ color: "white" }} />
                                     </div>
+                                ) : editIndex ? (
+                                    "Save changes"
                                 ) : (
-                                    editIndex ? 'Edit diary' : 'Save'
+                                    "Save"
                                 )}
                             </button>
+
                         </div>
                     </div>
                 </DialogContent>

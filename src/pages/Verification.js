@@ -92,18 +92,20 @@ const Verification = () => {
           <img src={tick} alt={"tick"} className=" mb-[40px] size-[125px]" />
         )}
         <div
-          className={` mb-[20px] md:mb-[40px] ${isSuccess ? "h-[77px]  " : ""
-            }  `}
+          className={` mb-[20px] md:mb-[40px] ${
+            isSuccess ? "h-[77px]  " : ""
+          }  `}
         >
           <h1
-            className={` font-[600] text-[20px] md:text-[32px] ${isSuccess ? "mb-[12px]" : "mb-[16px]"
-              }  text-center`}
+            className={` font-[600] text-[20px] md:text-[32px] ${
+              isSuccess ? "mb-[12px]" : "mb-[16px]"
+            }  text-center`}
           >
             {isSuccess ? "Verification Success" : "Verify your email address"}
           </h1>
           {!isSuccess && (
             <>
-              <p className=" text-[#8F96A3] text-[14px] md:text-[18px]  w-full leading-[27px] ">
+              <p className=" text-[#8F96A3] text-[14px] md:text-[18px]   w-full leading-[27px] text ">
                 A verification email has been sent to your email
                 <span className=" text-[#DA9658]">
                   {" "}
@@ -121,8 +123,9 @@ const Verification = () => {
             </>
           )}
           <button
-            className={`${isSuccess ? "mt-[12px]" : "mt-[20px]"
-              } text-[14px] md:text-[18px]`}
+            className={`${
+              isSuccess ? "mt-[12px]" : "mt-[20px]"
+            } text-[14px] md:text-[18px]`}
           >
             {!isSuccess && (
               <>
@@ -153,8 +156,9 @@ const Verification = () => {
           onClick={() => {
             verifyOTP();
           }}
-          className={` w-full font-[500] rounded-[8px]  py-[16px] bg-[#DA9658] text-center text-white ${isSuccess ? "w-[192px]" : "w-full"
-            }`}
+          className={` w-full font-[500] rounded-[8px]  py-[16px] bg-[#DA9658] text-center text-white ${
+            isSuccess ? "w-[192px]" : "w-full"
+          }`}
         >
           {isSuccess ? "Continue to Login" : "Verify"}
         </button>

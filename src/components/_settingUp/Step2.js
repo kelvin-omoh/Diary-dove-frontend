@@ -315,7 +315,7 @@ const Step2 = () => {
                           max={59}
                           maxLength={2}
                           className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
-                          type="text"
+                          type="number"
                           value={time.minute}
                           inputMode="numeric"
                           pattern="\d*"
