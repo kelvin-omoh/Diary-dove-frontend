@@ -81,18 +81,19 @@ const ChangePasswordDialog = ({ handleClose, open, onClose }) => {
     };
 
     return (
-        <div className=' shadow-2xl'>
+        <div className=' overflow-x-hidden shadow-2xl'>
             <Dialog
                 open={open}
                 onClose={() => handleClose()}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                className=' shadow-2xl rounded-[30px]'
+                className=' shadow-2xl overflow-x-hidden rounded-[30px]'
                 sx={{
                     '& .MuiPaper-root': {
                         backgroundColor: '#FFFFFF',
                         boxShadow: '0px 4px 8px 0px white', // Adjust the color to achieve the shadow effect
-                        borderRadius: '30px', // Ensure the corners are rounded
+                        borderRadius: '30px',
+                        // Ensure the corners are rounded
 
                     }
                 }}
@@ -102,11 +103,11 @@ const ChangePasswordDialog = ({ handleClose, open, onClose }) => {
                         boxShadow: '0px 4px 8px 0px #FFFFFF',
                         bgcolor: '#FFFFFF',
                     }}
-                    className=' mt-[24px] md:mt-[48px] shadow-red-600 shadow-2xl  mx-[24px] md:mx-[80px]'
+                    className=' mt-[24px] overflow-hidden md:mt-[48px] shadow-red-600 shadow-2xl  mx-[24px] md:mx-[80px]'
                 >
                     <h1 className='text-[20px]  md:text-[32px] mb-[16px] font-[600] leading-[38px]'>Change password</h1>
                     <p className='text-[#8F96A3] text-[14px] md:text-[16px] font-[400]'>The new password should not be the same as the previous one</p>
-                    <form onSubmit={handleResetPassword} className=" w-full md:w-[400px]">
+                    <form onSubmit={handleResetPassword} className=" overflow-x-hidden w-full md:w-[400px]">
                         <div className='flex flex-col w-full items-center gap-[16px]'>
                             <div className=' mt-[32px] md:mt-[48px] w-full md:w-[412px]'>
                                 <h1 className=' text-[14px] md:text-[16px] leading-[24px] '>Current password</h1>
