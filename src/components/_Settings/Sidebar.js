@@ -61,16 +61,16 @@ const Sidebar = () => {
                                 onClick={() => handleToggle(!toggle)}
                                 key={link.route}
                                 className={` ${location.pathname === link.route
-                                        ? "bg-white text-[#DA9658]"
-                                        : ""
+                                        ? "bg-white text-[#DA9658]  font-[500] "
+                                        : " font-[400]"
                                     } h-[48px] rounded-l-[128px] py-[8px] md:py-[11px] md:pl-[27px] pl-[16px] text-[14px] md:text-[18px] items-center flex w-full`}
                             >
                                 <Link
-                                    className="flex gap-[8px] md:gap-[19px] items-center font-[500]"
+                                    className="flex gap-[8px] md:gap-[19px] items-center "
                                     to={link.route}
                                 >
                                     <link.icon
-                                        className=" rounded-md font-[500] size-[24px] md:size-[32px] object-contain"
+                                        className=" rounded-md  size-[24px] md:size-[32px] object-contain"
                                         alt={link.text}
                                     />
                                     {link.text}
