@@ -57,12 +57,12 @@ const Verification = () => {
     }
   }, [verifyEmail]);
 
-  // useEffect(() => {
-  //   console.log(verifyEmail);
-  //   if (verifyEmail === '' || verifyEmail === null) {
-  //     navigate("/change-email")
-  //   }
-  // }, [verifyEmail]);
+  useEffect(() => {
+    console.log(verifyEmail);
+    if (verifyEmail === '' || verifyEmail === null) {
+      navigate("/change-email")
+    }
+  }, [verifyEmail]);
 
   console.log(verifyEmail);
   const verifyOTP = async () => {
@@ -87,6 +87,7 @@ const Verification = () => {
 
   const handleResendOfCode = async () => {
     try {
+      setTimer(360);
       const res = await axios.post("/api/users/resendOTPCode", {
         email: verifyEmail,
       });
@@ -122,7 +123,7 @@ const Verification = () => {
                 A verification email has been sent to your email
                 <span className=" text-[#DA9658]">
                   {" "}
-                  {maskEmail(verifyEmail)}
+                  {verifyEmail.replace(/(.{4})[^@]+(?=@)/, '$1****')}
                 </span>
                 , copy the code provided in the email to complete your account
                 verification.
