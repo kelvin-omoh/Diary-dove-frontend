@@ -34,14 +34,12 @@ const ChangeEmail = () => {
     }
 
     return (
-        <div className='w-full flex justify-center  items-center h-[100vh] bg-[#FDFAF7]'>
-            <div className='text-start w-[342px] shadow-sm gap-6  rounded-[8px] px-[22px] md:px-[80px] md:w-[570px] py-[24px] md:py-[48px]  flex justify-center flex-col m-0 bg-[#ffffff]'>
-               <div className='grid gap-4 w-fit'>
-                <h1 className='font-[600] md:leading-10 leading-7 text-base md:text-[32px] '>Change email address</h1>
+        <div className='w-full flex justify-center items-center h-[100vh] bg-[#FDFAF7]'>
+            <div className='text-start w-[342px] shadow-sm rounded-[8px] px-[22px] md:px-[80px] md:w-[570px] py-[24px] md:py-[48px]  flex justify-center flex-col m-0 bg-[#ffffff]'>
+                <h1 className='font-[600] text-[20px] md:text-[32px] '>Change email address</h1>
 
-                <p className='text-[#8F96A3] md:text-lg md:leading-7 text-sm leading-5'>Input your preferred email address below to get your reset code (OTP)</p>
+                <p className='text-[#8F96A3] mt-[16px] mb-[24px] md:mb-[48px]'>Input your new email address below to get your reset code (OTP)</p>
 
-                </div> 
                 <form className='flex flex-col gap-[16px]' onSubmit={handleSendOtp}>
                     <label className='flex flex-col text-[14px] md:text-[16px]' htmlFor="new-password">
                         Email

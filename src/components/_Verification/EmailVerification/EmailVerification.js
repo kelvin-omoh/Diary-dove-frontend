@@ -66,7 +66,7 @@ const Verification = () => {
 
                     localStorage.removeItem('verifyEmail')
                     toast.success(response.data.message)
-                    navigate("/new-password")
+                    navigate("/reset-password")
                 } else {
                     toast.error('otp verification is incorrect')
                 }
