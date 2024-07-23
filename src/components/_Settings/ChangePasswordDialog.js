@@ -107,16 +107,17 @@ const ChangePasswordDialog = ({ handleClose, open, onClose }) => {
                 >
                     <h1 className='text-[20px]  md:text-[32px] mb-[16px] font-[600] leading-[38px]'>Change password</h1>
                     <p className='text-[#8F96A3] text-[14px] md:text-[16px] font-[400]'>The new password should not be the same as the previous one</p>
-                    <form onSubmit={handleResetPassword} className=" overflow-x-hidden w-full md:w-[400px]">
+                    <form onSubmit={handleResetPassword} className="  w-full md:w-[400px]">
                         <div className='flex flex-col w-full items-center gap-[16px]'>
                             <div className=' mt-[32px] md:mt-[48px] w-full md:w-[412px]'>
                                 <h1 className=' text-[14px] md:text-[16px] leading-[24px] '>Current password</h1>
-                                <div className={`${errors.currentPassword ? 'border-red-500' : ''} flex h-[56px] relative w-full px-[16px] items-center gap-[8px] border-[#F1F2F3] border-[1px] rounded-[8px]`}>
+                                <div className={`${errors.currentPassword ? 'border-red-500' : ''}flex h-[56px] relative w-full px-[16px] items-center gap-[8px] border-[#F1F2F3] border-[1px] rounded-[8px]`}>
+
                                     <FaKey className='text-[#B4B9C2]' />
                                     <input
                                         type={currentPasswordVisible ? 'text' : 'password'}
                                         placeholder='Enter password'
-                                        className=' text-[14px] md:text-[16px]outline-none w-full'
+                                        className=' text-[14px] md:text-[16px] outline-none w-full'
                                         id="current-password"
                                         value={currentPassword}
                                         onChange={(e) => setCurrentPassword(e.target.value)}
@@ -138,7 +139,7 @@ const ChangePasswordDialog = ({ handleClose, open, onClose }) => {
                                     <input
                                         type={newPasswordVisible ? 'text' : 'password'}
                                         placeholder='Enter password'
-                                        className=' text-[14px] md:text-[16px]outline-none w-full'
+                                        className=' text-[14px] md:text-[16px] outline-none w-full'
                                         id="new-password"
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
@@ -160,7 +161,7 @@ const ChangePasswordDialog = ({ handleClose, open, onClose }) => {
                                     <input
                                         type={confirmPasswordVisible ? 'text' : 'password'}
                                         placeholder='Enter password'
-                                        className=' text-[14px] md:text-[16px]outline-none w-full'
+                                        className=' text-[14px] md:text-[16px] outline-none w-full'
                                         id="confirm-password"
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
