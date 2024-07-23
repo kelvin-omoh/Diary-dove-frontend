@@ -90,9 +90,8 @@ const Header = () => {
                 <div className=' flex items-center gap-[19.8px]'>
 
                     <button onClick={toggleDrawer(true)}>
-                        <img className=' h-[22.25px] ' src={Bell} alt={'logo'} />
                     </button>
-                    <AiFillSetting onClick={() => navigate("/settings")} className='text-[#B4B9C2] ' size={20} />
+                    <AiFillSetting onClick={() => navigate("/settings")}  className='text-[#B4B9C2] hover:cursor-pointer hover:text-[#DA9658] ' size={20} />
                 </div>
             </div>
             <Drawer anchor={'right'} open={openNotification} onClose={toggleDrawer(false)}>

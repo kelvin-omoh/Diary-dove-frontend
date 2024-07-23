@@ -282,14 +282,13 @@ const Step2 = () => {
                           }}
                         />
 
-                        <input
+<input
                           placeholder="00"
                           min={0}
                           max={59}
-                          maxLength={2}
                           className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                           type="number"
-                          value={time.minute}
+                          value={time.hour}
                           inputMode="numeric"
                           pattern="\d*"
                           onChange={(e) => {
@@ -299,7 +298,7 @@ const Step2 = () => {
                               minimumIntegerDigits: 2,
                               useGrouping: false,
                             });
-                            handleTimeChange("minute", e);
+                            handleTimeChange("hour", e);
                           }}
                         />
 
