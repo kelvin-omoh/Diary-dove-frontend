@@ -82,15 +82,15 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                 <div
                   key={note.id}
                   onClick={() => onEdit(note.id)}
-                  className="flex hover:shadow-md rounded-xl border  justify-between flex-col md:min-h-[208px] h-[200px] overflow-hidden bg-[#FFFFFF] p-[24px]"
+                  className="flex hover:shadow-md rounded-xl border  justify-between flex-col md:min-h-[208px] h-[200px]  bg-[#FFFFFF] p-[24px]"
                 >
-                  <div className=" overflow-hidden ">
+                  <div className="  ">
                     <p className="text-[#E0A774] text-[12px] justify-start flex ">
                       {formatNigerianTime(note.date)}
                     </p>
-                    <div className="mt-[8px] overflow-hidden w-full h-full">
+                    <div className="mt-[8px] w-full h-full">
                       {note?.content && (
-                        <p className="hidden md:flex text-sm text-[#303236] justify-start text-left leading-[21px]  max-w-full overflow-y-scroll">
+                        <p className="hidden md:flex text-sm text-[#303236] justify-start text-left leading-[21px]  max-w-full ">
                           {note?.content.length > 170
                             ? isGrid
                               ? `${note?.content.slice(0, 170)}${
@@ -104,7 +104,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
 
                       )}
                       {note?.content && (
-                        <p className=" md:hidden text-[14px] md:text-[14px] text-[#5d739d] justify-start text-start leading-[16px] md:leading-[21px] overflow-y-scroll">
+                        <p className=" md:hidden text-[14px] md:text-[14px] text-[#5d739d] justify-start text-start leading-[16px] md:leading-[21px]">
                           {note?.content.length > 230
                             ? `${note?.content.slice(0, isGrid ? 90 : 200)}${
                                 note?.content.length > (isGrid ? 90 : 200)

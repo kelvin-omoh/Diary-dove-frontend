@@ -47,7 +47,7 @@ const checkboxTheme = createTheme({
 
 const renderDashedLine = () => {
   const segments = [];
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     segments.push(
       <Box key={i} width="2px" height="7px" bgcolor="#D1A055" margin="4px 0" />
     );
@@ -168,31 +168,32 @@ const Step2 = () => {
   const daysOfWeek = ["Everyday"];
 
   return (
-    <div className="flex flex-col gap-[16px]">
+    <div className="flex flex-col mt-[24px] gap-[16px]">
       <Timeline sx={{ padding: "0px" }}>
         <TimelineItem
-          className="w-[306px] md:w-[595px]"
+          className="w-[306px] h-0  md:w-[595px] "
           sx={{
             "&::before": {
               display: "none",
-            },
+              height:'0rem',
+            }, minHeight:"50px",
+            
           }}
         >
-          <TimelineSeparator className="flex">
+          <TimelineSeparator className="grid m-0 size-fit ">
             <TimelineDot
-              sx={{ background: "#ff000000", boxShadow: "none" }}
-              className="shadow-none bg-[#DA9658]"
+              sx={{ background: "#ff000000", boxShadow: "none", marginBottom:'0', padding:'0', marginTop:'0'  }}
+              className="shadow-none m-0 size-fit bg-[#DA9658]"
             >
-              <div className="size-[24px] font-thin font-[fantasy] text-white rounded-full grid place-content-center bg-[#DA9658]">
+              <div className="size-[24px]  font-thin font-[fantasy] text-white rounded-full grid place-content-center bg-[#DA9658]">
                 <BsCheck size={20} />
               </div>
             </TimelineDot>
             {renderDashedLine()}
           </TimelineSeparator>
-          <TimelineContent sx={{ py: "14px", px: "12px" }}>
+          <TimelineContent  sx={{ background: "#ff000000", boxShadow: "none", marginBottom:'0', paddingX:'12px', paddingTop:'0',paddingBottom:'0', marginTop:'0'  }}>
             <Typography
-              className="text-[#020202] leading-[24px]"
-              variant="h6"
+               className="text-[#222222] text-[14px] font-[400] p-0 leading-[24px]"
               component="span"
             >
               Connect social network
@@ -202,13 +203,25 @@ const Step2 = () => {
         </TimelineItem>
 
         <TimelineItem
+         className="w-[306px] h-10  md:w-[595px] "
           sx={{
             "&::before": {
               display: "none",
+              height:'3rem',
+
             },
+          
+            "& .MuiTimelineDot-root": {
+            marginTop: 0,
+            marginBottom: 0,
+          },
+              "&::before": {
+                display: "none",
+              },
           }}
         >
           <TimelineSeparator>
+                      
             <TimelineDot
               sx={{ background: "#ff000000", boxShadow: "none" }}
               className="shadow-none bg-none"
@@ -216,26 +229,23 @@ const Step2 = () => {
               <div className="size-[24px] rounded-full border-[7px] border-[#DA9658]"></div>
             </TimelineDot>
           </TimelineSeparator>
-          <TimelineContent sx={{ py: "14px", px: "12px" }}>
+          <TimelineContent  sx={{ background: "#ff000000", boxShadow: "none", marginBottom:'0', paddingX:'9px', paddingTop:'0',paddingBottom:'0', marginTop:'0'  }}>
             <Typography
-              className="text-[#DA9658] leading-[24px]"
-              variant="h6"
+
+              className="text-[#DA9658] text-[14px] font-[400] p-0 leading-[24px]"
               component="span"
             >
-              Schedule Notification
+              Reminder Time
             </Typography>
             <Box className="w-[306px] md:w-[595px]">
-              <p className="text-[#8F96A3] text-[14px]">
-                &#123; add descriptive note &#125;
-              </p>
+             
 
               <form className="w-[306px] md:w-[359px]" action="">
                 <label
                   className="text-[16px] text-black flex gap-[8px] flex-col mb-[8px]"
                   htmlFor=""
                 >
-                  Reminder
-                  <FormControl fullWidth>
+                  {/* <FormControl fullWidth>
                     <Select
                       sx={{ outline: "none" }}
                       labelId="demo-simple-select-label"
@@ -251,14 +261,13 @@ const Step2 = () => {
                         </MenuItem>
                       ))}
                     </Select>
-                  </FormControl>
+                  </FormControl> */}
                 </label>
 
                 <label
                   className="text-[16px] text-black flex gap-[8px] flex-col mb-[8px]"
                   htmlFor=""
                 >
-                  Reminder Time
                   <FormControl>
                     <div className="flex gap-[8px] items-center">
                       <div className="border w-[248px] h-[68px] flex place-content-center border-[#FAF2EA] pl-[15.5px] pr-[9px] rounded-[8px]">
@@ -282,13 +291,14 @@ const Step2 = () => {
                           }}
                         />
 
-<input
+                        <input
                           placeholder="00"
                           min={0}
                           max={59}
+                          maxLength={2}
                           className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                           type="number"
-                          value={time.hour}
+                          value={time.minute}
                           inputMode="numeric"
                           pattern="\d*"
                           onChange={(e) => {
@@ -298,7 +308,7 @@ const Step2 = () => {
                               minimumIntegerDigits: 2,
                               useGrouping: false,
                             });
-                            handleTimeChange("hour", e);
+                            handleTimeChange("minute", e);
                           }}
                         />
 
@@ -349,7 +359,7 @@ const Step2 = () => {
                     {reminders.map((reminder, index) => (
                       <div
                         key={index}
-                        className="flex w-full h-[62px] p-[16px] rounded-[8px] border-[#FAF2EA] justify-between border items-center gap-2"
+                        className="flex w-full h-[62px] px-[16px] rounded-[8px] border-[#FAF2EA] justify-between border items-center gap-2"
                       >
                         <span>{` ${reminder.time}`}</span>
                         <button
