@@ -53,7 +53,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
   };
 
   return (
-    <div className=" w-full px-[24px] md:px-[80px] mt-[49px] ">
+    <div className=" w-full px-[24px]  md:px-[80px] mt-[49px] ">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <div
           className={` ${isGrid ? "h-[85vh]" : "h-[100vh]"} relative  w-full`}
@@ -81,7 +81,8 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
               paginatedNotes.map((note, index) => (
                 <div
                   key={note.id}
-                  className="flex justify-between flex-col md:min-h-[208px] h-[200px] overflow-hidden bg-[#FFFFFF] p-[24px]"
+                  onClick={() => onEdit(note.id)}
+                  className="flex hover:shadow-md rounded-xl border  justify-between flex-col md:min-h-[208px] h-[200px] overflow-hidden bg-[#FFFFFF] p-[24px]"
                 >
                   <div className=" overflow-hidden ">
                     <p className="text-[#E0A774] text-[12px] justify-start flex ">
@@ -124,14 +125,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                         className="h-[16.13px]"
                       />
                     </button>
-                    <button>
-                      <img
-                        src={edit}
-                        onClick={() => onEdit(note.id)}
-                        alt={"edit"}
-                        className="h-[16.13px]"
-                      />
-                    </button>
+                   
                     <button>
                       <img
                         src={list}
