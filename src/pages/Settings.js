@@ -248,7 +248,7 @@ const Settings = () => {
 
     return (
         <Layout>
-            <div className=" bg-white mb-width-full   h-full">
+            <div className=" bg-white mb-width-full overflow-x-hidden   h-full">
                 <button
                     onClick={() => handleToggle(!toggle)}
                     className="  flex md:hidden justify-start w-full mb-[31.25px]"
@@ -317,7 +317,7 @@ const Settings = () => {
                     </div>
                 </div>
                 <form
-                    className="w-[342px] md:w-[832px] flex flex-col justify-center gap-[16px] md:gap-[32px] text-start mt-[32px] md:mt-[60px] py-[24px]"
+                    className="w-[342px] md:w-[832px] overflow-x-hidden flex flex-col justify-center gap-[16px] md:gap-[32px] text-start mt-[32px] md:mt-[60px] py-[24px]"
                     action=""
                 >
                     <label className=" border-b-0 md:border-b-[2px] pb-0 md:pb-[48px] border-[#F1F2F3]">
