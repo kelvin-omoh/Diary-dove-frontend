@@ -380,6 +380,10 @@ const Settings = () => {
 
                                             <span> {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}</span>
                                         </span>
+                                        <span className="block md:hidden">
+
+                                            <span> {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}</span>
+                                        </span>
                                     </p>
                                     <button
                                         type="button"
