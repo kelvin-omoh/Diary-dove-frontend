@@ -14,7 +14,7 @@ const Home = () => {
     const [allTexts, setAllTexts] = useState([]);
     const [text, setText] = useState("");
     const [editIndex, setEditIndex] = useState(null);
-    const { userInfo } = useContext(Usercontext);
+    const { userInfo, setAuthInfo } = useContext(Usercontext);
     const [loading, setLoading] = useState(false);
 
     const handleClickOpen = () => {
@@ -26,6 +26,40 @@ const Home = () => {
         setText("");
         setEditIndex(null);
     };
+
+    const fetchUserInfo = async (token) => {
+        try {
+            const response = await axiosInstance.get("api/users/personalinfo", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            return response.data.data.reduce((acc, item) => {
+                const [key, value] = Object.entries(item)[0];
+                acc[key] = value;
+                return acc;
+            }, {});
+        } catch (error) {
+            throw new Error("Error while getting user information");
+        }
+    };
+
+    const getUserData = async () => {
+        try {
+
+            const personalInfo = await fetchUserInfo(userInfo.token);
+            const completeUserInfo = { ...userInfo, ...personalInfo };
+            localStorage.setItem("userInfo", JSON.stringify(completeUserInfo));
+            setAuthInfo(completeUserInfo);
+
+        } catch (error) {
+            toast.error("Error while getting user information");
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getUserData();
+    }, []);
+
 
     const getAllNotes = async () => {
         if (useCheckToken) {
