@@ -220,7 +220,7 @@ const Settings = () => {
             const newData = {
                 fullname,
                 username,
-                phonenumber: phonenumber
+                // phonenumber: phonenumber
             }
             console.log(newData);
             const response = await axios.post('api/users/personalinfo', newData, {
@@ -230,9 +230,13 @@ const Settings = () => {
                 }
             });
 
+            const updatedData = { ...userInfo, ...newData };
+            setAuthInfo(updatedData);
+
             console.log(response.data);
             if (response.data.status === 'success') {
                 toast.success(response.data.message);
+
             } else {
                 toast.error('Failed to update profile.');
             }
