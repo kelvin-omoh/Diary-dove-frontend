@@ -372,6 +372,7 @@ const Settings = () => {
                                         </span>
                                     </p>
                                     <button
+                                        type="button"
                                         onClick={() => navigate("/change-email")}
                                         className="text-[#DA9658] cursor-pointer"
                                     >
@@ -398,6 +399,7 @@ const Settings = () => {
                                         />
                                     </div>
                                     <button
+                                        type="button"
                                         onClick={() => navigate("/change-email")}
                                         className="text-[#DA9658] cursor-pointer "
                                     >
