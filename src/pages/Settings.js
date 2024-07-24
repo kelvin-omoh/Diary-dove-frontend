@@ -335,7 +335,7 @@ const Settings = () => {
                                         value={memoizedUserData.fullname}
                                         onChange={(e) => setUserData({ ...userData, fullname: e.target.value })}
 
-                                        className="border-none  disabled:bg-[#ffffff00] cursor-no-drop text-[#252525] bg-none outline-none"
+                                        className="border-none  disabled:bg-[#ffffff00]  text-[#252525] bg-none outline-none"
                                         type="text"
                                         placeholder="Steven Ade***"
                                     />
@@ -354,7 +354,7 @@ const Settings = () => {
                                         }
 
 
-                                        className="border-none   disabled:bg-[#ffffff00] cursor-no-drop bg-none text-[#2b2c2c] outline-none"
+                                        className="border-none   disabled:bg-[#ffffff00] bg-none text-[#2b2c2c] outline-none"
                                         type="text"
                                         placeholder="Steven Ade***"
                                     />
@@ -372,8 +372,8 @@ const Settings = () => {
                                     <p className="flex flex-col items-start gap-[4px] font-[400] leading-[24px] text-[#8F96A3] break-all">
                                         <span className="hidden md:block">
                                             Your email address is
-                                        
-                      
+
+
                                             {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}
                                         </span>
                                     </p>
