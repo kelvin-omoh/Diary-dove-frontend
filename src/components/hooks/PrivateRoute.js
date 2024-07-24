@@ -14,7 +14,7 @@ export const PrivateRoute = ({ element }) => {
                 setToken(userInfo.token);
             }
 
-            if (!userInfo.setup) {
+            if (userInfo?.setup === false) {
                 navigate("/setup")
             }
 
