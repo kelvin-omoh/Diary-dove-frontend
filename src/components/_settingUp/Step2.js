@@ -21,6 +21,7 @@ import axios from "axios";
 import { Usercontext } from "../../context/userContext";
 import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
+import axiosInstance from "../../Utils/axiosInstance";
 
 const checkboxTheme = createTheme({
   palette: {
@@ -132,7 +133,7 @@ const Step2 = () => {
     console.log("Extracted Token:", token); // Log the token for debugging
     setLoading(true);
     try {
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         "/api/users/setup",
         {
           times: allTimes,
@@ -244,11 +245,10 @@ const Step2 = () => {
                   <FormControl fullWidth>
                     <InputLabel
                       sx={{ outline: "none", border: "none" }}
-                      className={`border outline-none  rounded-sm  ${
-                        !checkReminder
+                      className={`border outline-none  rounded-sm  ${!checkReminder
                           ? "border-[#ff6a67] "
                           : "border-[#F1F2F3] "
-                      }`}
+                        }`}
                       id="demo-simple-select-label"
                     ></InputLabel>
                     <Select
@@ -258,11 +258,10 @@ const Step2 = () => {
                       value={reminder}
                       onChange={handleChange}
                       label=""
-                      className={`border outline-none  rounded-sm  ${
-                        !checkReminder
+                      className={`border outline-none  rounded-sm  ${!checkReminder
                           ? "border-[#ff6a67] "
                           : "border-[#F1F2F3] "
-                      }`}
+                        }`}
                       onOpen={handleOpen}
                       onClose={handleClose}
                       IconComponent={() => <SelectIcon open={open} />}
@@ -341,11 +340,10 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment("AM");
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
-                              time.period === "AM"
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "AM"
                                 ? "bg-white text-black"
                                 : "bg-none text-gray-500"
-                            }`}
+                              }`}
                           >
                             AM
                           </button>
@@ -355,11 +353,10 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment("PM");
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${
-                              time.period === "PM"
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "PM"
                                 ? "bg-white text-black"
                                 : "bg-none text-gray-500"
-                            }`}
+                              }`}
                           >
                             PM
                           </button>

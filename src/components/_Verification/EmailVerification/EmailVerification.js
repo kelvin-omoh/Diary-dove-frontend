@@ -6,6 +6,7 @@ import Inputs from '../Inputs';
 import tick from '../../../assets/Tick Circle.png'
 import axios from 'axios';
 import { CircularProgress } from '@mui/material';
+import axiosInstance from '../../../Utils/axiosInstance';
 
 
 const Verification = () => {
@@ -67,7 +68,7 @@ const Verification = () => {
             try {
 
                 if (otp.length === 6) {
-                    const response = await axios.post("/api/users/verifyOTP", {
+                    const response = await axiosInstance.post("/api/users/verifyOTP", {
                         email: verifyEmail,
                         otp
                     })
@@ -96,7 +97,7 @@ const Verification = () => {
     const handleResendOfCode = async () => {
 
         try {
-            const res = await axios.post('/api/users/resendOTPCode', {
+            const res = await axiosInstance.post('/api/users/resendOTPCode', {
                 email: verifyEmail
             })
             console.log(res);

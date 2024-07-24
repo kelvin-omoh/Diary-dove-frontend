@@ -6,6 +6,7 @@ import tick from "../../assets/Tick Circle.png";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import { Usercontext } from "../../context/userContext";
+import axiosInstance from "../../Utils/axiosInstance";
 
 const WhatsAppVerification = () => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const WhatsAppVerification = () => {
       setLoading(true);
       try {
         if (otp.length === 6) {
-          const response = await axios.post("/api/verify-whatsapp", {
+          const response = await axiosInstance.post("/api/verify-whatsapp", {
             phoneNumber: verifyWhatsApp,
             otp,
           });
@@ -74,7 +75,7 @@ const WhatsAppVerification = () => {
 
   const handleResendOfCode = async () => {
     try {
-      const res = await axios.post("/api/resend-whatsapp-code", {
+      const res = await axiosInstance.post("/api/resend-whatsapp-code", {
         phoneNumber: verifyWhatsApp,
       });
       console.log(res);

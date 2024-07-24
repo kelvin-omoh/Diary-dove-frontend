@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 export const LogoFunction = () => {
     return (
         <div className=' flex flex-col'>
-            <img className=' logo  w-[146px] h-[36px]' src={logo} alt={'logo'} />
+            <img className=' logo   w-[146px] h-[36px]' src={logo} alt={'logo'} />
         </div>
     )
 }
@@ -91,7 +91,7 @@ const Header = () => {
 
                     <button onClick={toggleDrawer(true)}>
                     </button>
-                    <AiFillSetting onClick={() => navigate("/settings")}  className='text-[#B4B9C2] hover:cursor-pointer hover:text-[#DA9658] ' size={20} />
+                    <AiFillSetting onClick={() => navigate("/settings")} className='text-[#B4B9C2] hover:cursor-pointer hover:text-[#DA9658] ' size={20} />
                 </div>
             </div>
             <Drawer anchor={'right'} open={openNotification} onClose={toggleDrawer(false)}>

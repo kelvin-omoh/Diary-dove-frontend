@@ -46,6 +46,7 @@ import axios from "axios";
 import { Usercontext } from "../../context/userContext";
 import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
+import axiosInstance from "../../Utils/axiosInstance";
 
 const checkboxTheme = createTheme({
   palette: {
@@ -196,7 +197,7 @@ const Step2 = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         "/api/reminders/addnew",
         {
           times: validTimes,
@@ -227,7 +228,7 @@ const Step2 = () => {
   const getAllReminders = async () => {
     if (userInfo?.token?.length > 4) {
       try {
-        const res = await axios.get("/api/reminders", {
+        const res = await axiosInstance.get("/api/reminders", {
           headers: {
             Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
             "Content-Type": "application/json",
@@ -242,7 +243,7 @@ const Step2 = () => {
 
   const deleteReminder = async (id) => {
     try {
-      await axios.delete(`/api/reminders/delete/${id}`, {
+      await axiosInstance.delete(`/api/reminders/delete/${id}`, {
         headers: {
           Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
           "Content-Type": "application/json",

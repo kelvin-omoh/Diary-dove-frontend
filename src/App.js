@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import SetUp from "./pages/SetUp";
@@ -23,25 +23,32 @@ import WhatsAppVerification from "./components/Whatappverification/Whatappverifi
 import GoogleCallback from "./components/_GoogleCallback/GoogleCallBack";
 import { useEffect } from "react";
 import Success from "./pages/SuccesFulPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
-
-function App() {
+const ScrollToTop = () => {
+  const location = useLocation();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  return null;
+};
+
+function App() {
+  useEffect(() => {
     AOS.init();
-  }, [])
+  }, []);
+
   return (
     <UserContextProvider>
       <ToggleContextProvider>
-
         <Toaster position="top-right" reverseOrder={false} />
         <Router>
+          <ScrollToTop />
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route
-              path="/verify-whatsapp"
-              element={<WhatsAppVerification />}
-            />
+            <Route path="/verify-whatsapp" element={<WhatsAppVerification />} />
             <Route path="/auth/callback" element={<GoogleCallback />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/verify" element={<Verification />} />
@@ -49,34 +56,16 @@ function App() {
             <Route path="/reset-password" element={<ForgetPassword />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/new-password" element={<CreateNewPassword />} />
-            <Route
-              path="/dashboard"
-              element={<PrivateRoute element={<Home />} />}
-            />
-            <Route
-              path="/success"
-              element={<Success />}
-            />
+            <Route path="/dashboard" element={<PrivateRoute element={<Home />} />} />
+            <Route path="/success" element={<Success />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/" element={<LandingPage />} />
-            <Route
-              path="/setup"
-              element={<PrivateRoute element={<SetUp />} />}
-            />
-            <Route
-              path="/settings"
-              element={<PrivateRoute element={<Settings />} />}
-            />
-            <Route
-              path="/settings/reminder"
-              element={<PrivateRoute element={<Reminder />} />}
-            />
-            <Route
-              path="/change-email"
-              element={<PrivateRoute element={<ChangeEmail />} />}
-            />
+            <Route path="/setup" element={<PrivateRoute element={<SetUp />} />} />
+            <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
+            <Route path="/settings/reminder" element={<PrivateRoute element={<Reminder />} />} />
+            <Route path="/change-email" element={<PrivateRoute element={<ChangeEmail />} />} />
           </Routes>
         </Router>
-
       </ToggleContextProvider>
     </UserContextProvider>
   );

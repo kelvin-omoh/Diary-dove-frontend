@@ -5,6 +5,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { CircularProgress } from '@mui/material';
 import { Usercontext } from '../context/userContext';
+import axiosInstance from '../Utils/axiosInstance';
 
 const VerifyEmail = () => {
     const navigate = useNavigate();
@@ -42,7 +43,7 @@ const VerifyEmail = () => {
         setLoading(true);
         try {
             if (otp.length === 6) {
-                const response = await axios.post("/api/users/verifyOTP", {
+                const response = await axiosInstance.post("/api/users/verifyOTP", {
                     email: verifyEmail,
                     otp
                 });

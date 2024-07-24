@@ -16,6 +16,7 @@ import ToggleIcon from "./ToggleIcon";
 import { Usercontext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import axiosInstance from "../../Utils/axiosInstance";
 
 const Step1 = ({ handleNext }) => {
   const [google, setGoogle] = useState(false);
@@ -32,7 +33,7 @@ const Step1 = ({ handleNext }) => {
 
   const getAllReminders = async () => {
     try {
-      const res = await axios.get("/api/reminders", {
+      const res = await axiosInstance.get("/api/reminders", {
         headers: {
           Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
           "Content-Type": "application/json",

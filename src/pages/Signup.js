@@ -14,6 +14,8 @@ import phone from "../assets/calling.png";
 import password1 from "../assets/password.png";
 import logo3 from "../assets/DiaraDove Logo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { CircularProgress } from "@mui/material";
+import axiosInstance from "../Utils/axiosInstance";
 
 const Signup = () => {
   const [isNewUser, setIsNewUser] = useState(false);
@@ -97,7 +99,7 @@ const Signup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       // Validate user input
       const formData = {
@@ -108,7 +110,7 @@ const Signup = () => {
         password: newPassword,
       };
 
-      const response = await axios.post("/api/users/signup", formData);
+      const response = await axiosInstance.post("/api/users/signup", formData);
       console.log("Response:", response);
       console.log("Response data:", response.data);
       if (response.status === 200 && email.length > 3) {
@@ -121,9 +123,13 @@ const Signup = () => {
         setPassword("");
         navigate("/verify");
       }
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       if (error?.response?.status === 400) {
-        console.log(error);
+        if (error.response.data.message) {
+          toast.error(error.response.data.message)
+        }
         error?.response?.data?.errors?.map((e) => toast.error(e));
       }
       if (error?.response?.status === 400) {
@@ -136,22 +142,21 @@ const Signup = () => {
     }
   };
 
+
   useEffect(() => {
     if (userInfo?.token) {
-      navigate("/dashboard");
+      navigate("/dashboard")
     }
-
   }, [userInfo?.token])
 
   const handleGoogleAuth = async () => {
     try {
-      window.location.href = 'http://localhost:8000/auth/google';
-      // window.location.href = 'https://dairydoveii.onrender.com/auth/google/';
+      // window.location.href = 'http://localhost:8000/auth/google';
+      window.location.href = 'https://dairydoveii.onrender.com/auth/google/';
     } catch (error) {
       console.error('Error during Google authentication:', error);
     }
   };
-
 
 
   return (
@@ -199,10 +204,10 @@ const Signup = () => {
 
       {/* Right */}
       <div
-        className="right ease-in h-full md:h-[972px]  w-[390px] md:w-[572px] bg-white my-auto transition-all delay-300 mx-auto  flex flex-col items-center justify-center pt-[0px] md:pt-[20px]"
+        className="right ease-in h-full md:h-[972px] pb-[48px] md:pb-0  w-[390px] md:w-[572px] bg-white my-auto transition-all delay-300 mx-auto  flex flex-col items-center justify-center pt-[0px] md:pt-[20px]"
         style={{ boxShadow: "0px 4px 24px 0px #0000000A" }}
       >
-        <div className="w-[412px] pl-[24px] md:pl-0 mt-[72px] md:mt-0 mb-[20px] flex  justify-start  items-start">
+        <div onClick={() => navigate('/')} className="w-[412px] pl-[24px] md:pl-0 mt-[72px] md:mt-0 mb-[20px] flex  justify-start  items-start">
           <img src={logo3} alt="" className="w-[146px] h-[36px] " />
         </div>
         <div className="bg-[#E0A7741A]  p-[4px] rounded-[8px] flex gap-[4px] w-[342px] md:w-[412px] mx-[24px] md:mx-[80px]">
@@ -375,7 +380,15 @@ const Signup = () => {
             type="submit"
             className="text-white bg-[#DA9658] mt-[8px] w-full py-[12px] rounded-lg"
           >
-            {!isNewUser ? "Sign Up" : "Login"}
+            {!loading && <>{isNewUser ? "Login" : "Sign Up"}</>}
+            {loading && (
+              <CircularProgress
+                size={20}
+                sx={{ color: "white" }}
+                className=" text-white ml-[.5rem]"
+              />
+            )}
+
           </button>
           <div className="text-[#8F96A3] flex justify-center items-center">
             <hr className="text-[#d7d7d7] w-[106px] md:w-full mx-[.3rem] border-[#F1F2F3] border" />

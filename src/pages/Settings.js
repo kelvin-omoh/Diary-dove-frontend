@@ -11,6 +11,7 @@ import { Layout } from "../components/_Settings/Layout";
 import call from "../assets/calling.png";
 import vector from "../assets/Vector (5).png";
 import { ToggleContext } from "../context/toggleContext";
+import axiosInstance from "../Utils/axiosInstance";
 
 const Settings = () => {
     const navigate = useNavigate();
@@ -44,7 +45,7 @@ const Settings = () => {
     const handleResetPassword = async (e) => {
         e.preventDefault();
         if (validate()) {
-            const res = await axios.post("api/users/newpassword", {
+            const res = await axiosInstance.post("api/users/newpassword", {
                 password: newPassword,
             });
             toast.success(res.data.message);
@@ -75,7 +76,7 @@ const Settings = () => {
 
     const getUserData = async () => {
         try {
-            const response = await axios.get("api/users/personalinfo", {
+            const response = await axiosInstance.get("api/users/personalinfo", {
                 headers: {
                     Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
                     "Content-Type": "application/json",
@@ -143,7 +144,7 @@ const Settings = () => {
 
         try {
             setLoading(true);
-            const response = await axios.post(
+            const response = await axiosInstance.post(
                 "/api/users/uploadProfilePicture",
                 formData,
                 {
@@ -164,7 +165,6 @@ const Settings = () => {
                 const newdata = { ...userInfo, profilePicture: profilePictureUrl };
                 setAuthInfo(newdata);
                 setUserData(newdata);
-                getUserData();
             } else {
                 console.error("Unexpected response data:", response.data);
             }
@@ -178,10 +178,15 @@ const Settings = () => {
         }
     };
 
+    const [isEditing, setIsEditing] = useState(false);
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
+
     const removeProfilePicture = async () => {
         try {
             setLoading(true);
-            const response = await axios.delete("/api/users/profilePicture", {
+            const response = await axiosInstance.delete("/api/users/profilePicture", {
                 headers: {
                     Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
                     "Content-Type": "application/json",
@@ -191,6 +196,7 @@ const Settings = () => {
 
             const updatedData = { ...userInfo, profilePicture: "" };
             setAuthInfo(updatedData);
+            setSelectedFile(false)
             setUserData(updatedData);
             setLoading(false);
         } catch (error) {
@@ -200,9 +206,49 @@ const Settings = () => {
         }
     };
 
+    useEffect(() => {
+        if (selectedFile) {
+            uploadProfilePicture()
+        }
+    }, [selectedFile])
+
+    const handleChangeProfile = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const { fullname, username, phonenumber } = userData
+            const newData = {
+                fullname,
+                username,
+                phonenumber: phonenumber
+            }
+            console.log(newData);
+            const response = await axios.post('api/users/personalinfo', newData, {
+                headers: {
+                    Authorization: `Bearer ${userInfo.token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log(response.data);
+            if (response.data.status === 'success') {
+                toast.success(response.data.message);
+            } else {
+                toast.error('Failed to update profile.');
+            }
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+            console.error('Error updating profile:', error);
+            alert('An error occurred while updating profile.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <Layout>
-            <div className=" bg-white mb-width-full   h-full">
+            <div className=" bg-white mb-width-full overflow-x-hidden   h-full">
                 <button
                     onClick={() => handleToggle(!toggle)}
                     className="  flex md:hidden justify-start w-full mb-[31.25px]"
@@ -218,44 +264,60 @@ const Settings = () => {
                             type="file"
                             id="file-input"
                             className="hidden bg-none"
+                            accept=".png,.jpg,.jpeg,.JPG,.PNG,.GIF,.BMP,.TIFF,.ICO,,.EPS,.PSD,.SVG,.WebP,.JXR,.WDP"
                             onChange={handleFileChange}
                         />
 
-                        {!selectedFile ? (
-                            <label htmlFor="file-input">
-                                <span className="py-2 px-4 mt-4 bg-[#DA9658] text-white rounded-lg cursor-pointer">
-                                    Select File
-                                </span>
-                            </label>
-                        ) : (
-                            <div className=" flex items-center gap-[24px]">
+                        <label className=" flex gap-[8px] items-center " htmlFor="file-input">
+                            <span className="py-2 px-4 mt-4 flex items-center bg-[#DA9658] text-white rounded-lg cursor-pointer">
+                                {userInfo.profilePicture ?
+                                    <>
+                                        {loading ?
+                                            <div className=" flex gap-2 items-center  ">
+                                                Changing
+                                                <CircularProgress
+                                                    size={20}
+                                                    sx={{ color: "white" }}
+                                                    className=" text-white ml-[.5rem]"
+                                                />
+
+                                            </div>
+                                            : "change"}
+                                    </> :
+                                    <>
+
+                                        {loading ?
+                                            <div className=" flex gap-2 items-center  ">
+                                                updating
+                                                <CircularProgress
+                                                    size={20}
+                                                    sx={{ color: "white" }}
+                                                    className=" text-white ml-[.5rem]"
+                                                />
+
+                                            </div>
+                                            : "select an Image"}
+                                    </>
+                                }
+                            </span>
+
+                            {userInfo.profilePicture &&
                                 <button
                                     type="button"
-                                    className="py-2 px-4 mt-4 bg-[#DA9658] flex items-center text-white rounded-lg"
-                                    onClick={uploadProfilePicture}
-                                >
-                                    {loading ? "Uploading " : "Upload"}
-                                    {loading && (
-                                        <CircularProgress
-                                            size={20}
-                                            sx={{ color: "white" }}
-                                            className=" text-white ml-[.5rem]"
-                                        />
-                                    )}
-                                </button>
-                                <button
-                                    type="button"
-                                    className="py-2 px-4 mt-4 bg-[#ffffff] text-[black] rounded-lg"
+                                    className="py-2 px-4 mt-4 border  bg-[#ffffff] text-[black] rounded-lg"
                                     onClick={removeProfilePicture}
                                 >
                                     Remove
-                                </button>
-                            </div>
-                        )}
+                                </button>}
+                        </label>
+
+
+
+
                     </div>
                 </div>
                 <form
-                    className="w-[342px] md:w-[832px] flex flex-col justify-center gap-[16px] md:gap-[32px] text-start mt-[32px] md:mt-[60px] py-[24px]"
+                    className="w-[342px] md:w-[832px] overflow-x-hidden flex flex-col justify-center gap-[16px] md:gap-[32px] text-start mt-[32px] md:mt-[60px] py-[24px]"
                     action=""
                 >
                     <label className=" border-b-0 md:border-b-[2px] pb-0 md:pb-[48px] border-[#F1F2F3]">
@@ -271,10 +333,9 @@ const Settings = () => {
                                     <BsPerson className="text-[#B4B9C2]" />
                                     <input
                                         value={memoizedUserData.fullname}
-                                        onChange={(e) =>
-                                          setUserData({ ...userData, fullname: e.target.value })
-                                      }
-                                        className="border-none   disabled:bg-[#ffffff00] cursor-no-drop bg-none text-[#8F96A3] outline-none"
+                                        onChange={(e) => setUserData({ ...userData, fullname: e.target.value })}
+
+                                        className="border-none  disabled:bg-[#ffffff00] cursor-no-drop text-[#252525] bg-none outline-none"
                                         type="text"
                                         placeholder="Steven Ade***"
                                     />
@@ -291,7 +352,9 @@ const Settings = () => {
                                         onChange={(e) =>
                                             setUserData({ ...userData, username: e.target.value })
                                         }
-                                        className="border-none   disabled:bg-[#ffffff00] cursor-no-drop bg-none text-[#8F96A3] outline-none"
+
+
+                                        className="border-none   disabled:bg-[#ffffff00] cursor-no-drop bg-none text-[#2b2c2c] outline-none"
                                         type="text"
                                         placeholder="Steven Ade***"
                                     />
@@ -305,16 +368,19 @@ const Settings = () => {
                                 <h1 className="text-[16px] mb-[8px] leading-[24px]">
                                     Email address
                                 </h1>
-                                <div className="flex md:bg-[#fdfaf70a] bg-[#FDFAF7] md:h-auto md:px-0 px-[16px] h-[53px]  w-[311px] md:w-[400px] justify-between items-center gap-[8px] rounded-[8px]">
-                                    <p className=" flex  items-center gap-[4px] font-[400] leading-[24px] text-[#8F96A3]">
-                                        <span className=" hidden md:block">
+                                <div className="flex md:bg-[#fdfaf70a] bg-[#FDFAF7] md:h-auto md:px-0 px-[16px] h-[53px] w-[311px] md:w-[400px] justify-between items-center gap-[8px] rounded-[8px]">
+                                    <p className="flex flex-col items-start gap-[4px] font-[400] leading-[24px] text-[#8F96A3] break-all">
+                                        <span className="hidden md:block">
                                             Your email address is
+                                        
+                      
+                                            {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}
                                         </span>
-                                        {memoizedUserData.email.replace(/.{4}(?=@)/, "****")}
                                     </p>
                                     <button
+                                        type="button"
                                         onClick={() => navigate("/change-email")}
-                                        className="text-[#DA9658] cursor-pointer "
+                                        className="text-[#DA9658] cursor-pointer"
                                     >
                                         Change
                                     </button>
@@ -324,23 +390,39 @@ const Settings = () => {
                                 <h1 className="text-[16px] mb-[8px] leading-[24px]">
                                     Phone Number
                                 </h1>
-                                <div className="flex  justify-between h-[56px]  w-[311px] md:w-[400px] px-[16px] items-center gap-[8px] md:bg-[#fdfaf70a] bg-[#FDFAF7] md:border-[#F1F2F3] border-[#f1f2f300]  border-[1px] rounded-[8px]">
-                                    <div className=" items-center flex gap-[8px] ">
+                                <div className={`flex justify-between h-[56px] w-[311px] md:w-[400px] px-[16px] items-center gap-[8px] md:bg-[#fdfaf70a] bg-[#FDFAF7] 
+                                 ${isEditing ? 'border-[#da9758c3]' : ' border-[#f1f2f300] md:border-[#F1F2F3] '} 
+                                
+                                border-[#f1f2f300] border-[1px] rounded-[8px]`}>
+                                    <div className="items-center flex gap-[8px]">
                                         <img
                                             src={call}
                                             alt="phone"
-                                            className=" size-[20px] text-[#B4B9C2]"
+                                            className="size-[20px] text-[#B4B9C2]"
                                         />
                                         <input
-                                            value={memoizedUserData.phonenumber.slice(0, -4) + "****"}
-                                            disabled
-                                            className="border-none  disabled:bg-[#ffffff00] cursor-no-drop text-[#8F96A3] bg-none outline-none"
-                                            type="text"
+                                            value={memoizedUserData.phonenumber}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                // Allow only numeric characters and limit length to 11
+                                                if (/^\d{0,11}$/.test(value)) {
+                                                    setUserData({ ...memoizedUserData, phonenumber: value });
+                                                }
+                                            }}
+                                            className={`border-none outline-0 bg-[#ff000000] cursor-${isEditing ? 'text  text-[#1a1b1d]' : 'no-drop text-gray-500'}  bg-none outline-none`}
+                                            type="text" // Use type="text" for custom validation
+                                            maxLength={11} // Limits the input to 11 characters
+                                            placeholder="Enter phone number"
+                                            disabled={!isEditing} // Disable input when not in editing mode
                                         />
                                     </div>
                                     <button
-                                        onClick={() => navigate("/change-email")}
-                                        className="text-[#DA9658] cursor-pointer "
+                                        type="button"
+                                        onClick={() => {
+                                            handleEditClick();
+
+                                        }}
+                                        className="text-[#DA9658] cursor-pointer"
                                     >
                                         Change
                                     </button>
@@ -364,13 +446,28 @@ const Settings = () => {
                     </div>
                     <div className=" flex justify-between w-full  items-end">
                         <button
+                            type="button"
                             onClick={(e) => {
                                 e.preventDefault();
-                                handleClickOpen(e);
+                                handleChangeProfile(e);
                             }}
-                            className="bg-[#DA9658] font-[500] mt-[72px] md:mt-[128px] w-[359px] h-[60px] rounded-[8px] text-center text-white"
+                            className="bg-[#DA9658] font-[500] mt-[72px] md:mt-[128px] w-[359px] h-[60px] rounded-[8px] mb-[92px] md:mb-0 text-center text-white"
+
                         >
-                            Save changes
+                            {loading ?
+                                <div className="flex w-fit mx-auto justify-center gap-4 items-center">
+                                    Saving
+                                    <CircularProgress
+                                        size={20}
+                                        sx={{ color: "white" }}
+                                        className=" text-white ml-[.5rem]"
+                                    />
+
+                                </div>
+                                :
+                                ' Save changes'
+                            }
+
                         </button>
                         <img
                             src={vector}

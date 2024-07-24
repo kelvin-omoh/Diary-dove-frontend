@@ -16,6 +16,7 @@ import Profile from "../assets/person.png";
 import Warning from "../assets/Warning.png";
 import { PiEyeLight, PiEyeSlashLight } from "react-icons/pi";
 import { CircularProgress } from "@mui/material";
+import axiosInstance from "../Utils/axiosInstance";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -125,7 +126,7 @@ const Login = () => {
 
   const getUserData = async () => {
     try {
-      const response = await axios.get("api/users/personalinfo", {
+      const response = await axiosInstance.get("api/users/personalinfo", {
         headers: {
           Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
           "Content-Type": "application/json",
@@ -155,59 +156,53 @@ const Login = () => {
     try {
       const formData = { username: userName, password };
       console.log(formData);
-      const response = await axios.post("api/users/login", formData);
+      const response = await axiosInstance.post("api/users/login", formData);
       console.log("Response:", response.data);
+
       if (response.data.status === "success") {
         toast.success(response.data.message);
 
-
-        navigate("/setup");
-        handleVerifyEmail(email);
-        setAuthInfo({
+        const userInfo = {
           token: response.data.data[0].token,
           refreshtoken: response.data.data[1].refreshtoken,
           username: response.data.data[2].username,
           email: response.data.data[3].email,
           setup: response.data.data[4].setup,
-        });
-        if (response.data.data[0].token) {
-          console.log(response.data.data[0].token);
-          try {
-            const response = await axios.get("api/users/personalinfo", {
-              headers: {
-                Authorization: response?.data?.data[0].token ? `Bearer ${response.data.data[0].token}` : response.data.data[0].token,
-                "Content-Type": "application/json",
-              },
-            });
+        };
 
-            const newData = response.data.data;
-            const updatedData = { ...userInfo };
+        // Simulate fetching personal info and merging it
+        try {
+          const personalInfoResponse = await axiosInstance.get("api/users/personalinfo", {
+            headers: {
+              Authorization: `Bearer ${response.data.data[0].token}`,
+              "Content-Type": "application/json",
+            },
+          });
 
-            newData.forEach((item) => {
-              const [key] = Object.keys(item);
-              const [value] = Object.values(item);
-              if (!(key in updatedData)) {
-                updatedData[key] = value;
-              }
-            });
-            console.log(updatedData)
-            setAuthInfo(updatedData);
-          } catch (error) {
-            toast.error("Error while getting user information");
-            console.log(error);
-          }
+          const personalInfo = personalInfoResponse.data.data.reduce((acc, item) => {
+            const [key, value] = Object.entries(item)[0];
+            acc[key] = value;
+            return acc;
+          }, {});
+
+          const completeUserInfo = { ...userInfo, ...personalInfo };
+          localStorage.setItem("userInfo", JSON.stringify(completeUserInfo));
+          setAuthInfo(completeUserInfo);
+        } catch (error) {
+          toast.error("Error while getting user information");
+          console.log(error);
         }
+
+        navigate("/setup");
+        handleVerifyEmail(email);
       }
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      setIsLoading(false);
       console.log("Error:", error);
-      console.log(error.status);
 
-      if (error.response.status === 400) {
-
-        error.response.data.message && toast.error(error.response.data.message)
+      if (error.response && error.response.status === 400) {
+        error.response.data.message && toast.error(error.response.data.message);
       }
       if (Array.isArray(error?.response?.data?.errors)) {
         error.response.data.errors.forEach((i) => toast.error(i));
@@ -215,6 +210,7 @@ const Login = () => {
       console.log(error?.response?.data?.errors?.map((i) => i));
     }
   };
+
 
   const handleGoogleAuth = async () => {
     try {
@@ -271,7 +267,7 @@ const Login = () => {
         </div>
 
         <div className="right ease-in h-full  my-auto transition-all  gap-6 delay-300 mx-auto w-[342px] md:w-fit flex flex-col  items-center justify-center ">
-          <div className=" grid w-full items-center justify-start ">
+          <div onClick={()=>navigate('/')} className=" grid w-full items-center justify-start ">
             <img src={Logo} className=" h-[36px] mdw-[146px]" alt="logo" />
           </div>
 

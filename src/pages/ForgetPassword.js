@@ -5,6 +5,7 @@ import { Usercontext } from '../context/userContext'
 import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { CircularProgress } from '@mui/material'
+import axiosInstance from '../Utils/axiosInstance'
 const ForgetPassword = () => {
 
 
@@ -18,7 +19,7 @@ const ForgetPassword = () => {
         setLoading(true);
         try {
             await handleVerifyEmail(email);
-            const res = await axios.post('/api/users/resendOTPCode', {
+            const res = await axiosInstance.post('/api/users/resendOTPCode', {
                 email
             });
             await handleVerifyEmail(email);

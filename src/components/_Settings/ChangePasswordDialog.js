@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Usercontext } from '../../context/userContext';
+import axiosInstance from '../../Utils/axiosInstance';
 
 const ChangePasswordDialog = ({ handleClose, open, onClose }) => {
     const navigate = useNavigate();
@@ -34,7 +35,7 @@ const ChangePasswordDialog = ({ handleClose, open, onClose }) => {
         e.preventDefault();
         if (validate()) {
             try {
-                const res = await axios.post('/api/users/personalinfo/changepassword', {
+                const res = await axiosInstance.post('/api/users/personalinfo/changepassword', {
                     oldpassword: currentPassword,
                     password: newPassword,
                     confirmPassword: confirmPassword
@@ -178,7 +179,7 @@ const ChangePasswordDialog = ({ handleClose, open, onClose }) => {
 
                             <button
                                 type="submit"
-                                className='bg-[#DA9658] text-center mt-[8px] rounded-lg h-[59px] w-full justify-center flex items-center text-white'
+                                className='bg-[#DA9658] text-center mt-[8px] rounded-lg py-[12px] w-full justify-center flex items-center text-white'
                             >
                                 Change Password
                             </button>

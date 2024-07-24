@@ -12,6 +12,7 @@ import note from '../assets/notebook-dynamic-color.png'
 import search from '../assets/zoom-dynamic-color.png'
 import Footer from '../components/_LandingPage/Footer'
 import { useNavigate } from 'react-router-dom'
+import { HashLink as Link } from 'react-router-hash-link';
 
 const LandingPage = () => {
 
@@ -75,7 +76,7 @@ const LandingPage = () => {
                             <h1 className=' font-[600] text-[20px] md:leading-[48px] leading-6 md:text-[40px]'>Get reminded of your daily <br /> schedules effortlessly</h1>
                             <p className=' text-[#8F96A3] font-[400] md:text-[18px] md:leading-[27px] md:text-start leading-4 text-[12px] text-center mt-[16px]'>Set reminders to let you know it's time your jot down your thoughts so far. <br />
                                 Be reminded to take a break and put down your thoughs through your email or whatsapp and create multiple reminders for different times through out the day. </p>
-                            <button onClick={() => navigate("#howitworks")} className=' mt-[32px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </button>
+                            <Link to={'#how-it-works'} className=' mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </Link>
                         </div>
                         <div className='bg-gradient-to-t px-[48px] md:px-0 from-[#FAF2EA] ] to-[#fff9f3] md:w-auto w-full'>
                             <img data-aos="fade-in" className=" h-full md:h-[496px] object-contain w-[512px] " src={screen1} alt="" />
@@ -94,10 +95,10 @@ const LandingPage = () => {
                         data-aos-anchor-placement="top-center"
 
                         className=' flex flex-col  justify-between  md:flex-row-reverse gap-[24.5] md:gap-[163px] mt-[56px] items-center text-start'>
-                        <div className='px-[24px] md:px-0 w-full md:w-[753px] '>
-                            <h1 className=' font-[600] text-[20px] md:text-[40px]'>Easily create and edit your diary entries in seconds</h1>
+                        <div className='px-[24px] grid text-center items-center justify-center md:px-0 w-full md:w-[753px] '>
+                            <h1 className=' font-[600] text-[20px] w-fit text-center  md:text-[40px]'>Easily create and edit your diary entries in seconds</h1>
                             <p className=' text-[#8F96A3] font-[400] text-[12px] md:text-start text-center md:text-[18px] md:leading-[27px] leading-4 mt-[16px]'>Safe and secure space to be one with your thoughts not matter when , no matter where. Create multiple diaries entries throughout the day either with our website or by replying our reminders to you.</p>
-                            <button className=' mt-[32px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </button>
+                            <Link to={'#how-it-works'} className=' mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </Link>
                         </div>
                         <div className='bg-gradient-to-t px-[48px] md:px-0 from-[#FAF2EA]  to-[#fff9f3] md:w-auto w-full'>
                             <img data-aos="fade" className=" h-full md:h-[496px] object-contain w-[512px] " src={screen2} alt="" />

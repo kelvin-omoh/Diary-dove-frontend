@@ -3,6 +3,7 @@ import frame from '../../assets/Frame (5).png'
 import logo from '../../assets/Frame 35238.png'
 import { AiOutlineCopyright } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom'
+import { HashLink as Link } from 'react-router-hash-link';
 const Footer = () => {
     const navigate = useNavigate()
     return (
@@ -40,7 +41,8 @@ const Footer = () => {
                 <div className=' flex flex-col md:flex-row text-[12px] md:text-[14px] items-center    w-full pt-[25.5px] justify-center md:justify-between px-[24px] md:px-[80px]'>
                     <ul className=' md:mx-0 mx-auto  flex gap-[8px] md:gap-[56px]'>
                         <li>Terms of Service</li>
-                        <li>Privacy policy</li>
+                        <Link to={'/privacy-policy'}
+                        >Privacy policy</Link>
                         <li>Cookies policy</li>
                     </ul>
                     <ul className=' md:mx-0 mx-auto md:block flex justify-center md:w-auto w-full'>
