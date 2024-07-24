@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Usercontext } from '../../context/userContext';
 export const PrivateRoute = ({ element }) => {
     const { userInfo } = useContext(Usercontext);
     const [isLoading, setIsLoading] = useState(true);
     const [token, setToken] = useState(null);
-
+    const navigate = useNavigate()
     useEffect(() => {
         // Simulate checking for userInfo initially
         const checkToken = () => {
@@ -13,6 +13,11 @@ export const PrivateRoute = ({ element }) => {
                 console.log((userInfo));
                 setToken(userInfo.token);
             }
+
+            if (!userInfo.setup) {
+                navigate("/setup")
+            }
+
             setIsLoading(false);
         };
 
