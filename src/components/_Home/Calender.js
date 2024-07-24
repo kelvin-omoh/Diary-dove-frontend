@@ -54,10 +54,9 @@ function Day(props) {
 export default function CalendarWithNotes({ setAllTexts, allTexts }) {
     const [selectedStart, setSelectedStart] = useState(null);
     const [selectedEnd, setSelectedEnd] = useState(null);
-    const [hoveredDay, setHoveredDay] = useState(null);
     const [value, setValue] = useState(dayjs(''));
     const { userInfo } = useContext(Usercontext);
-
+    const [hoveredDay, setHoveredDay] = useState(null);
     useEffect(() => {
         const getAllNotes = async () => {
             try {
@@ -101,9 +100,75 @@ export default function CalendarWithNotes({ setAllTexts, allTexts }) {
         });
     }, [selectedEnd, selectedStart, allTexts]);
 
+    const handleFilterWithCalendar = async () => {
+        try {
+            const filterParams = {
+                startDate: selectedStart ? selectedStart.format('YYYY-MM-DD') : '',
+                endDate: selectedEnd ? selectedEnd.format('YYYY-MM-DD') : '',
+                limit: 12,
+                page: 1,
+            };
+
+            const res = await axios.post("/api/diaries/filter", filterParams, {
+                headers: {
+                    Authorization: userInfo?.token ? ` Bearer ${userInfo?.token} ` : "",
+                    "Content-Type": "application/json",
+                },
+            });
+
+            console.log(res.data);
+
+            if (res.data.data?.length === 0) {
+                toast.error(" Couldn't find any results for the date range");
+            } else {
+                toast.success('Filter selected successfully');
+            }
+            setAllTexts(res.data.data);
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message || 'An error occurred');
+        }
+    };
+
+    // const handleFilterWithCalendar = async () => {
+    //     try {
+    //         // Construct query parameters
+    //         const filterParams = new URLSearchParams({
+    //             startDate: selectedStart ? selectedStart.format('YYYY-MM-DD') : '',
+    //             endDate: selectedEnd ? selectedEnd.format('YYYY-MM-DD') : '',
+    //             limit: 12,
+    //         }).toString();
+
+    //         // Send GET request with query parameters
+    //         const res = await axios.get(`/api/diaries/filter?${filterParams}`, {
+    //             headers: {
+    //                 Authorization: userInfo?.token ? `Bearer ${userInfo?.token}` : "",
+    //                 "Content-Type": "application/json",
+    //             },
+    //         });
+
+    //         console.log(res.data);
+
+    //         if (res.data.data?.length === 0) {
+    //             toast.error("Couldn't find any results for the date range");
+    //         } else {
+    //             toast.success('Filter selected successfully');
+    //         }
+    //         setAllTexts(res.data.data);
+
+    //     } catch (error) {
+    //         console.log(error);
+    //         toast.error(error.message || 'An error occurred');
+    //     }
+    // };
+
     useEffect(() => {
-        setAllTexts(filteredNotes);
-    }, [filteredNotes, setAllTexts]);
+        if (selectedStart && selectedEnd) {
+            handleFilterWithCalendar();
+            // setAllTexts([]);
+        }
+    }, [selectedEnd]);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>

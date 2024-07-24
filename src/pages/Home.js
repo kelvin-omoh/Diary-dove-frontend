@@ -35,6 +35,7 @@ const Home = () => {
                         "Content-Type": "application/json",
                     },
                 });
+                console.log(response.data.data);
                 setAllTexts(response.data.data);
             } catch (error) {
                 toast.error("Error while getting notes");

@@ -12,13 +12,21 @@ const Verification = () => {
 
     const navigate = useNavigate()
     const { verifyEmail, logOut } = useContext(Usercontext)
-    const [timer, setTimer] = useState(360); // 6 minutes countdown
+    const [timer, setTimer] = useState(() => {
+        const savedTimer = localStorage.getItem('timer');
+        return savedTimer !== null ? parseInt(savedTimer, 10) : 360;
+    });
     const [canResend, setCanResend] = useState(false);
     const [message, setMessage] = useState("");
     const [otpValues, setOtpValues] = useState(Array(6).fill(''));
     const [otp, setOtp] = useState('');
     const [isSuccess, setIsSuccess] = useState(false)
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        // Store the timer value in localStorage whenever it changes
+        localStorage.setItem('timer', timer);
+    }, [timer]);
 
     useEffect(() => {
         if (timer > 0) {
@@ -66,7 +74,7 @@ const Verification = () => {
 
                     localStorage.removeItem('verifyEmail')
                     toast.success(response.data.message)
-                    navigate("/new-password")
+                    navigate("/reset-password")
                 } else {
                     toast.error('otp verification is incorrect')
                 }
@@ -114,7 +122,7 @@ const Verification = () => {
                         !isSuccess &&
                         <>
 
-                            <p className=' text-[#8F96A3] text-[14px] md:text-[18px]  w-full leading-[27px] '>A verification email has been sent to your email<span className=' text-[#DA9658]'> {maskEmail(verifyEmail)}</span>, copy the code provided in the email to complete your account verification.
+                            <p className=' text-[#8F96A3] text-[14px] md:text-[18px]  w-full leading-[27px] '>A verification email has been sent to your email<span className=' text-[#DA9658]'>  {verifyEmail.email.replace(/(.{4})[^@]+(?=@)/, '$1****')}</span>, copy the code provided in the email to complete your account verification.
                             </p>
                             <Inputs otp={otp} setOtp={setOtp} otpValues={otpValues} setOtpValues={setOtpValues} />
 

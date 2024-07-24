@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../assets/DiaraDove Logo.png";
 import { StepConnector } from "@mui/material";
 import { createTheme, styled } from "@mui/material/styles";
@@ -34,11 +34,18 @@ const CustomStepConnector = styled(StepConnector)(({ theme }) => ({
 }));
 
 const SetUp = () => {
+    const { userInfo } = useContext(Usercontext)
     const [activeStep, setActiveStep] = useState(0);
-
+    const navigate = useNavigate()
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
+
+    useEffect(() => {
+        if (userInfo.setup === true) {
+            navigate("/dashboard")
+        }
+    }, [userInfo])
 
     return (
         <div className="w-full ">

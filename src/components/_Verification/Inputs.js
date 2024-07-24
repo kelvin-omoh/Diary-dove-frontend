@@ -28,11 +28,11 @@ const Inputs = ({ otpValues, setOtpValues, otp, setOtp }) => {
 
 
     return (
-        <div className=' mt-[20px] w-full md:mt-[40px]'>
+        <div className=' mt-[20px] mx-auto flex  justify-center items-center w-full md:mt-[40px]'>
             {otpValues.map((value, index) => (
                 <input
                     key={index}
-                    className=' w-[35px] md:w-[39px] md:px-[8.17px] text-center my-auto mx-auto border-[2px] border-[#F1F2F3] h-[56px] rounded-[8px] mr-[14.3px] md:mr-[24.17px]'
+                    className=' w-[35px] md:w-[39px] md:px-[8.17px] text-center my-auto mx-auto border-[2px] border-[#F1F2F3] h-[56px] rounded-[8px]'
                     id={`otp-input-${index}`}
                     type="text"
                     maxLength={1}

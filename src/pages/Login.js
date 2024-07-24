@@ -127,7 +127,7 @@ const Login = () => {
     try {
       const response = await axios.get("api/users/personalinfo", {
         headers: {
-          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
           "Content-Type": "application/json",
         },
       });
@@ -159,7 +159,8 @@ const Login = () => {
       console.log("Response:", response.data);
       if (response.data.status === "success") {
         toast.success(response.data.message);
-        getUserData();
+
+
         navigate("/setup");
         handleVerifyEmail(email);
         setAuthInfo({
@@ -169,6 +170,33 @@ const Login = () => {
           email: response.data.data[3].email,
           setup: response.data.data[4].setup,
         });
+        if (response.data.data[0].token) {
+          console.log(response.data.data[0].token);
+          try {
+            const response = await axios.get("api/users/personalinfo", {
+              headers: {
+                Authorization: response?.data?.data[0].token ? `Bearer ${response.data.data[0].token}` : response.data.data[0].token,
+                "Content-Type": "application/json",
+              },
+            });
+
+            const newData = response.data.data;
+            const updatedData = { ...userInfo };
+
+            newData.forEach((item) => {
+              const [key] = Object.keys(item);
+              const [value] = Object.values(item);
+              if (!(key in updatedData)) {
+                updatedData[key] = value;
+              }
+            });
+            console.log(updatedData)
+            setAuthInfo(updatedData);
+          } catch (error) {
+            toast.error("Error while getting user information");
+            console.log(error);
+          }
+        }
       }
       setIsLoading(false);
     } catch (error) {

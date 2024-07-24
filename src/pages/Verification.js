@@ -9,11 +9,19 @@ import axios from "axios";
 const Verification = () => {
   const navigate = useNavigate();
   const { verifyEmail } = useContext(Usercontext);
-  const [timer, setTimer] = useState(360); // 6 minutes countdown
+  const [timer, setTimer] = useState(() => {
+    const savedTimer = localStorage.getItem('timer');
+    return savedTimer !== null ? parseInt(savedTimer, 10) : 360;
+  });
   const [canResend, setCanResend] = useState(false);
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
   const [otp, setOtp] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    // Store the timer value in localStorage whenever it changes
+    localStorage.setItem('timer', timer);
+  }, [timer]);
 
   useEffect(() => {
     if (timer > 0) {
@@ -49,6 +57,13 @@ const Verification = () => {
     }
   }, [verifyEmail]);
 
+  useEffect(() => {
+    console.log(verifyEmail);
+    if (verifyEmail === '' || verifyEmail === null) {
+      navigate("/change-email")
+    }
+  }, [verifyEmail]);
+
   console.log(verifyEmail);
   const verifyOTP = async () => {
     try {
@@ -72,6 +87,7 @@ const Verification = () => {
 
   const handleResendOfCode = async () => {
     try {
+      setTimer(360);
       const res = await axios.post("/api/users/resendOTPCode", {
         email: verifyEmail,
       });
@@ -92,32 +108,35 @@ const Verification = () => {
           <img src={tick} alt={"tick"} className=" mb-[40px] size-[125px]" />
         )}
         <div
-          className={` mb-[20px] w-full flex flex-col justify-center items-center  md:mb-[40px] ${isSuccess ? "h-[77px]  " : ""
+          className={` mb-[20px] w-full mx-auto  flex flex-col justify-center items-center  md:mb-[40px] ${isSuccess ? "h-[77px]  " : ""
             }  `}
         >
           <h1
             className={` font-[600] text-[20px] md:text-[32px] ${isSuccess ? "mb-[12px]" : "mb-[16px]"
               }  text-center`}
           >
-            {isSuccess ? "Verification Success" : "Verify youd email address"}
+            {isSuccess ? "Verification Success" : "Verify your email address"}
           </h1>
           {!isSuccess && (
-            <div className=" flex flex-col w-full justify-center items-center">
+            <div className=" mx-auto flex flex-col w-full justify-center items-center">
               <p className=" text-[#8F96A3] text-[14px] md:text-[18px]   w-full leading-[27px] text-center ">
                 A verification email has been sent to your email
                 <span className=" text-[#DA9658]">
                   {" "}
-                  {maskEmail(verifyEmail)}
+                  {verifyEmail.replace(/(.{4})[^@]+(?=@)/, '$1****')}
                 </span>
                 , copy the code provided in the email to complete your account
                 verification.
               </p>
-              <Inputs
-                otp={otp}
-                setOtp={setOtp}
-                otpValues={otpValues}
-                setOtpValues={setOtpValues}
-              />
+              <div className=" flex justify-center w-full mx-auto items-center">
+
+                <Inputs
+                  otp={otp}
+                  setOtp={setOtp}
+                  otpValues={otpValues}
+                  setOtpValues={setOtpValues}
+                />
+              </div>
             </div>
           )}
           <button
