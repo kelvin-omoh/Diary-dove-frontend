@@ -13,7 +13,7 @@ export const PrivateRoute = ({ element }) => {
                 console.log(JSON.parse(localStorage.getItem('authData'))?.token);
                 setToken(JSON.parse(localStorage.getItem('authData'))?.token);
             } else {
-                logOut()
+
             }
 
             if (!JSON.parse(localStorage.getItem('authData'))?.setup) {
