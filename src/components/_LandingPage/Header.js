@@ -56,7 +56,7 @@ const Header = () => {
 
     return (
         <div className='z-10 fixed top-0 w-[100vw] flex flex-row items-center py-[16px] justify-between px-[24px] md:px-[80px] bg-white'>
-            <div>
+            <div onClick={()=>navigate('/')}>
                 <img src={logo} alt='logo' className='h-[36px]' />
             </div>
             <button onClick={handleToggle} className=' font-[100]  md:hidden'>

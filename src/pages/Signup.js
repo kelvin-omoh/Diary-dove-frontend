@@ -207,7 +207,7 @@ const Signup = () => {
         className="right ease-in h-full md:h-[972px] pb-[48px] md:pb-0  w-[390px] md:w-[572px] bg-white my-auto transition-all delay-300 mx-auto  flex flex-col items-center justify-center pt-[0px] md:pt-[20px]"
         style={{ boxShadow: "0px 4px 24px 0px #0000000A" }}
       >
-        <div className="w-[412px] pl-[24px] md:pl-0 mt-[72px] md:mt-0 mb-[20px] flex  justify-start  items-start">
+        <div onClick={() => navigate('/')} className="w-[412px] pl-[24px] md:pl-0 mt-[72px] md:mt-0 mb-[20px] flex  justify-start  items-start">
           <img src={logo3} alt="" className="w-[146px] h-[36px] " />
         </div>
         <div className="bg-[#E0A7741A]  p-[4px] rounded-[8px] flex gap-[4px] w-[342px] md:w-[412px] mx-[24px] md:mx-[80px]">

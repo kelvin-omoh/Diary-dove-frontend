@@ -267,7 +267,7 @@ const Login = () => {
         </div>
 
         <div className="right ease-in h-full  my-auto transition-all  gap-6 delay-300 mx-auto w-[342px] md:w-fit flex flex-col  items-center justify-center ">
-          <div className=" grid w-full items-center justify-start ">
+          <div onClick={()=>navigate('/')} className=" grid w-full items-center justify-start ">
             <img src={Logo} className=" h-[36px] mdw-[146px]" alt="logo" />
           </div>
 
