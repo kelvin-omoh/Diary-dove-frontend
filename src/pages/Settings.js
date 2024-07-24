@@ -375,10 +375,10 @@ const Settings = () => {
                                 <div className="flex md:bg-[#fdfaf70a] bg-[#FDFAF7] md:h-auto md:px-0 px-[16px] h-[53px] w-[311px] md:w-[400px] justify-between items-center gap-[8px] rounded-[8px]">
                                     <p className="flex flex-col items-start gap-[4px] font-[400] leading-[24px] text-[#8F96A3] break-all">
                                         <span className="hidden md:block">
-                                            Your email address is
+                                            Your email address is  
 
 
-                                            {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}
+                                           <span> {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}</span>
                                         </span>
                                     </p>
                                     <button
