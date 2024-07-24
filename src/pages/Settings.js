@@ -164,7 +164,6 @@ const Settings = () => {
                 const newdata = { ...userInfo, profilePicture: profilePictureUrl };
                 setAuthInfo(newdata);
                 setUserData(newdata);
-                getUserData();
             } else {
                 console.error("Unexpected response data:", response.data);
             }
@@ -191,6 +190,7 @@ const Settings = () => {
 
             const updatedData = { ...userInfo, profilePicture: "" };
             setAuthInfo(updatedData);
+            setSelectedFile(false)
             setUserData(updatedData);
             setLoading(false);
         } catch (error) {
@@ -199,6 +199,12 @@ const Settings = () => {
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        if (selectedFile) {
+            uploadProfilePicture()
+        }
+    }, [selectedFile])
 
     return (
         <Layout>
@@ -221,37 +227,52 @@ const Settings = () => {
                             onChange={handleFileChange}
                         />
 
-                        {!selectedFile ? (
-                            <label htmlFor="file-input">
-                                <span className="py-2 px-4 mt-4 bg-[#DA9658] text-white rounded-lg cursor-pointer">
-                                    Select File
-                                </span>
-                            </label>
-                        ) : (
-                            <div className=" flex items-center gap-[24px]">
+                        <label className=" flex gap-[8px] items-center " htmlFor="file-input">
+                            <span className="py-2 px-4 mt-4 flex items-center bg-[#DA9658] text-white rounded-lg cursor-pointer">
+                                {userInfo.profilePicture ?
+                                    <>
+                                        {loading ?
+                                            <div className=" flex gap-2 items-center  ">
+                                                Changing
+                                                <CircularProgress
+                                                    size={20}
+                                                    sx={{ color: "white" }}
+                                                    className=" text-white ml-[.5rem]"
+                                                />
+
+                                            </div>
+                                            : "change"}
+                                    </> :
+                                    <>
+
+                                        {loading ?
+                                            <div className=" flex gap-2 items-center  ">
+                                                updating
+                                                <CircularProgress
+                                                    size={20}
+                                                    sx={{ color: "white" }}
+                                                    className=" text-white ml-[.5rem]"
+                                                />
+
+                                            </div>
+                                            : "select an Image"}
+                                    </>
+                                }
+                            </span>
+
+                            {userInfo.profilePicture &&
                                 <button
                                     type="button"
-                                    className="py-2 px-4 mt-4 bg-[#DA9658] flex items-center text-white rounded-lg"
-                                    onClick={uploadProfilePicture}
-                                >
-                                    {loading ? "Uploading " : "Upload"}
-                                    {loading && (
-                                        <CircularProgress
-                                            size={20}
-                                            sx={{ color: "white" }}
-                                            className=" text-white ml-[.5rem]"
-                                        />
-                                    )}
-                                </button>
-                                <button
-                                    type="button"
-                                    className="py-2 px-4 mt-4 bg-[#ffffff] text-[black] rounded-lg"
+                                    className="py-2 px-4 mt-4 border  bg-[#ffffff] text-[black] rounded-lg"
                                     onClick={removeProfilePicture}
                                 >
                                     Remove
-                                </button>
-                            </div>
-                        )}
+                                </button>}
+                        </label>
+
+
+
+
                     </div>
                 </div>
                 <form
