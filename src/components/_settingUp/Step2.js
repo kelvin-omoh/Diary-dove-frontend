@@ -268,6 +268,7 @@ const Step2 = () => {
       if (response.status === 200) {
         console.log(response.data.message);
         toast.success(response.data.message);
+        navigate("/dashboard");
       }
     } catch (error) {
       console.log(error);
