@@ -8,13 +8,11 @@ const axiosInstance = axios.create();
 
 const logOut = () => {
     console.log('Logging out'); // Debugging log
-    setUserInfo({});
     localStorage.removeItem('authData');
     localStorage.removeItem('verifyEmail');
 };
 const setAuthInfo = (data) => {
     console.log(data); // Debugging log
-    setUserInfo(data);
     localStorage.setItem('authData', JSON.stringify(data));
 };
 
@@ -32,7 +30,6 @@ axiosInstance.interceptors.response.use(
                     // Switch token to refresh token
                     storedAuthData.token = refreshToken;
                     localStorage.setItem('authData', JSON.stringify(storedAuthData));
-                    setAuthInfo(storedAuthData);
 
                     axios.defaults.headers.common['Authorization'] = `Bearer ${refreshToken}`;
                     originalRequest.headers['Authorization'] = `Bearer ${refreshToken}`;
