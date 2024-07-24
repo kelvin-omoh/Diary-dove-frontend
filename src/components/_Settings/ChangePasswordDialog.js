@@ -178,7 +178,7 @@ const ChangePasswordDialog = ({ handleClose, open, onClose }) => {
 
                             <button
                                 type="submit"
-                                className='bg-[#DA9658] text-center mt-[8px] rounded-lg h-[59px] w-full justify-center flex items-center text-white'
+                                className='bg-[#DA9658] text-center mt-[8px] rounded-lg py-[12px] w-full justify-center flex items-center text-white'
                             >
                                 Change Password
                             </button>
