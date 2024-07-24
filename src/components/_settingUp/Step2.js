@@ -5,7 +5,7 @@ import {
   Select,
   createTheme,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import {
   Timeline,
@@ -60,6 +60,8 @@ const Step2 = () => {
   const navigate = useNavigate();
   const { userInfo, setAuthInfo, logOut } = useContext(Usercontext);
   const [loading, setLoading] = useState(false);
+  const [hourRange, setHourRange] = useState({ min: 0, max: 23 });
+
   const handleChange = (event) => {
     setCheckReminder(true);
     setReminder(event.target.value);
