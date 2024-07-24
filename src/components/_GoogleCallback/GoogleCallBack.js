@@ -29,7 +29,7 @@ const GoogleCallback = () => {
                 if (authData) {
                     setAuthInfo(authData);
                     console.log(authData);
-
+                    navigate("/setup");
 
                     try {
                         const personalInfoResponse = await axios.get("api/users/personalinfo", {
@@ -48,7 +48,6 @@ const GoogleCallback = () => {
                         const completeUserInfo = { ...authData, ...personalInfo };
                         localStorage.setItem("userInfo", JSON.stringify(completeUserInfo));
                         setAuthInfo(completeUserInfo);
-                        navigate("/setup");
 
                     } catch (error) {
                         console.error("Error while fetching user information:", error);
