@@ -145,8 +145,8 @@ const Signup = () => {
 
   const handleGoogleAuth = async () => {
     try {
-      // window.location.href = 'http://localhost:8000/auth/google';
-      window.location.href = 'https://dairydoveii.onrender.com/auth/google/';
+      window.location.href = 'http://localhost:8000/auth/google';
+      // window.location.href = 'https://dairydoveii.onrender.com/auth/google/';
     } catch (error) {
       console.error('Error during Google authentication:', error);
     }
@@ -208,17 +208,15 @@ const Signup = () => {
         <div className="bg-[#E0A7741A]  p-[4px] rounded-[8px] flex gap-[4px] w-[342px] md:w-[412px] mx-[24px] md:mx-[80px]">
           <button
             onClick={() => navigate("/login")}
-            className={`transition-all duration-300 ease-out ${
-              isNewUser && "bg-[white]"
-            } w-full justify-center  px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
+            className={`transition-all duration-300 ease-out ${isNewUser && "bg-[white]"
+              } w-full justify-center  px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
           >
             Existing User
           </button>
           <button
             onClick={() => navigate("/sign-up")}
-            className={`transition-all duration-300 ease-out ${
-              !isNewUser && "bg-[white]"
-            } w-full justify-center px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
+            className={`transition-all duration-300 ease-out ${!isNewUser && "bg-[white]"
+              } w-full justify-center px-[16px] h-[32px] gap-[8px] rounded-lg flex  items-center`}
           >
             New User
           </button>
@@ -341,9 +339,8 @@ const Signup = () => {
               /> */}
 
               <div
-                className={`${
-                  errors.newPassword ? "border-red-500" : ""
-                } flex  relative w-full items-center gap-[8px]`}
+                className={`${errors.newPassword ? "border-red-500" : ""
+                  } flex  relative w-full items-center gap-[8px]`}
               >
                 <img src={password1} className="text-[#B4B9C2]" />
                 <input
