@@ -111,7 +111,7 @@ const Verification = () => {
 
     useEffect(() => {
         if (timer === 0) {
-            handleResendOfCode
+            handleResendOfCode()
         }
     }, [timer])
 
