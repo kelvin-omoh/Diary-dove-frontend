@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react'
+import axiosInstance from '../Utils/axiosInstance';
 const ChangePassword = () => {
     const savePreferences = async () => {
 
@@ -8,7 +9,7 @@ const ChangePassword = () => {
         console.log('Extracted Token:', token); // Log the token for debugging
 
         try {
-            const res = await axios.post('api/users/newpassword', {
+            const res = await axiosInstance.post('api/users/newpassword', {
 
                 oldpassword: "oldPassword123",
                 password: "newPassword456"
@@ -40,7 +41,7 @@ const ChangePassword = () => {
         console.log('Extracted Token:', token); // Log the token for debugging
 
         try {
-            const res = await axios.post('api/users/newpassword', {
+            const res = await axiosInstance.post('api/users/newpassword', {
 
 
                 email: "elusamisegun6@gmail.com",
@@ -74,16 +75,16 @@ const ChangePassword = () => {
             const token = extractToken(userInfo.token)
             console.log('extracted user token', token);
             try {
-                const req = axios.post('api/users/personalinfo',
+                const req = axiosInstance.post('api/users/personalinfo',
                     {
                         fullname: "New Name",
                         username: "Newname",
                         phonenumber: "+1234567890"
                     }, {
-                        headers: {
-                            'Authorization': token ? `Bearer ${token}` : '',
-                            'Content-Type': 'application/json'
-                        }
+                    headers: {
+                        'Authorization': token ? `Bearer ${token}` : '',
+                        'Content-Type': 'application/json'
+                    }
                 })
             } catch (error) {
                 console.log(error.response)
@@ -102,7 +103,7 @@ const ChangePassword = () => {
         const savePerference = async () => {
             const token = extractToken(userinfo.token);
             try {
-                const req = axios.post('api/users/protected')
+                const req = axiosInstance.post('api/users/protected')
             } catch (error) {
                 console.log(error.response)
                 if (error.response?.status === 401) {

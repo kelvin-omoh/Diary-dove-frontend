@@ -11,6 +11,7 @@ import { Layout } from "../components/_Settings/Layout";
 import call from "../assets/calling.png";
 import vector from "../assets/Vector (5).png";
 import { ToggleContext } from "../context/toggleContext";
+import axiosInstance from "../Utils/axiosInstance";
 
 const Settings = () => {
     const navigate = useNavigate();
@@ -44,7 +45,7 @@ const Settings = () => {
     const handleResetPassword = async (e) => {
         e.preventDefault();
         if (validate()) {
-            const res = await axios.post("api/users/newpassword", {
+            const res = await axiosInstance.post("api/users/newpassword", {
                 password: newPassword,
             });
             toast.success(res.data.message);
@@ -75,7 +76,7 @@ const Settings = () => {
 
     const getUserData = async () => {
         try {
-            const response = await axios.get("api/users/personalinfo", {
+            const response = await axiosInstance.get("api/users/personalinfo", {
                 headers: {
                     Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
                     "Content-Type": "application/json",
@@ -143,7 +144,7 @@ const Settings = () => {
 
         try {
             setLoading(true);
-            const response = await axios.post(
+            const response = await axiosInstance.post(
                 "/api/users/uploadProfilePicture",
                 formData,
                 {
@@ -180,7 +181,7 @@ const Settings = () => {
     const removeProfilePicture = async () => {
         try {
             setLoading(true);
-            const response = await axios.delete("/api/users/profilePicture", {
+            const response = await axiosInstance.delete("/api/users/profilePicture", {
                 headers: {
                     Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
                     "Content-Type": "application/json",

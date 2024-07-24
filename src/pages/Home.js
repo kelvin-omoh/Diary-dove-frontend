@@ -7,6 +7,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Usercontext } from "../context/userContext";
 import useCheckToken from "../components/hooks/useCheckToken";
+import axiosInstance from "../Utils/axiosInstance";
 
 const Home = () => {
     const [open, setOpen] = useState(false);
@@ -29,7 +30,7 @@ const Home = () => {
     const getAllNotes = async () => {
         if (useCheckToken) {
             try {
-                const response = await axios.get("api/diaries/", {
+                const response = await axiosInstance.get("api/diaries/", {
                     headers: {
                         Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
                         "Content-Type": "application/json",
@@ -75,7 +76,7 @@ const Home = () => {
         try {
             if (editIndex !== null) {
                 // Update existing note
-                const response = await axios.patch(
+                const response = await axiosInstance.patch(
                     `api/diaries/${editIndex}`,
                     { content: text },
                     {
@@ -91,7 +92,7 @@ const Home = () => {
                 toast.success("Note updated successfully");
             } else {
                 // Create new note
-                const response = await axios.post(
+                const response = await axiosInstance.post(
                     "api/diaries/",
                     { content: text },
                     {
@@ -123,7 +124,7 @@ const Home = () => {
 
     const handleDelete = async (index) => {
         try {
-            await axios.delete(`api/diaries/delete/${index}`, {
+            await axiosInstance.delete(`api/diaries/delete/${index}`, {
                 headers: {
                     Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
                 },
@@ -148,7 +149,7 @@ const Home = () => {
     const createNote = async () => {
         try {
             setLoading(true);
-            const response = await axios.post(
+            const response = await axiosInstance.post(
                 "api/diaries/",
                 {
                     content: text,

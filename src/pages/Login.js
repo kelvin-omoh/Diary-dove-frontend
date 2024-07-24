@@ -16,6 +16,7 @@ import Profile from "../assets/person.png";
 import Warning from "../assets/Warning.png";
 import { PiEyeLight, PiEyeSlashLight } from "react-icons/pi";
 import { CircularProgress } from "@mui/material";
+import axiosInstance from "../Utils/axiosInstance";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -125,7 +126,7 @@ const Login = () => {
 
   const getUserData = async () => {
     try {
-      const response = await axios.get("api/users/personalinfo", {
+      const response = await axiosInstance.get("api/users/personalinfo", {
         headers: {
           Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
           "Content-Type": "application/json",
@@ -155,7 +156,7 @@ const Login = () => {
     try {
       const formData = { username: userName, password };
       console.log(formData);
-      const response = await axios.post("api/users/login", formData);
+      const response = await axiosInstance.post("api/users/login", formData);
       console.log("Response:", response.data);
 
       if (response.data.status === "success") {
@@ -171,7 +172,7 @@ const Login = () => {
 
         // Simulate fetching personal info and merging it
         try {
-          const personalInfoResponse = await axios.get("api/users/personalinfo", {
+          const personalInfoResponse = await axiosInstance.get("api/users/personalinfo", {
             headers: {
               Authorization: `Bearer ${response.data.data[0].token}`,
               "Content-Type": "application/json",

@@ -5,6 +5,7 @@ import { Usercontext } from '../context/userContext';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
+import axiosInstance from '../Utils/axiosInstance';
 
 const CreateNewPassword = () => {
     const [newPasswordVisible, setNewPasswordVisible] = useState(false);
@@ -28,7 +29,7 @@ const CreateNewPassword = () => {
         setLoading(true);
         try {
             if (validate()) {
-                const res = await axios.post('api/users/newpassword', {
+                const res = await axiosInstance.post('api/users/newpassword', {
                     email: verifyEmail,
                     password: newPassword,
                     confirmPassword: confirmPassword

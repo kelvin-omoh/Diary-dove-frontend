@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Usercontext } from '../context/userContext'
 import toast from 'react-hot-toast'
 import { CircularProgress } from '@mui/material'
+import axiosInstance from '../Utils/axiosInstance'
 
 const ChangeEmail = () => {
     const { userInfo, handleVerifyEmail } = useContext(Usercontext)
@@ -14,7 +15,7 @@ const ChangeEmail = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await axios.post('/api/users/personalinfo/changeemail', {
+            const res = await axiosInstance.post('/api/users/personalinfo/changeemail', {
                 email
             }, {
                 headers: {

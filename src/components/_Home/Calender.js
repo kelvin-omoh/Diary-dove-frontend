@@ -5,6 +5,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Usercontext } from '../../context/userContext';
+import axiosInstance from '../../Utils/axiosInstance';
 
 const isInSameWeek = (dayA, dayB) => {
     if (dayB == null) {
@@ -60,7 +61,7 @@ export default function CalendarWithNotes({ setAllTexts, allTexts }) {
     useEffect(() => {
         const getAllNotes = async () => {
             try {
-                const response = await axios.get("api/diaries/", {
+                const response = await axiosInstance.get("api/diaries/", {
                     headers: {
                         Authorization: userInfo?.token ? `Bearer ${userInfo?.token}` : "",
                         "Content-Type": "application/json",
@@ -141,7 +142,7 @@ export default function CalendarWithNotes({ setAllTexts, allTexts }) {
             }).toString();
 
             // Send GET request with query parameters
-            const res = await axios.get(`/api/diaries/filter?${filterParams}`, {
+            const res = await axiosInstance.get(`/api/diaries/filter?${filterParams}`, {
                 headers: {
                     Authorization: userInfo?.token ? `Bearer ${userInfo?.token}` : "",
                     "Content-Type": "application/json",

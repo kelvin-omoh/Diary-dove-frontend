@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Usercontext } from '../../context/userContext';
 import axios from 'axios';
+import axiosInstance from '../../Utils/axiosInstance';
 
 const GoogleCallback = () => {
     const location = useLocation();
@@ -21,7 +22,7 @@ const GoogleCallback = () => {
 
                     // Fetch additional user info if necessary
                     try {
-                        const personalInfoResponse = await axios.get("api/users/personalinfo", {
+                        const personalInfoResponse = await axiosInstance.get("api/users/personalinfo", {
                             headers: {
                                 Authorization: `Bearer ${token}`,
                                 "Content-Type": "application/json",

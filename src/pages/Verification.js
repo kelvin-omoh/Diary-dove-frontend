@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Inputs from "../components/_Verification/Inputs";
 import tick from "../assets/Tick Circle.png";
 import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 
 const Verification = () => {
   const navigate = useNavigate();
@@ -68,7 +69,7 @@ const Verification = () => {
   const verifyOTP = async () => {
     try {
       if (otp.length === 6) {
-        const response = await axios.post("/api/users/verifyOTP", {
+        const response = await axiosInstance.post("/api/users/verifyOTP", {
           email: verifyEmail,
           otp,
         });
@@ -88,7 +89,7 @@ const Verification = () => {
   const handleResendOfCode = async () => {
     try {
       setTimer(360);
-      const res = await axios.post("/api/users/resendOTPCode", {
+      const res = await axiosInstance.post("/api/users/resendOTPCode", {
         email: verifyEmail,
       });
       console.log(res);

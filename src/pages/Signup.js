@@ -15,6 +15,7 @@ import password1 from "../assets/password.png";
 import logo3 from "../assets/DiaraDove Logo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { CircularProgress } from "@mui/material";
+import axiosInstance from "../Utils/axiosInstance";
 
 const Signup = () => {
   const [isNewUser, setIsNewUser] = useState(false);
@@ -109,7 +110,7 @@ const Signup = () => {
         password: newPassword,
       };
 
-      const response = await axios.post("/api/users/signup", formData);
+      const response = await axiosInstance.post("/api/users/signup", formData);
       console.log("Response:", response);
       console.log("Response data:", response.data);
       if (response.status === 200 && email.length > 3) {
