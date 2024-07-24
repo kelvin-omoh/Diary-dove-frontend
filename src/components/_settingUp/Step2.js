@@ -256,7 +256,7 @@ const Step2 = () => {
     });
 
     try {
-      const response = await axiosInstance.post('/api/reminders/addnew', {
+      const response = await axiosInstance.post('api/users/setup', {
         times: formattedReminders,
       }, {
         headers: {
