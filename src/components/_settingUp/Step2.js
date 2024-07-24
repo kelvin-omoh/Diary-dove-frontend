@@ -51,7 +51,11 @@ const Step2 = () => {
   const [open, setOpen] = useState(false);
   const [reminders, setReminders] = useState([]);
   const [reminder, setReminder] = useState("Everyday"); // Set "Everyday" as the default value
-  const [time, setTime] = useState({ hour: "", minute: "", period: "AM" });
+  const [time, setTime] = useState({
+    hour: '00',
+    minute: '00',
+    period: 'am'
+  });
   const [checkReminder, setCheckReminder] = useState(true);
   const navigate = useNavigate();
   const { userInfo, setAuthInfo, logOut } = useContext(Usercontext);
@@ -61,29 +65,8 @@ const Step2 = () => {
     setReminder(event.target.value);
   };
 
-  const handleTimeChange = (field, event) => {
-    let inputValue = event.target.value;
 
-    // Remove non-numeric characters
-    inputValue = inputValue.replace(/[^0-9]/g, "");
 
-    // Truncate to two characters
-    if (inputValue?.length > 2) {
-      inputValue = inputValue.slice(0, 2);
-    }
-
-    setTime((prevTime) => ({
-      ...prevTime,
-      [field]: inputValue,
-    }));
-  };
-
-  const handleAlignment = (period) => {
-    setTime((prevTime) => ({
-      ...prevTime,
-      period,
-    }));
-  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -102,23 +85,7 @@ const Step2 = () => {
   };
 
   console.log(userInfo);
-  const addReminder = async () => {
-    if (checkReminder && isValidReminder) {
-      setCheckReminder(true);
-      if (time.hour !== "" && time.minute !== "") {
-        const newReminder = {
-          reminder: reminder !== "" ? reminder : "No Reminder Name",
-          time: `${time.hour}:${time.minute} ${time.period.toLowerCase()}`,
-        };
 
-        setReminders([...reminders, newReminder]);
-        // Clear form after adding
-        setTime({ hour: "", minute: "", period: "AM" });
-      }
-    }
-
-    !isValidReminder() ? setCheckReminder(false) : setCheckReminder(true);
-  };
 
   const extractToken = (token) => {
     // Assume token is already in the correct format
@@ -158,48 +125,6 @@ const Step2 = () => {
   };
 
 
-  const savePreferences = async () => {
-    const allTimes = [...reminders.map((r) => r.time)];
-    console.log(allTimes);
-
-    const token = extractToken(userInfo.token); // Ensure the token is properly extracted
-    console.log("Extracted Token:", token); // Log the token for debugging
-    setLoading(true);
-    try {
-      const res = await axiosInstance.post(
-        "/api/users/setup",
-        {
-          times: allTimes,
-        },
-        {
-          headers: {
-            Authorization: token ? `Bearer ${token}` : "",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(res.data);
-      toast.success("Reminder saved successfully");
-      getUserData()
-    } catch (error) {
-      console.log(error.response);
-      if (error.response?.status === 401) {
-        // Handle unauthorized (token expired) error
-        logOut(); // Call logout function if token expires
-        toast.error("Session expired. Please log in again."); // Show user a message
-      } else {
-        toast.error(error.response?.data?.message || "An error occurred");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const deleteReminder = (index) => {
-    const updatedReminders = [...reminders];
-    updatedReminders.splice(index, 1);
-    setReminders(updatedReminders);
-  };
 
   const daysOfWeek = ["Everyday"];
 
@@ -207,6 +132,149 @@ const Step2 = () => {
     return daysOfWeek.includes(reminder);
   };
 
+  const getAllReminders = async () => {
+    if (userInfo?.token?.length > 4) {
+      try {
+        const response = await axios.get('/api/reminders', {
+          headers: {
+            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+            "Content-Type": "application/json",
+          },
+        });
+        const fetchedReminders = response.data.data.map((reminder) => ({
+          id: reminder.id,
+          hour: reminder.hour + 1,
+          minute: reminder.time,
+          period: reminder.hour + 1 < 12 ? 'AM' : 'PM',
+        }));
+        setReminders(fetchedReminders);
+        console.log(fetchedReminders);
+      } catch (error) {
+        console.log(error);
+        console.error('Error fetching reminders:', error);
+      }
+    }
+  };
+
+
+  const handleAlignment = (selectedPeriod) => {
+    // Determine if selectedPeriod is AM or PM, defaulting to AM if not provided
+    const isAM = selectedPeriod ? selectedPeriod === 'AM' : true;
+
+    // Define hour range based on AM or PM
+    const min = isAM ? 0 : 12;  // AM hours range from 0-11, PM hours range from 12-23
+    const max = isAM ? 11 : 23;
+
+    // Update hour range and time state
+    setHourRange({ min, max });
+    setTime((prevTime) => ({
+      ...prevTime,
+      hour: isAM ? '00' : '12',  // Default hour for AM is 00, for PM is 12
+      minute: '00',
+      period: isAM ? 'am' : 'pm',
+    }));
+  };
+
+  const handleTimeChange = (field, e) => {
+    const value = e.target.value;
+    setTime((prevTime) => ({
+      ...prevTime,
+      [field]: value,
+    }));
+  };
+
+
+  const addReminder = () => {
+    if (time.hour !== '' && time.minute !== '') {
+      setReminders((prevReminders) => [
+        ...prevReminders,
+        { hour: parseInt(time.hour, 10), minute: parseInt(time.minute, 10), period: time.period },
+      ]);
+      setTime({ hour: '', minute: '', period: 'AM' });
+    }
+  };
+  const convertToReadableTime = (hour, minute) => {
+    let period = 'AM';
+    let formattedHour = hour;
+
+    if (hour === 0) {
+      formattedHour = 12;
+    } else if (hour === 12) {
+      period = 'PM';
+    } else if (hour > 12) {
+      formattedHour = hour - 12;
+      period = 'PM';
+    }
+
+    return `${formattedHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${period}`;
+  };
+
+
+  const deleteReminder = async (id) => {
+    try {
+      const res = await axiosInstance.delete(`/api/reminders/delete/${id}`, {
+        headers: {
+          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(res.data);
+      setReminders(reminders.filter((reminder) => reminder.id !== id));
+      toast.success(res.data.message);
+    } catch (error) {
+      console.log(error);
+      toast.error("Error deleting reminder");
+    }
+  };
+
+  useEffect(() => {
+    getAllReminders();
+  }, [userInfo?.token]);
+
+
+  const savePreferences = async () => {
+    setLoading(true);
+
+    const formattedReminders = reminders.map(reminder => {
+      let hour = reminder.hour;
+      let period = reminder.period.toLowerCase();
+
+      if (hour === 0) {
+        hour = 12; // Midnight case
+      } else if (hour === 12) {
+        period = 'pm'; // Noon case
+      } else if (hour > 12) {
+        hour -= 12;
+        period = 'pm';
+      }
+
+      const minute = reminder.minute.toString().padStart(2, '0');
+
+      return `${hour}:${minute} ${period}`;
+    });
+
+    try {
+      const response = await axiosInstance.post('/api/reminders/addnew', {
+        times: formattedReminders,
+      }, {
+        headers: {
+          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 200) {
+        console.log(response.data.message);
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to save preferences.');
+
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className=" flex flex-col   gap-[16px]">
       <Timeline sx={{ padding: "0px" }}>
@@ -323,42 +391,38 @@ const Step2 = () => {
                       <div className=" border w-[248px] h-[68px] flex place-content-center  border-[#FAF2EA] pl-[15.5px] pr-[9px] rounded-[8px]">
                         <input
                           placeholder="00"
-                          min={1}
-                          max={12}
+                          min={hourRange.min}
+                          max={hourRange.max}
                           className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                           type="number"
                           value={time.hour}
                           inputMode="numeric"
                           pattern="\d*"
                           onChange={(e) => {
-                            e.target.value = parseInt(
-                              e.target.value
-                            ).toLocaleString("en-US", {
+                            let newValue = parseInt(e.target.value, 10);
+                            if (isNaN(newValue)) newValue = 0;
+                            newValue = Math.max(hourRange.min, Math.min(newValue, hourRange.max));
+                            e.target.value = newValue.toLocaleString("en-US", {
                               minimumIntegerDigits: 2,
                               useGrouping: false,
                             });
                             handleTimeChange("hour", e);
                           }}
                         />
-
                         <input
                           placeholder="00"
                           min={0}
                           max={59}
-                          maxLength={2}
                           className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                           type="number"
                           value={time.minute}
                           inputMode="numeric"
                           pattern="\d*"
                           onChange={(e) => {
-                            const value = e.target.value
-                              .replace(/[^0-9]/g, "")
-                              .slice(0, 2);
-                            e.target.value = parseInt(
-                              value || "0",
-                              10
-                            ).toLocaleString("en-US", {
+                            let newValue = parseInt(e.target.value, 10);
+                            if (isNaN(newValue)) newValue = 0;
+                            newValue = Math.max(0, Math.min(newValue, 59));
+                            e.target.value = newValue.toLocaleString("en-US", {
                               minimumIntegerDigits: 2,
                               useGrouping: false,
                             });
@@ -371,12 +435,9 @@ const Step2 = () => {
                             value="AM"
                             onClick={(e) => {
                               e.preventDefault();
-                              handleAlignment("AM");
+                              handleAlignment('AM');
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "AM"
-                              ? "bg-white text-black"
-                              : "bg-none text-gray-500"
-                              }`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "am" ? "bg-white text-black" : "bg-none text-gray-500"}`}
                           >
                             AM
                           </button>
@@ -386,10 +447,7 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment("PM");
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "PM"
-                              ? "bg-white text-black"
-                              : "bg-none text-gray-500"
-                              }`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "pm" ? "bg-white text-black" : "bg-none text-gray-500"}`}
                           >
                             PM
                           </button>
@@ -398,7 +456,7 @@ const Step2 = () => {
                       <div className="flex items-center justify-center w-[34px] h-[34px]">
                         <button
                           type="button"
-                          className="bg-[#DA9658] h-full w-full flex items-center justify-center text-[32px] font-light text-white rounded-full "
+                          className="bg-[#DA9658] h-[34px] w-[34px] flex items-center justify-center text-[32px] font-light text-white rounded-full"
                           onClick={addReminder}
                         >
                           +
@@ -413,15 +471,17 @@ const Step2 = () => {
                     {reminders.map((reminder, index) => (
                       <div
                         key={index}
-                        className="flex w-full h-[62px] p-[16px] rounded-[8px] border-[#FAF2EA] justify-between border  items-center gap-2"
+                        className="flex w-full h-[62px] p-[16px] rounded-[8px] border-[#FAF2EA] justify-between border items-center gap-2"
                       >
-                        <span>{` ${reminder.time}`}</span>
+                        <span>
+                          {convertToReadableTime(reminder.hour, reminder.minute)}
+                        </span>
                         <button
                           type="button"
-                          className=" text-white px-2 py-1 rounded"
-                          onClick={() => deleteReminder(index)}
+                          className="text-white px-2 py-1 rounded"
+                          onClick={() => deleteReminder(reminder.id)}
                         >
-                          <img className=" h-[18px]" src={trash} alt="trash" />
+                          <img className="h-[18px]" src={trash} alt="trash" />
                         </button>
                       </div>
                     ))}
