@@ -178,6 +178,11 @@ const Settings = () => {
         }
     };
 
+    const [isEditing, setIsEditing] = useState(false);
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
+
     const removeProfilePicture = async () => {
         try {
             setLoading(true);
@@ -215,7 +220,7 @@ const Settings = () => {
             const newData = {
                 fullname,
                 username,
-                phonenumber: '0' + phonenumber
+                phonenumber: phonenumber
             }
             console.log(newData);
             const response = await axios.post('api/users/personalinfo', newData, {
@@ -233,6 +238,7 @@ const Settings = () => {
             }
         } catch (error) {
             setLoading(false);
+            console.log(error);
             console.error('Error updating profile:', error);
             alert('An error occurred while updating profile.');
         } finally {
@@ -384,24 +390,39 @@ const Settings = () => {
                                 <h1 className="text-[16px] mb-[8px] leading-[24px]">
                                     Phone Number
                                 </h1>
-                                <div className="flex  justify-between h-[56px]  w-[311px] md:w-[400px] px-[16px] items-center gap-[8px] md:bg-[#fdfaf70a] bg-[#FDFAF7] md:border-[#F1F2F3] border-[#f1f2f300]  border-[1px] rounded-[8px]">
-                                    <div className=" items-center flex gap-[8px] ">
+                                <div className={`flex justify-between h-[56px] w-[311px] md:w-[400px] px-[16px] items-center gap-[8px] md:bg-[#fdfaf70a] bg-[#FDFAF7] 
+                                 ${isEditing ? 'border-[#da9758c3]' : ' border-[#f1f2f300] md:border-[#F1F2F3] '} 
+                                
+                                border-[#f1f2f300] border-[1px] rounded-[8px]`}>
+                                    <div className="items-center flex gap-[8px]">
                                         <img
                                             src={call}
                                             alt="phone"
-                                            className=" size-[20px] text-[#B4B9C2]"
+                                            className="size-[20px] text-[#B4B9C2]"
                                         />
                                         <input
-                                            value={memoizedUserData.phonenumber.slice(0, -4) + "****"}
-                                            disabled
-                                            className="border-none  disabled:bg-[#ffffff00] cursor-no-drop text-[#8F96A3] bg-none outline-none"
-                                            type="text"
+                                            value={memoizedUserData.phonenumber}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                // Allow only numeric characters and limit length to 11
+                                                if (/^\d{0,11}$/.test(value)) {
+                                                    setUserData({ ...memoizedUserData, phonenumber: value });
+                                                }
+                                            }}
+                                            className={`border-none outline-0 bg-[#ff000000] cursor-${isEditing ? 'text  text-[#1a1b1d]' : 'no-drop text-gray-500'}  bg-none outline-none`}
+                                            type="text" // Use type="text" for custom validation
+                                            maxLength={11} // Limits the input to 11 characters
+                                            placeholder="Enter phone number"
+                                            disabled={!isEditing} // Disable input when not in editing mode
                                         />
                                     </div>
                                     <button
                                         type="button"
-                                        onClick={() => navigate("/change-email")}
-                                        className="text-[#DA9658] cursor-pointer "
+                                        onClick={() => {
+                                            handleEditClick();
+
+                                        }}
+                                        className="text-[#DA9658] cursor-pointer"
                                     >
                                         Change
                                     </button>
