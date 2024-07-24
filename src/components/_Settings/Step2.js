@@ -114,12 +114,14 @@ const Step2 = () => {
     }));
   };
 
+
   const handleAlignment = (period) => {
     setTime((prevTime) => ({
       ...prevTime,
       period,
     }));
   };
+
 
   const handleOpen = () => {
     setOpen(true);
@@ -138,19 +140,23 @@ const Step2 = () => {
   };
 
 
+
   const addReminder = async () => {
     if (checkReminder && isValidReminder) {
       setCheckReminder(true);
-      if (time.hour !== "" && time.minute !== "") {
+      if (time.hour !== "" && time.minute !== "" && time.period !== "") {
         // Parse hour and minute from the time object
         const hour = parseInt(time.hour, 10);
         const minute = parseInt(time.minute, 10);
 
-        // Create a new reminder with hour and minute as separate properties
+        // Convert to 24-hour format if needed
+        const formattedHour = time.period === "PM" && hour < 12 ? hour + 12 : (time.period === "AM" && hour === 12 ? 0 : hour);
+
+        // Create a new reminder with hour and minute properties as numbers
         const newReminder = {
           reminder: reminder !== "" ? reminder : "No Reminder Name",
-          hour: hour.toString(),       // Store hour
-          time: minute.toString(),   // Store minute
+          hour: formattedHour, // Store hour as a number
+          time: minute,       // Store minute as a number
         };
 
         setReminders([...reminders, newReminder]);
@@ -162,45 +168,32 @@ const Step2 = () => {
       setCheckReminder(false);
     }
   };
+  const formatReminderToString = (reminder) => {
+    const { hour, time } = reminder;
+
+    // Determine AM/PM period
+    const period = hour >= 12 ? 'PM' : 'AM';
+
+    // Convert 24-hour format to 12-hour format
+    const displayHour = hour % 12 || 12; // Convert 0 to 12 for 12 AM
+    const displayMinute = time.toString().padStart(2, '0'); // Ensure two-digit minute
+
+    // Return formatted string
+    return `${displayHour}:${displayMinute} ${period.toLowerCase()}`;
+  };
 
 
   const savePreferences = async () => {
-    // Format all times to match the required "12:30 am" format
-    const formattedTimes = reminders.map((r) => {
-      // Default to empty strings if hour or minute are undefined
-      const hour = r.hour !== undefined ? parseInt(r.hour, 10) : 0;
-      const minute = r.minute !== undefined ? parseInt(r.minute, 10) : 0;
-
-      // Validate hour and minute ranges
-      if (isNaN(hour) || isNaN(minute) || hour < 1 || hour > 12 || minute < 0 || minute > 59) {
-        console.error(`Invalid time values: hour=${hour}, minute=${minute}`);
-        return ""; // or handle the error as appropriate
-      }
-
-      // Determine period based on hour
-      const period = hour >= 12 ? "PM" : "AM";
-
-      // Convert hour to 12-hour format and adjust for 12 AM/PM cases
-      const formattedHour = (hour % 12) || 12;
-      const formattedMinute = minute.toString().padStart(2, "0");
-
-      // Format time as "h:mm am/pm"
-      return `${formattedHour}:${formattedMinute} ${period.toLowerCase()}`;
-    });
-
-    // Filter out any invalid or empty times
-    const validTimes = formattedTimes.filter(time => time !== "");
-
-    console.log(validTimes); // Check the formatted times
-
-    const token = extractToken(userInfo.token);
-
-    setLoading(true);
     try {
+      // Convert the reminders array to an array of strings
+      const formattedTimes = reminders.map(formatReminderToString);
+
+      console.log(formattedTimes); // Debugging: check the formatted array
+
       const res = await axiosInstance.post(
         "/api/reminders/addnew",
         {
-          times: validTimes,
+          times: formattedTimes, // Ensure this is an array of strings
         },
         {
           headers: {
@@ -209,8 +202,9 @@ const Step2 = () => {
           },
         }
       );
-      toast.success("Reminder saved successfully");
-      navigate("/dashboard");
+      console.log(res);
+      toast.success(res.data.message);
+      // navigate("/dashboard");
     } catch (error) {
       if (error.response?.status === 401) {
         logOut();
@@ -225,6 +219,7 @@ const Step2 = () => {
   };
 
 
+
   const getAllReminders = async () => {
     if (userInfo?.token?.length > 4) {
       try {
@@ -234,6 +229,7 @@ const Step2 = () => {
             "Content-Type": "application/json",
           },
         });
+        console.log(res.data.data);
         setReminders(res.data.data);
       } catch (error) {
         toast.error("Error fetching reminders");
@@ -243,14 +239,15 @@ const Step2 = () => {
 
   const deleteReminder = async (id) => {
     try {
-      await axiosInstance.delete(`/api/reminders/delete/${id}`, {
+      const res = await axiosInstance.delete(`/api/reminders/delete/${id}`, {
         headers: {
           Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
           "Content-Type": "application/json",
         },
       });
+      console.log(res.data);
       setReminders(reminders.filter((reminder) => reminder.id !== id));
-      toast.success("Reminder deleted successfully");
+      toast.success(res.data.message);
     } catch (error) {
       toast.error("Error deleting reminder");
     }
@@ -395,19 +392,23 @@ const Step2 = () => {
                         <input
                           placeholder="00"
                           min={0}
-                          max={59}
+                          max={23} // Assuming 24-hour format; use 12 if 12-hour format
                           className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                           type="number"
                           value={time.hour}
                           inputMode="numeric"
                           pattern="\d*"
                           onChange={(e) => {
-                            e.target.value = parseInt(
-                              e.target.value
-                            ).toLocaleString("en-US", {
+                            // Parse and format the value
+                            let newValue = parseInt(e.target.value, 10);
+                            if (isNaN(newValue)) newValue = 0; // Fallback for invalid input
+                            newValue = Math.max(0, Math.min(newValue, 23)); // Limit to 0-23 for 24-hour format
+
+                            e.target.value = newValue.toLocaleString("en-US", {
                               minimumIntegerDigits: 2,
                               useGrouping: false,
                             });
+
                             handleTimeChange("hour", e);
                           }}
                         />
@@ -416,19 +417,22 @@ const Step2 = () => {
                           placeholder="00"
                           min={0}
                           max={59}
-                          maxLength={2}
                           className="text-center w-[48px] font-[500] text-[20px] h-[28px] my-auto"
                           type="number"
                           value={time.minute}
                           inputMode="numeric"
                           pattern="\d*"
                           onChange={(e) => {
-                            e.target.value = parseInt(
-                              e.target.value
-                            ).toLocaleString("en-US", {
+                            // Parse and format the value
+                            let newValue = parseInt(e.target.value, 10);
+                            if (isNaN(newValue)) newValue = 0; // Fallback for invalid input
+                            newValue = Math.max(0, Math.min(newValue, 59)); // Limit to 0-59
+
+                            e.target.value = newValue.toLocaleString("en-US", {
                               minimumIntegerDigits: 2,
                               useGrouping: false,
                             });
+
                             handleTimeChange("minute", e);
                           }}
                         />
