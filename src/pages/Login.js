@@ -188,7 +188,7 @@ const Login = () => {
         try {
           const personalInfo = await fetchUserInfo(userInfo.token);
           const completeUserInfo = { ...userInfo, ...personalInfo };
-          localStorage.setItem("userInfo", JSON.stringify(completeUserInfo));
+          localStorage.setItem("authData", JSON.stringify(completeUserInfo));
           setAuthInfo(completeUserInfo);
         } catch (error) {
           toast.error("Error while getting user information");

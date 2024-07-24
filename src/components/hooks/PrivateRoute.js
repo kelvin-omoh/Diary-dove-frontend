@@ -2,16 +2,18 @@ import React, { useState, useEffect, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Usercontext } from '../../context/userContext';
 export const PrivateRoute = ({ element }) => {
-    const { userInfo } = useContext(Usercontext);
+    const { userInfo, logOut } = useContext(Usercontext);
     const [isLoading, setIsLoading] = useState(true);
     const [token, setToken] = useState(null);
     const navigate = useNavigate()
     useEffect(() => {
         // Simulate checking for userInfo initially
         const checkToken = () => {
-            if (JSON.parse(localStorage.getItem('authData')).token) {
-                console.log(JSON.parse(localStorage.getItem('authData')).token);
-                setToken(JSON.parse(localStorage.getItem('authData')).token);
+            if (userInfo.token) {
+                console.log(JSON.parse(localStorage.getItem('authData'))?.token);
+                setToken(JSON.parse(localStorage.getItem('authData'))?.token);
+            } else {
+                logOut()
             }
 
             if (!JSON.parse(localStorage.getItem('authData')).setup) {

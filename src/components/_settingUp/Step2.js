@@ -99,7 +99,7 @@ const Step2 = () => {
     try {
       const response = await axiosInstance.get("api/users/personalinfo", {
         headers: {
-          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+          Authorization: userInfo?.token ? `Bearer ${userInfo?.token}` : "",
           "Content-Type": "application/json",
         },
       });
