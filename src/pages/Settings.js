@@ -271,8 +271,8 @@ const Settings = () => {
                   <BsPerson className="text-[#B4B9C2]" />
                   <input
                     value={memoizedUserData.fullname}
-                    disabled
-                    className="border-none  disabled:bg-[#ffffff00] cursor-no-drop text-[#8F96A3] bg-none outline-none"
+                    disabled={false}
+                    className="border-none   cursor-no-drop text-[#101111] bg-none outline-none"
                     type="text"
                     placeholder="Steven Ade***"
                   />
@@ -286,7 +286,7 @@ const Settings = () => {
                   <BsPerson className="text-[#B4B9C2]" />
                   <input
                     value={memoizedUserData.username}
-                    disabled
+                    
                     onChange={(e) =>
                       setUserData({ ...userData, username: e.target.value })
                     }

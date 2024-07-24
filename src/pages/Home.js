@@ -250,7 +250,7 @@ const Home = () => {
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         placeholder="Enter description..."
-                        className="outline-none h-[144px]  w-full"
+                        className=" h-[144px]  w-full"
                         cols="30"
                         rows="10"
                     ></textarea>
