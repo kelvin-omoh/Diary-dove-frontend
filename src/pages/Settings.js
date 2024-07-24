@@ -375,10 +375,10 @@ const Settings = () => {
                                 <div className="flex md:bg-[#fdfaf70a] bg-[#FDFAF7] md:h-auto md:px-0 px-[16px] h-[53px] w-[311px] md:w-[400px] justify-between items-center gap-[8px] rounded-[8px]">
                                     <p className="flex flex-col items-start gap-[4px] font-[400] leading-[24px] text-[#8F96A3] break-all">
                                         <span className="hidden md:block">
-                                            Your email address is  
+                                            Your email address is
 
 
-                                           <span> {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}</span>
+                                            <span> {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}</span>
                                         </span>
                                     </p>
                                     <button
@@ -390,7 +390,7 @@ const Settings = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div>
+                            {/* <div>
                                 <h1 className="text-[16px] mb-[8px] leading-[24px]">
                                     Phone Number
                                 </h1>
@@ -431,7 +431,7 @@ const Settings = () => {
                                         Change
                                     </button>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="mt-[40px] md:mt-[24px]">
                             <p className="text-[#8F96A3] font-[400] mt-[24px] text-[18px] leading-[27px]">
