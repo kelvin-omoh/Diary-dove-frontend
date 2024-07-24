@@ -61,8 +61,8 @@ const Sidebar = () => {
                                 onClick={() => handleToggle(!toggle)}
                                 key={link.route}
                                 className={` ${location.pathname === link.route
-                                        ? "bg-white text-[#DA9658]  font-[500] "
-                                        : " font-[400]"
+                                    ? "bg-white text-[#DA9658]  font-[500] "
+                                    : " font-[400]"
                                     } h-[48px] rounded-l-[128px] py-[8px] md:py-[11px] md:pl-[27px] pl-[16px] text-[14px] md:text-[18px] items-center flex w-full`}
                             >
                                 <Link
@@ -80,7 +80,7 @@ const Sidebar = () => {
                     </ul>
                     <div className="mt-[160px] md:mt-[173px] w-[321px-80px]  flex justify-end pr-[-3rem] md:pr-[9px]">
                         <img src={vector} className="h-[89px] ml-[10rem]" alt="" />
-                        <div className="absolute bottom-[24px] md:bottom-[-40px] left-[24px]">
+                        <div className="absolute bottom-[44px] md:bottom-[-40px] left-[24px]">
                             <div className="md:hidden mr-[24px] flex items-center gap-3">
                                 {userInfo?.profilePicture ? (
                                     <img
