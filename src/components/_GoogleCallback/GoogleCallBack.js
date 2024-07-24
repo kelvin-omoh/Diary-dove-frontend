@@ -22,7 +22,7 @@ const GoogleCallback = () => {
                 if (authData) {
                     setAuthInfo(authData)
                     console.log(authData);
-                    navigate('/dashboard');
+                    navigate("/setup")
 
                     try {
                         const personalInfoResponse = await axios.get("api/users/personalinfo", {
