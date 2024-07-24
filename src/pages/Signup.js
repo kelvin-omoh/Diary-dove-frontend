@@ -204,7 +204,7 @@ const Signup = () => {
 
       {/* Right */}
       <div
-        className="right ease-in h-full md:h-[972px]  w-[390px] md:w-[572px] bg-white my-auto transition-all delay-300 mx-auto  flex flex-col items-center justify-center pt-[0px] md:pt-[20px]"
+        className="right ease-in h-full md:h-[972px] pb-[48px] md:pb-0  w-[390px] md:w-[572px] bg-white my-auto transition-all delay-300 mx-auto  flex flex-col items-center justify-center pt-[0px] md:pt-[20px]"
         style={{ boxShadow: "0px 4px 24px 0px #0000000A" }}
       >
         <div className="w-[412px] pl-[24px] md:pl-0 mt-[72px] md:mt-0 mb-[20px] flex  justify-start  items-start">
