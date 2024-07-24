@@ -9,14 +9,12 @@ export const PrivateRoute = ({ element }) => {
     useEffect(() => {
         // Simulate checking for userInfo initially
         const checkToken = () => {
-            if (userInfo.token) {
-                console.log(JSON.parse(localStorage.getItem('authData'))?.token);
-                setToken(JSON.parse(localStorage.getItem('authData'))?.token);
-            } else {
-
+            if (userInfo) {
+                console.log((userInfo));
+                setToken(userInfo.token);
             }
 
-            if (!JSON.parse(localStorage.getItem('authData'))?.setup) {
+            if (!userInfo.setup) {
                 navigate("/setup")
             }
 
