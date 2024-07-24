@@ -7,6 +7,8 @@ import Step2 from "../components/_settingUp/Step2";
 import Step1 from "../components/_settingUp/Step1";
 import { useNavigate } from "react-router-dom";
 import { Usercontext } from "../context/userContext";
+import axiosInstance from "../Utils/axiosInstance";
+import toast from "react-hot-toast";
 
 // Custom connector to show line between steps with a specific width
 const CustomStepConnector = styled(StepConnector)(({ theme }) => ({
@@ -34,7 +36,7 @@ const CustomStepConnector = styled(StepConnector)(({ theme }) => ({
 }));
 
 const SetUp = () => {
-    const { userInfo } = useContext(Usercontext)
+    const { userInfo, setAuthInfo } = useContext(Usercontext)
     const [activeStep, setActiveStep] = useState(0);
     const navigate = useNavigate()
     const handleNext = () => {
@@ -46,6 +48,51 @@ const SetUp = () => {
             navigate("/dashboard")
         }
     }, [userInfo])
+
+    const getUserData = async () => {
+        try {
+            const response = await axiosInstance.get("api/users/personalinfo", {
+                headers: {
+                    Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const newData = response.data.data;
+            const updatedData = { ...userInfo };
+
+            newData.forEach((item) => {
+                const [key] = Object.keys(item);
+                const [value] = Object.values(item);
+                if (!(key in updatedData)) {
+                    updatedData[key] = value;
+                }
+            });
+            setAuthInfo(updatedData);
+
+            const userDataArray = response.data.data;
+            const userDataObject = userDataArray.reduce((acc, item) => {
+                const entries = Object.entries(item);
+                if (entries.length > 0) {
+                    const [key, value] = entries[0];
+                    acc[key] = value;
+                }
+                return acc;
+            }, {});
+
+
+        } catch (error) {
+            toast.error("Error while getting user information");
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getUserData();
+    }, []);
+
+
+
 
     return (
         <div className="w-full ">
