@@ -224,7 +224,7 @@ const Settings = () => {
                             type="file"
                             id="file-input"
                             className="hidden bg-none"
-                            accept=".png,.jpg,.jpeg,.JPG,.PNG,.GIF,.BMP,.TIFF,.ICO,.PDF,.EPS,.PSD,.SVG,.WebP,.JXR,.WDP"
+                            accept=".png,.jpg,.jpeg,.JPG,.PNG,.GIF,.BMP,.TIFF,.ICO,,.EPS,.PSD,.SVG,.WebP,.JXR,.WDP"
                             onChange={handleFileChange}
                         />
 
