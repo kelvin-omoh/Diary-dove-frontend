@@ -437,6 +437,7 @@ const Settings = () => {
                                 <h4 className=" text-[18px]  ">Password</h4>
                                 <button
                                     onClick={handleClickOpen}
+                                    type="button"
                                     className="font-[500] text-[18px] outline-none text-[#DA9658]"
                                 >
                                     Change password?
