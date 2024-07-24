@@ -76,36 +76,36 @@ const Settings = () => {
 
     const getUserData = async () => {
         try {
-            const response = await axiosInstance.get("api/users/personalinfo", {
-                headers: {
-                    Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-                    "Content-Type": "application/json",
-                },
-            });
+            // const response = await axiosInstance.get("api/users/personalinfo", {
+            //     headers: {
+            //         Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+            //         "Content-Type": "application/json",
+            //     },
+            // });
 
-            const newData = response.data.data;
-            const updatedData = { ...userInfo };
+            // const newData = response.data.data;
+            // const updatedData = { ...userInfo };
 
-            newData.forEach((item) => {
-                const [key] = Object.keys(item);
-                const [value] = Object.values(item);
-                if (!(key in updatedData)) {
-                    updatedData[key] = value;
-                }
-            });
-            setAuthInfo(updatedData);
+            // newData.forEach((item) => {
+            //     const [key] = Object.keys(item);
+            //     const [value] = Object.values(item);
+            //     if (!(key in updatedData)) {
+            //         updatedData[key] = value;
+            //     }
+            // });
+            // setAuthInfo(updatedData);
 
-            const userDataArray = response.data.data;
-            const userDataObject = userDataArray.reduce((acc, item) => {
-                const entries = Object.entries(item);
-                if (entries.length > 0) {
-                    const [key, value] = entries[0];
-                    acc[key] = value;
-                }
-                return acc;
-            }, {});
+            // const userDataArray = response.data.data;
+            // const userDataObject = userDataArray.reduce((acc, item) => {
+            //     const entries = Object.entries(item);
+            //     if (entries.length > 0) {
+            //         const [key, value] = entries[0];
+            //         acc[key] = value;
+            //     }
+            //     return acc;
+            // }, {});
 
-            setUserData(userDataObject);
+            setUserData(userInfo);
         } catch (error) {
             toast.error("Error while getting user information");
             console.log(error);
