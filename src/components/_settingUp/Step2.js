@@ -146,6 +146,7 @@ const Step2 = () => {
           updatedData[key] = value;
         }
       });
+      console.log(updatedData);
       setAuthInfo(updatedData);
       return true
     } catch (error) {
