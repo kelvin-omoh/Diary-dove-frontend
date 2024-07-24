@@ -14,6 +14,7 @@ import phone from "../assets/calling.png";
 import password1 from "../assets/password.png";
 import logo3 from "../assets/DiaraDove Logo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { CircularProgress } from "@mui/material";
 
 const Signup = () => {
   const [isNewUser, setIsNewUser] = useState(false);
@@ -97,7 +98,7 @@ const Signup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       // Validate user input
       const formData = {
@@ -121,9 +122,13 @@ const Signup = () => {
         setPassword("");
         navigate("/verify");
       }
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       if (error?.response?.status === 400) {
-        console.log(error);
+        if (error.response.data.message) {
+          toast.error(error.response.data.message)
+        }
         error?.response?.data?.errors?.map((e) => toast.error(e));
       }
       if (error?.response?.status === 400) {
@@ -136,22 +141,21 @@ const Signup = () => {
     }
   };
 
+
   useEffect(() => {
     if (userInfo?.token) {
-      navigate("/dashboard");
+      navigate("/dashboard")
     }
-
   }, [userInfo?.token])
 
   const handleGoogleAuth = async () => {
     try {
-      window.location.href = 'http://localhost:8000/auth/google';
-      // window.location.href = 'https://dairydoveii.onrender.com/auth/google/';
+      // window.location.href = 'http://localhost:8000/auth/google';
+      window.location.href = 'https://dairydoveii.onrender.com/auth/google/';
     } catch (error) {
       console.error('Error during Google authentication:', error);
     }
   };
-
 
 
   return (
@@ -375,7 +379,15 @@ const Signup = () => {
             type="submit"
             className="text-white bg-[#DA9658] mt-[8px] w-full py-[12px] rounded-lg"
           >
-            {!isNewUser ? "Sign Up" : "Login"}
+            {!loading && <>{isNewUser ? "Login" : "Sign Up"}</>}
+            {loading && (
+              <CircularProgress
+                size={20}
+                sx={{ color: "white" }}
+                className=" text-white ml-[.5rem]"
+              />
+            )}
+
           </button>
           <div className="text-[#8F96A3] flex justify-center items-center">
             <hr className="text-[#d7d7d7] w-[106px] md:w-full mx-[.3rem] border-[#F1F2F3] border" />
