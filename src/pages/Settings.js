@@ -303,16 +303,18 @@ const Settings = () => {
                                 <h1 className="text-[16px] mb-[8px] leading-[24px]">
                                     Email address
                                 </h1>
-                                <div className="flex md:bg-[#fdfaf70a] bg-[#FDFAF7] md:h-auto md:px-0 px-[16px] h-[53px]  w-[311px] md:w-[400px] justify-between items-center gap-[8px  rounded-[8px]">
+                                <div className="flex md:bg-[#fdfaf70a] bg-[#FDFAF7] md:h-auto md:px-0 px-[16px] h-[53px] w-[311px] md:w-[400px] justify-between items-center gap-[8px] rounded-[8px]">
                                     <p className="flex flex-col items-start gap-[4px] font-[400] leading-[24px] text-[#8F96A3] break-all">
                                         <span className="hidden md:block">
                                             Your email address is
                                         </span>
-                                        {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}
+                                        <span className="break-all">
+                                            {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}
+                                        </span>
                                     </p>
                                     <button
                                         onClick={() => navigate("/change-email")}
-                                        className="text-[#DA9658] cursor-pointer "
+                                        className="text-[#DA9658] cursor-pointer"
                                     >
                                         Change
                                     </button>
