@@ -250,7 +250,7 @@ const Home = () => {
                     <textarea
                         value={text}
                         onChange={(e) => setText(e.target.value)}
-                        placeholder="Enter description..."
+                        placeholder="Enter diary entry ..."
                         className="outline-none h-[144px]  w-full"
                         cols="30"
                         rows="10"
