@@ -54,7 +54,7 @@ const Step2 = () => {
   const [time, setTime] = useState({ hour: "", minute: "", period: "AM" });
   const [checkReminder, setCheckReminder] = useState(true);
   const navigate = useNavigate();
-  const { userInfo, logOut } = useContext(Usercontext);
+  const { userInfo, setAuthInfo, logOut } = useContext(Usercontext);
   const [loading, setLoading] = useState(false);
   const handleChange = (event) => {
     setCheckReminder(true);
@@ -125,6 +125,29 @@ const Step2 = () => {
     return token;
   };
 
+
+  const getUserData = async () => {
+    try {
+      const response = await axiosInstance.get("api/users/personalinfo", {
+        headers: {
+          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const newData = response.data.data;
+
+      setAuthInfo(newData);
+      return true
+    } catch (error) {
+      toast.error("Error while getting user information");
+
+      console.log(error);
+      return false
+    }
+  };
+
+
   const savePreferences = async () => {
     const allTimes = [...reminders.map((r) => r.time)];
     console.log(allTimes);
@@ -147,7 +170,7 @@ const Step2 = () => {
       );
       console.log(res.data);
       toast.success("Reminder saved successfully");
-      navigate("/dashboard");
+      getUserData() && navigate("/dashboard")
     } catch (error) {
       console.log(error.response);
       if (error.response?.status === 401) {
@@ -246,8 +269,8 @@ const Step2 = () => {
                     <InputLabel
                       sx={{ outline: "none", border: "none" }}
                       className={`border outline-none  rounded-sm  ${!checkReminder
-                          ? "border-[#ff6a67] "
-                          : "border-[#F1F2F3] "
+                        ? "border-[#ff6a67] "
+                        : "border-[#F1F2F3] "
                         }`}
                       id="demo-simple-select-label"
                     ></InputLabel>
@@ -259,8 +282,8 @@ const Step2 = () => {
                       onChange={handleChange}
                       label=""
                       className={`border outline-none  rounded-sm  ${!checkReminder
-                          ? "border-[#ff6a67] "
-                          : "border-[#F1F2F3] "
+                        ? "border-[#ff6a67] "
+                        : "border-[#F1F2F3] "
                         }`}
                       onOpen={handleOpen}
                       onClose={handleClose}
@@ -341,8 +364,8 @@ const Step2 = () => {
                               handleAlignment("AM");
                             }}
                             className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "AM"
-                                ? "bg-white text-black"
-                                : "bg-none text-gray-500"
+                              ? "bg-white text-black"
+                              : "bg-none text-gray-500"
                               }`}
                           >
                             AM
@@ -354,8 +377,8 @@ const Step2 = () => {
                               handleAlignment("PM");
                             }}
                             className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "PM"
-                                ? "bg-white text-black"
-                                : "bg-none text-gray-500"
+                              ? "bg-white text-black"
+                              : "bg-none text-gray-500"
                               }`}
                           >
                             PM
