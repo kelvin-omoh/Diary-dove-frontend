@@ -194,7 +194,7 @@ const Home = () => {
                     {userInfo?.profilePicture ? (
                         <img
                             src={userInfo?.profilePicture}
-                            className=" rounded-full size-[50px]"
+                            className="object-cover  object-center rounded-full size-[50px]"
                             alt=""
                         />
                     ) : (
