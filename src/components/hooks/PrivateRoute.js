@@ -16,7 +16,7 @@ export const PrivateRoute = ({ element }) => {
                 logOut()
             }
 
-            if (!JSON.parse(localStorage.getItem('authData')).setup) {
+            if (!JSON.parse(localStorage.getItem('authData'))?.setup) {
                 navigate("/setup")
             }
 
