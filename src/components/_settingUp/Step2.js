@@ -135,9 +135,18 @@ const Step2 = () => {
         },
       });
 
-      const newData = response.data.data;
 
-      setAuthInfo(newData);
+      const newData = response.data.data;
+      const updatedData = { ...userInfo };
+
+      newData.forEach((item) => {
+        const [key] = Object.keys(item);
+        const [value] = Object.values(item);
+        if (!(key in updatedData)) {
+          updatedData[key] = value;
+        }
+      });
+      setAuthInfo(updatedData);
       return true
     } catch (error) {
       toast.error("Error while getting user information");
