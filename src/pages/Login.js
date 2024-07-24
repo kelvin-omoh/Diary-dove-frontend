@@ -149,65 +149,65 @@ const Login = () => {
       console.log(error);
     }
   };
+  const fetchUserInfo = async (token) => {
+    try {
+      const response = await axiosInstance.get("api/users/personalinfo", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data.data.reduce((acc, item) => {
+        const [key, value] = Object.entries(item)[0];
+        acc[key] = value;
+        return acc;
+      }, {});
+    } catch (error) {
+      throw new Error("Error while getting user information");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
       const formData = { username: userName, password };
-      console.log(formData);
       const response = await axiosInstance.post("api/users/login", formData);
-      console.log("Response:", response.data);
 
       if (response.data.status === "success") {
         toast.success(response.data.message);
+        console.log(response.data);
 
         const userInfo = {
-          token: response.data.data[0].token,
-          refreshtoken: response.data.data[1].refreshtoken,
-          username: response.data.data[2].username,
-          email: response.data.data[3].email,
-          setup: response.data.data[4].setup,
+          token: response.data.data[0]?.token,
+          refreshtoken: response.data.data[1]?.refreshtoken,
+          username: response.data.data[2]?.username,
+          email: response.data.data[3]?.email,
+          setup: response.data.data[4]?.setup,
         };
 
-        // Simulate fetching personal info and merging it
+        localStorage.setItem("authData", JSON.stringify(userInfo));
+
         try {
-          const personalInfoResponse = await axiosInstance.get("api/users/personalinfo", {
-            headers: {
-              Authorization: `Bearer ${response.data.data[0].token}`,
-              "Content-Type": "application/json",
-            },
-          });
-
-          const personalInfo = personalInfoResponse.data.data.reduce((acc, item) => {
-            const [key, value] = Object.entries(item)[0];
-            acc[key] = value;
-            return acc;
-          }, {});
-
+          const personalInfo = await fetchUserInfo(userInfo.token);
           const completeUserInfo = { ...userInfo, ...personalInfo };
           localStorage.setItem("userInfo", JSON.stringify(completeUserInfo));
           setAuthInfo(completeUserInfo);
         } catch (error) {
           toast.error("Error while getting user information");
-          console.log(error);
+          console.error(error);
         }
 
         navigate("/setup");
-        handleVerifyEmail(email);
+        handleVerifyEmail(userInfo.email);
       }
-      setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.log("Error:", error);
-
-      if (error.response && error.response.status === 400) {
-        error.response.data.message && toast.error(error.response.data.message);
+      console.error("Error:", error);
+      if (error.response?.status === 400) {
+        toast.error(error.response.data.message);
+      } else if (Array.isArray(error.response?.data?.errors)) {
+        error.response.data.errors.forEach((msg) => toast.error(msg));
       }
-      if (Array.isArray(error?.response?.data?.errors)) {
-        error.response.data.errors.forEach((i) => toast.error(i));
-      }
-      console.log(error?.response?.data?.errors?.map((i) => i));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -267,7 +267,7 @@ const Login = () => {
         </div>
 
         <div className="right ease-in h-full  my-auto transition-all  gap-6 delay-300 mx-auto w-[342px] md:w-fit flex flex-col  items-center justify-center ">
-          <div onClick={()=>navigate('/')} className=" grid w-full items-center justify-start ">
+          <div onClick={() => navigate('/')} className=" grid w-full items-center justify-start ">
             <img src={Logo} className=" h-[36px] mdw-[146px]" alt="logo" />
           </div>
 

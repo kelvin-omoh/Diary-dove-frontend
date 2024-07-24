@@ -14,7 +14,7 @@ export const PrivateRoute = ({ element }) => {
                 setToken(userInfo.token);
             }
 
-            if (userInfo.setup === false) {
+            if (!userInfo.setup) {
                 navigate("/setup")
             }
 
@@ -22,7 +22,7 @@ export const PrivateRoute = ({ element }) => {
         };
 
         checkToken();
-    }, [userInfo, userInfo?.setup, userInfo?.token]);
+    }, [userInfo]);
 
     if (isLoading) {
         return <div>Loading...</div>; // You can replace this with a proper loading component

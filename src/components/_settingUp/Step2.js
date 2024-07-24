@@ -148,7 +148,7 @@ const Step2 = () => {
       });
       console.log(updatedData);
       setAuthInfo(updatedData);
-      return true
+      navigate("/dashboard")
     } catch (error) {
       toast.error("Error while getting user information");
 
@@ -180,7 +180,7 @@ const Step2 = () => {
       );
       console.log(res.data);
       toast.success("Reminder saved successfully");
-      getUserData() && navigate("/dashboard")
+      getUserData()
     } catch (error) {
       console.log(error.response);
       if (error.response?.status === 401) {

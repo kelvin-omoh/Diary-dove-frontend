@@ -162,45 +162,45 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                             </div>
                         ))} */}
                     </div>
-
-                    <Stack
-                        spacing={2}
-                        className={` grid items-center justify-around w-full     left-0 ${isGrid ? "bottom-[5.5rem]" : "bottom-[0.5rem]"
-                            }  pt-6`}
-                    >
-                        <Pagination
-                            count={pageCount}
-                            page={currentPage}
-                            className="w-full gap-[10px] items-center "
-                            onChange={handleChangePage}
-                            renderItem={(item) => <PaginationItem {...item} />}
-                            sx={{
-                                "& .MuiPaginationItem-root": {
-                                    display: "inline", // Ensure inline display for PaginationItem
-                                    color: "black",
-                                    backgroundColor: "#F1F2F3",
-                                    "&:hover": {
+                    {!paginatedNotes?.length < 1 && (
+                        <Stack
+                            spacing={2}
+                            className={` grid items-center justify-around w-full     left-0 ${isGrid ? "bottom-[5.5rem]" : "bottom-[0.5rem]"
+                                }  pt-6`}
+                        >
+                            <Pagination
+                                count={pageCount}
+                                page={currentPage}
+                                className="w-full gap-[10px] items-center "
+                                onChange={handleChangePage}
+                                renderItem={(item) => <PaginationItem {...item} />}
+                                sx={{
+                                    "& .MuiPaginationItem-root": {
+                                        display: "inline", // Ensure inline display for PaginationItem
+                                        color: "black",
                                         backgroundColor: "#F1F2F3",
+                                        "&:hover": {
+                                            backgroundColor: "#F1F2F3",
+                                        },
                                     },
-                                },
-                                "& .MuiPaginationItem-page.Mui-selected": {
-                                    backgroundColor: "#DA9658",
-                                    color: "white",
-                                },
-                                "& .MuiPaginationItem-page:hover": {
-                                    backgroundColor: "#da97588f",
-                                    color: "white",
-                                },
-                                "& .MuiPaginationItem-ellipsis": {
-                                    display: "none", // Hide ellipsis (...)
-                                },
-                                "& .MuiPaginationItem-previous, & .MuiPaginationItem-next": {
-                                    backgroundColor: "white", // Background color for left and right arrows
-                                    color: "black", // Text color for left and right arrows
-                                },
-                            }}
-                        />
-                    </Stack>
+                                    "& .MuiPaginationItem-page.Mui-selected": {
+                                        backgroundColor: "#DA9658",
+                                        color: "white",
+                                    },
+                                    "& .MuiPaginationItem-page:hover": {
+                                        backgroundColor: "#da97588f",
+                                        color: "white",
+                                    },
+                                    "& .MuiPaginationItem-ellipsis": {
+                                        display: "none", // Hide ellipsis (...)
+                                    },
+                                    "& .MuiPaginationItem-previous, & .MuiPaginationItem-next": {
+                                        backgroundColor: "white", // Background color for left and right arrows
+                                        color: "black", // Text color for left and right arrows
+                                    },
+                                }}
+                            />
+                        </Stack>)}
                 </div>
             </LocalizationProvider>
         </div>

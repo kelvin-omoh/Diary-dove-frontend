@@ -75,7 +75,7 @@ const Verification = () => {
 
                     localStorage.removeItem('verifyEmail')
                     toast.success(response.data.message)
-                    navigate("/reset-password")
+                    navigate("/new-password")
                 } else {
                     toast.error('otp verification is incorrect')
                 }
@@ -109,6 +109,12 @@ const Verification = () => {
 
     }
 
+    useEffect(() => {
+        if (timer === 0) {
+            handleResendOfCode
+        }
+    }, [timer])
+
 
 
     return (
@@ -123,7 +129,7 @@ const Verification = () => {
                         !isSuccess &&
                         <>
 
-                            <p className=' text-[#8F96A3] text-[14px] md:text-[18px]  w-full leading-[27px] '>A verification email has been sent to your email<span className=' text-[#DA9658]'>  {verifyEmail.email.replace(/(.{4})[^@]+(?=@)/, '$1****')}</span>, copy the code provided in the email to complete your account verification.
+                            <p className=' text-[#8F96A3] text-[14px] md:text-[18px]  w-full leading-[27px] '>A verification email has been sent to your email<span className=' text-[#DA9658]'>  {verifyEmail?.email?.replace(/(.{4})[^@]+(?=@)/, '$1****')}</span>, copy the code provided in the email to complete your account verification.
                             </p>
                             <Inputs otp={otp} setOtp={setOtp} otpValues={otpValues} setOtpValues={setOtpValues} />
 
