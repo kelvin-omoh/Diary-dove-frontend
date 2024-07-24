@@ -95,8 +95,8 @@ const LandingPage = () => {
                         data-aos-anchor-placement="top-center"
 
                         className=' flex flex-col  justify-between  md:flex-row-reverse gap-[24.5] md:gap-[163px] mt-[56px] items-center text-start'>
-                        <div className='px-[24px] md:px-0 w-full md:w-[753px] '>
-                            <h1 className=' font-[600] text-[20px] md:text-[40px]'>Easily create and edit your diary entries in seconds</h1>
+                        <div className='px-[24px] grid text-center items-center justify-center md:px-0 w-full md:w-[753px] '>
+                            <h1 className=' font-[600] text-[20px] w-fit text-center  md:text-[40px]'>Easily create and edit your diary entries in seconds</h1>
                             <p className=' text-[#8F96A3] font-[400] text-[12px] md:text-start text-center md:text-[18px] md:leading-[27px] leading-4 mt-[16px]'>Safe and secure space to be one with your thoughts not matter when , no matter where. Create multiple diaries entries throughout the day either with our website or by replying our reminders to you.</p>
                             <Link to={'#how-it-works'} className=' mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </Link>
                         </div>

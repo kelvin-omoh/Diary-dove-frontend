@@ -372,8 +372,8 @@ const Settings = () => {
                                     <p className="flex flex-col items-start gap-[4px] font-[400] leading-[24px] text-[#8F96A3] break-all">
                                         <span className="hidden md:block">
                                             Your email address is
-                                        </span>
-                                        <span className="break-all">
+                                        
+                      
                                             {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}
                                         </span>
                                     </p>
@@ -455,7 +455,7 @@ const Settings = () => {
 
                         >
                             {loading ?
-                                <div className="flex w-full mx-auto justify-center gap-4 items-center">
+                                <div className="flex w-fit mx-auto justify-center gap-4 items-center">
                                     Saving
                                     <CircularProgress
                                         size={20}
