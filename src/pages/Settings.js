@@ -207,6 +207,29 @@ const Settings = () => {
         }
     }, [selectedFile])
 
+    const handleChangProfile = async (e) => {
+        try {
+            e.preventDefault();
+            const response = await axiosInstance.post('/personalinfo', userInfo, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log(response.data);
+            if (response.data.status === 'success') {
+
+                alert('Profile updated successfully!');
+            } else {
+                alert('Failed to update profile.');
+            }
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            alert('An error occurred while updating profile.');
+        }
+    }
+
+
     return (
         <Layout>
             <div className=" bg-white mb-width-full   h-full">
@@ -294,8 +317,9 @@ const Settings = () => {
                                     <BsPerson className="text-[#B4B9C2]" />
                                     <input
                                         value={memoizedUserData.fullname}
-                                        disabled
-                                        className="border-none  disabled:bg-[#ffffff00] cursor-no-drop text-[#8F96A3] bg-none outline-none"
+                                        onChange={(e) => setUserData({ ...userData, fullname: e.target.value })}
+
+                                        className="border-none  disabled:bg-[#ffffff00] cursor-no-drop text-[#252525] bg-none outline-none"
                                         type="text"
                                         placeholder="Steven Ade***"
                                     />
@@ -312,7 +336,9 @@ const Settings = () => {
                                         onChange={(e) =>
                                             setUserData({ ...userData, username: e.target.value })
                                         }
-                                        className="border-none   disabled:bg-[#ffffff00] cursor-no-drop bg-none text-[#8F96A3] outline-none"
+
+
+                                        className="border-none   disabled:bg-[#ffffff00] cursor-no-drop bg-none text-[#2b2c2c] outline-none"
                                         type="text"
                                         placeholder="Steven Ade***"
                                     />
@@ -387,11 +413,13 @@ const Settings = () => {
                     </div>
                     <div className=" flex justify-between w-full  items-end">
                         <button
+                            type="button"
                             onClick={(e) => {
                                 e.preventDefault();
-                                handleClickOpen(e);
+                                handleChangProfile(e);
                             }}
-                            className="bg-[#DA9658] font-[500] mt-[72px] md:mt-[128px] w-[359px] h-[60px] rounded-[8px] text-center text-white"
+                            className="bg-[#DA9658] font-[500] mt-[72px] md:mt-[128px] w-[359px] h-[60px] rounded-[8px] mb-[92px] md:mb-0 text-center text-white"
+
                         >
                             Save changes
                         </button>

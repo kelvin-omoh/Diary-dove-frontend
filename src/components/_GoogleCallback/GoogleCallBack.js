@@ -27,7 +27,7 @@ const GoogleCallback = () => {
                     try {
                         const personalInfoResponse = await axios.get("api/users/personalinfo", {
                             headers: {
-                                Authorization: `Bearer ${token}`,
+                                Authorization: `Bearer ${authData.token}`,
                                 "Content-Type": "application/json",
                             },
                         });
