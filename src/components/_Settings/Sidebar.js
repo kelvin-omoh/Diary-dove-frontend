@@ -30,6 +30,20 @@ const Sidebar = () => {
     const { userInfo, logOut } = useContext(Usercontext);
     const { toggle, handleToggle } = useContext(ToggleContext);
 
+
+    const formatLastName = (str) => {
+        if (str && str?.includes(" ")) {
+            const names = str.split(" ");
+            const lastName = names.pop(); // Get the last word
+            const formattedName = `${names.join(" ")} ${lastName
+                .charAt(0)
+                .toUpperCase()}.`; // Join the non-last names and add formatted last name
+            return formattedName;
+        } else {
+            return str; // Return the name as is if there is no space
+        }
+    };
+
     return (
         <>
             {toggle && (
@@ -80,19 +94,20 @@ const Sidebar = () => {
                     </ul>
                     <div className="mt-[160px] md:mt-[173px] w-[321px-80px]  flex justify-end pr-[-3rem] md:pr-[9px]">
                         <img src={vector} className="h-[89px] ml-[10rem]" alt="" />
-                        <div className="absolute bottom-[94px] md:bottom-[-40px] left-[24px]">
+                        <div className="absolute bottom-[98px] md:bottom-[-40px] left-[24px]">
                             <div className="md:hidden mr-[24px] flex items-center gap-3">
                                 {userInfo?.profilePicture ? (
                                     <img
                                         src={userInfo?.profilePicture}
-                                        className="rounded-full size-[40px]"
+                                        className="rounded-full size-[40px] object-cover  object-center
+                                        "
                                         alt="Profile"
                                     />
                                 ) : (
                                     <FaUserCircle className="text-gray-500 size-[40px]" />
                                 )}
                                 <div className="block md:hidden text-white font-[600] text-[14px]">
-                                    <h1>Precious A.</h1>
+                                    <h1>{formatLastName(userInfo?.fullname)}</h1>
                                     <p>Welcome!</p>
                                 </div>
                             </div>
