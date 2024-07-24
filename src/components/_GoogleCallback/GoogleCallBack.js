@@ -23,6 +23,31 @@ const GoogleCallback = () => {
                     setAuthInfo(authData)
                     console.log(authData);
                     navigate('/dashboard');
+
+                    try {
+                        const personalInfoResponse = await axios.get("api/users/personalinfo", {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                "Content-Type": "application/json",
+                            },
+                        });
+                        const personalInfo = personalInfoResponse.data.data.reduce((acc, item) => {
+                            const [key, value] = Object.entries(item)[0];
+                            acc[key] = value;
+                            return acc;
+                        }, {});
+
+                        // Combine authentication data with personal info
+                        const completeUserInfo = { ...authData, ...personalInfo };
+                        localStorage.setItem("userInfo", JSON.stringify(completeUserInfo));
+                        setAuthInfo(completeUserInfo);
+
+
+                    } catch (error) {
+                        console.error("Error while fetching user information:", error);
+                    }
+
+
                 } else {
                     console.error('Authentication failed');
                 }
