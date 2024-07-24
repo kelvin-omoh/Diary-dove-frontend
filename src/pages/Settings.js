@@ -207,28 +207,38 @@ const Settings = () => {
         }
     }, [selectedFile])
 
-    const handleChangProfile = async (e) => {
+    const handleChangeProfile = async (e) => {
+        e.preventDefault();
+        setLoading(true);
         try {
-            e.preventDefault();
-            const response = await axiosInstance.post('/personalinfo', userInfo, {
+            const { fullname, username, phonenumber } = userData
+            const newData = {
+                fullname,
+                username,
+                phonenumber: '0' + phonenumber
+            }
+            console.log(newData);
+            const response = await axios.post('api/users/personalinfo', newData, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    Authorization: `Bearer ${userInfo.token}`,
                     'Content-Type': 'application/json'
                 }
             });
+
             console.log(response.data);
             if (response.data.status === 'success') {
-
-                alert('Profile updated successfully!');
+                toast.success(response.data.message);
             } else {
-                alert('Failed to update profile.');
+                toast.error('Failed to update profile.');
             }
         } catch (error) {
+            setLoading(false);
             console.error('Error updating profile:', error);
             alert('An error occurred while updating profile.');
+        } finally {
+            setLoading(false);
         }
-    }
-
+    };
 
     return (
         <Layout>
@@ -416,12 +426,25 @@ const Settings = () => {
                             type="button"
                             onClick={(e) => {
                                 e.preventDefault();
-                                handleChangProfile(e);
+                                handleChangeProfile(e);
                             }}
                             className="bg-[#DA9658] font-[500] mt-[72px] md:mt-[128px] w-[359px] h-[60px] rounded-[8px] mb-[92px] md:mb-0 text-center text-white"
 
                         >
-                            Save changes
+                            {loading ?
+                                <div className="flex w-full mx-auto justify-center gap-4 items-center">
+                                    Saving
+                                    <CircularProgress
+                                        size={20}
+                                        sx={{ color: "white" }}
+                                        className=" text-white ml-[.5rem]"
+                                    />
+
+                                </div>
+                                :
+                                ' Save changes'
+                            }
+
                         </button>
                         <img
                             src={vector}
