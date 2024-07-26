@@ -394,7 +394,7 @@ const Settings = () => {
                                     </button>
                                 </div>
                             </div>
-                            {/* <div>
+                            <div>
                                 <h1 className="text-[16px] mb-[8px] leading-[24px]">
                                     Phone Number
                                 </h1>
@@ -435,7 +435,7 @@ const Settings = () => {
                                         Change
                                     </button>
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                         <div className="mt-[40px] md:mt-[24px]">
                             <p className="text-[#8F96A3] font-[400] mt-[24px] text-[18px] leading-[27px]">

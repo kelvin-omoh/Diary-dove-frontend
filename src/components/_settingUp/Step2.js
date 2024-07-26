@@ -58,7 +58,7 @@ const Step2 = () => {
   });
   const [checkReminder, setCheckReminder] = useState(true);
   const navigate = useNavigate();
-  const { userInfo, setAuthInfo, logOut } = useContext(Usercontext);
+  const { userInfo, setAuthInfo, logOut, whatsappNumber, setWhatsappNumber } = useContext(Usercontext);
   const [loading, setLoading] = useState(false);
   const [hourRange, setHourRange] = useState({ min: 0, max: 23 });
 

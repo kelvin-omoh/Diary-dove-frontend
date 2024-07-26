@@ -61,6 +61,10 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="/setup" element={<PrivateRoute element={<SetUp />} />} />
+
+            {/* <Route path="/setup" element={<SetUp />} /> */}
+
+
             <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
             <Route path="/settings/reminder" element={<PrivateRoute element={<Reminder />} />} />
             <Route path="/change-email" element={<PrivateRoute element={<ChangeEmail />} />} />

@@ -3,6 +3,9 @@ import whatsappIcon from "../../assets/Group (1).png";
 import googleIcon from "../../assets/icons8-google 1.png";
 import { Checkbox } from "@mui/material";
 import { useState } from "react";
+
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 import {
   Timeline,
   TimelineItem,
@@ -17,19 +20,19 @@ import { Usercontext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import axiosInstance from "../../Utils/axiosInstance";
+import toast from "react-hot-toast";
 
 const Step1 = ({ handleNext }) => {
   const [google, setGoogle] = useState(false);
-  const [whatsapp, setWhatsapp] = useState(false);
-  const { setAuthInfo, userInfo } = useContext(Usercontext);
+  const [checked, setChecked] = useState(false);
+  const { setAuthInfo, userInfo, whatsappNumber, setWhatsappNumber } = useContext(Usercontext);
   const navigate = useNavigate();
-  // const handleGoogleChange = (event) => {
-  //     setGoogle(event.target.checked);
-  // };
 
-  // const handleWhatsappChange = (event) => {
-  //     setWhatsapp(event.target.checked);
-  // };
+  const handleGoogleChange = (event) => {
+    setGoogle(event.target.checked);
+  };
+
+
 
   const getAllReminders = async () => {
     try {
@@ -52,7 +55,23 @@ const Step1 = ({ handleNext }) => {
   useEffect(() => {
     getAllReminders();
   }, []);
+  const handleWhatsapp = async () => {
+    try {
+      const res = await axiosInstance.post("/api/users/sendphoneOTP", {
+        phoneNumber: whatsappNumber,
+      });
+      console.log(res);
+      toast.success(res.data.message);
+      setTimer(360);
+      navigate('/verify-whatsapp')
+    } catch (error) {
+      toast.error(
+        "An error occurred while resending code, please try again later..."
+      );
 
+    }
+
+  }
   const renderDashedLine = () => {
     const segments = [];
     for (let i = 0; i < 20; i++) {
@@ -70,6 +89,13 @@ const Step1 = ({ handleNext }) => {
   };
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
+  const handlePhoneNumberChange = (value) => {
+    // Ensure the value starts with +
+    if (!value.startsWith('+')) {
+      value = `+${value}`;
+    }
+    setWhatsappNumber(value);
+  };
   return (
     <>
       <div className=" overflow-hidden ">
@@ -110,19 +136,19 @@ const Step1 = ({ handleNext }) => {
                     Google
                   </Box>
                   <Box className=" w-fit   text-[#8F96A3] ">
-                    <Checkbox {...label} defaultChecked color="success" />
+                    <Checkbox checked={true} {...label} defaultChecked color="success" />
                   </Box>
                 </Box>
-                <input
+                {/* <input
                   disabled
                   value={userInfo?.email}
                   type="text"
                   className=" px-[1em] text-[#8F96A3] w-full my-[8px] h-[40px] outline-none  rounded-[8px] border-[1px] border-[#EDEDED] "
                   name=""
                   id=""
-                />
+                /> */}
               </Box>
-              <Box className=" rounded-[12px] mt-[16px] w-[306px] md:w-[595px] border-[#EDEDED] p-[16px] border-[1px]">
+              <Box className={` border-[#EDEDED]  ease-in delay-75 transition-all  rounded-[12px] mt-[16px] w-[306px] md:w-[595px]  p-[16px] border-[1px]`}>
                 <Box className=" flex justify-between w-full  ">
                   <Box className=" text-[#8F96A3] flex gap-[8px] items-center ">
                     <img
@@ -133,16 +159,59 @@ const Step1 = ({ handleNext }) => {
                     Whatsapp
                   </Box>
                   <Box className=" w-fit   text-[#8F96A3] ">
-                    <ToggleIcon />
+                    <ToggleIcon checked={checked} setChecked={setChecked} />
                   </Box>
                 </Box>
+                {checked &&
+                  <div className=" flex items-start gap-3">
+
+
+                    <PhoneInput
+                      placeholder="Enter phone number"
+                      value={whatsappNumber}
+                      onChange={handlePhoneNumberChange}
+                      className=" px-[1em] text-[#8F96A3] ease-in delay-75 transition-all  my-[8px]  mt-[1rem] outline-none  rounded-[8px]   "
+                    />
+                    {/* <input
+                      value={whatsappNumber}
+                      onChange={handlePhoneNumberChange}
+                      minLength={14}
+                      maxLength={14}
+                      type="text"
+                      pattern="[0-9]*"
+                      max={14}
+                      placeholder="08032******"
+                      className=" px-[1em] text-[#8F96A3] ease-in delay-75 transition-all  w-full my-[8px] h-[40px] outline-none  rounded-[8px] border-[1px] border-[#EDEDED] "
+                      name=""
+                      id=""
+                    /> */}
+                  </div>
+                }
+                {checked && <button
+                  onClick={() => {
+
+                    handleWhatsapp()
+                  }
+                  }
+                  disabled={whatsappNumber.length < 13}
+                  className=" rounded-[8px] ease-in delay-75 transition-all disabled:bg-[#da97588a]  mt-[32px] bg-[#DA9658] px-[19px] py-[4px] text-white "
+
+                >
+                  Connect
+                </button>}
+
               </Box>
-              <button
-                onClick={handleNext}
-                className=" rounded-[8px] mt-[32px] bg-[#DA9658] px-[81.5px] py-[16.5px] text-white "
+              {!checked && <button
+                onClick={() => {
+
+                  handleNext()
+                }
+                }
+
+                className=" rounded-[8px]  mt-[32px] bg-[#DA9658] px-[81.5px] py-[16.5px] text-white "
               >
                 Continue
-              </button>
+              </button>}
             </TimelineContent>
           </TimelineItem>
 

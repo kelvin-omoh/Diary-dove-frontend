@@ -10,7 +10,7 @@ import axiosInstance from "../../Utils/axiosInstance";
 
 const WhatsAppVerification = () => {
   const navigate = useNavigate();
-  const { verifyWhatsApp, logOut } = useContext(Usercontext); // Removed setVerifyWhatsApp
+  const { verifyWhatsApp, logOut, whatsappNumber, setWhatsappNumber } = useContext(Usercontext); // Removed setVerifyWhatsApp
   const [timer, setTimer] = useState(360); // 6 minutes countdown
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
   const [otp, setOtp] = useState("");
@@ -90,7 +90,7 @@ const WhatsAppVerification = () => {
 
   return (
     <div className=" w-full flex justify-center items-center h-[100vh] bg-[#FDFAF7]">
-      <div className=" w-[342px] shadow-sm rounded-[8px] px-[22px] md:px-[24px]  md:w-[508px] h-[467px] flex justify-center items-center flex-col bg-[#Fff]">
+      <div className=" w-[342px] shadow-sm rounded-[8px] px-[22px] md:px-[24px]  md:min-w-[538px] h-[467px] flex justify-center items-center flex-col bg-[#Fff]">
         {isSuccess && (
           <img src={tick} alt={"tick"} className=" mb-[40px] size-[125px]" />
         )}
@@ -107,7 +107,7 @@ const WhatsAppVerification = () => {
           {!isSuccess && (
             <>
               <p className=" text-[#8F96A3] text-[14px] md:text-[18px]  w-full leading-[27px] ">
-                Enter the code sent to 08032******. Wrong number?
+                Enter the code sent to {whatsappNumber}. Wrong number?
                 {/*}  <span className=" text-[#DA9658]">
                   {" "}
                   {maskPhoneNumber(verifyWhatsApp)}
@@ -119,11 +119,11 @@ const WhatsAppVerification = () => {
                 otpValues={otpValues}
                 setOtpValues={setOtpValues}
               />
-              <p className=" my-[20px]">Didn’t receive code?</p>
+              <p className=" mx-auto flex justify-center items-center w-full my-[20px]">Didn’t receive code?</p>
             </>
           )}
           <button
-            className={`${isSuccess ? "mt-[12px]" : "mt-[20px]"
+            className={`${isSuccess ? "mt-[12px]" : "mt-[20px]  mx-auto flex  justify-center"
               } text-[14px] md:text-[18px]`}
           >
             {!isSuccess && (
@@ -132,7 +132,7 @@ const WhatsAppVerification = () => {
                   onClick={() => {
                     timer === 0 && handleResendOfCode();
                   }}
-                  className={`${timer === 0 ? "text-[#DA9658]" : ""}`}
+                  className={`${timer === 0 ? "text-[#DA9658]" : ""}  mx-auto items-center w-full flex justify-center`}
                 >
                   Send code again
                 </span>

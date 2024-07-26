@@ -11,7 +11,7 @@ const Hero = () => {
     }, [])
     const navigate = useNavigate()
     return (
-        <div data-aos="fade-in" className=' bg-[#DA9658]  overflow-hidden  scroll-m-0 relative h-[642px]   md:h-[1108px] w-full    text-white'>
+        <div className=' bg-[#DA9658]  overflow-hidden  scroll-m-0 relative h-[642px]   md:h-[1108px] w-full    text-white'>
             <div className=" md:block hidden bar  duration-300    bg-white ">
 
             </div>
@@ -29,14 +29,7 @@ const Hero = () => {
             <picture>
 
                 <img
-                    data-aos="fade"
-                    data-aos-delay="50"
-                     data-aos-offset="-100"
-                    data-aos-duration="1000"
-                    data-aos-easing="ease-in-out"
-                    data-aos-mirror="true"
-                    data-aos-once="false"
-                    data-aos-anchor-placement="top-center"
+
                     src={hero}
                     className='absolute left-[50px]  overflow-x-hidden top-[336px] md:left-[30%] md:top-[456px] h-[261px] md:h-[652px] w-[291px] md:w-fit object-cover'
                     alt="Description"

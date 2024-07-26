@@ -3,6 +3,7 @@ import React, { createContext, useEffect, useState } from "react";
 export const Usercontext = createContext({});
 
 export const UserContextProvider = ({ children }) => {
+    const [whatsappNumber, setWhatsappNumber] = useState('')
     const [userInfo, setUserInfo] = useState(() => {
         const storedAuthData = localStorage.getItem('authData');
         return storedAuthData ? JSON.parse(storedAuthData) : {};
@@ -48,7 +49,7 @@ export const UserContextProvider = ({ children }) => {
     };
 
     return (
-        <Usercontext.Provider value={{ userInfo, handleVerifyEmail, setUserInfo, setAuthInfo, logOut, verifyEmail, setVerifyEmail }}>
+        <Usercontext.Provider value={{ whatsappNumber, setWhatsappNumber, userInfo, handleVerifyEmail, setUserInfo, setAuthInfo, logOut, verifyEmail, setVerifyEmail }}>
             {children}
         </Usercontext.Provider>
     );

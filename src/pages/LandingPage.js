@@ -57,19 +57,11 @@ const LandingPage = () => {
         <div className='bg-gradient-to-t h-full pb-[4rem]    from-[#FAF2EA] ] to-[#fff9f3] '>
             <Header />
             <Hero />
-            <section data-aos="fade-up-left" id="services" className=' md:px-[80px] overflow-hidden md:pb-[80px] pb-[64px]  px-0  ' >
+            <section id="services" className=' md:px-[80px] overflow-hidden md:pb-[80px] pb-[64px]  px-0  ' >
                 <section className=' overflow-hidden grid gap-10 md:gap-14 '>
 
 
-                    <div data-aos="fade-left"
-
-                        data-aos-offset="-200"
-                        data-aos-delay="50"
-                        data-aos-duration="500"
-                        data-aos-easing="ease-in-out"
-                        data-aos-mirror="true"
-                        data-aos-once="false"
-                        data-aos-anchor-placement="top-center"
+                    <div
 
                         id='services' className='  justify-between flex  md:flex-row flex-col h-full  gap-[24.5] md:gap-[163px] pt-[56px] items-center text-start'>
                         <div className='px-[24px]  text-center md:text-start justify-center md:px-0 w-full md:w-[753px] '>
@@ -82,17 +74,9 @@ const LandingPage = () => {
                             <img data-aos="fade-in" className=" h-full md:h-[496px] object-contain w-[512px] " src={screen1} alt="" />
                         </div>
                     </div>
-                        
 
-                    <div data-aos="fade-right"
 
-                        data-aos-offset="-200"
-                        data-aos-delay="50"
-                        data-aos-duration="800"
-                        data-aos-easing="ease-in-out"
-                        data-aos-mirror="true"
-                        data-aos-once="false"
-                        data-aos-anchor-placement="top-center"
+                    <div
 
                         className=' flex flex-col  justify-between  md:flex-row-reverse gap-[24.5] md:gap-[163px] mt-[56px] items-center text-start'>
                         <div className='px-[24px] grid text-center items-center justify-center md:px-0 w-full md:w-[753px] '>
@@ -109,14 +93,14 @@ const LandingPage = () => {
 
 
                 </section>
-<div className='border-[#F8EADE]  left-0 h-fit absolute my-14 border-[1px] w-full text-black '></div>
-                <section className='mt-28' id={"how-it-works"}> 
-                
+                <div className='border-[#F8EADE]  left-0 h-fit absolute my-14 border-[1px] w-full text-black '></div>
+                <section className='mt-28' id={"how-it-works"}>
 
-                  
+
+
                     <h1 className=' font-[600] mb-[32px] text-[20px] text-center  md:text-[40px]'>How it works</h1>
 
-                    <div data-aos="zoom-out-up" className='  grid gap-[44px] px-6 md:grid-cols-2 grid-cols-1'>
+                    <div className='  grid gap-[44px] px-6 md:grid-cols-2 grid-cols-1'>
                         {howItWorks.map((item) => (
                             <div data-aos="fade-in"
                                 data-aos-offset="-30"
