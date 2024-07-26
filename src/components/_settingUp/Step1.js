@@ -62,7 +62,7 @@ const Step1 = ({ handleNext }) => {
       });
       console.log(res);
       toast.success(res.data.message);
-      setTimer(360);
+      // setTimer(360);
       navigate('/verify-whatsapp')
     } catch (error) {
       toast.error(
