@@ -7,13 +7,14 @@ import { Usercontext } from '../../context/userContext';
 import axiosInstance from '../../Utils/axiosInstance';
 import { registerLocale } from 'react-datepicker';
 import enUS from 'date-fns/locale/en-US';
-import { MenuItem, Select } from '@mui/material';
+import { CircularProgress, MenuItem, Select } from '@mui/material';
 import rightIcon from '../../assets/Right 2.png'
 registerLocale('en-US', enUS);
 
-export default function CalendarWithNotes({ setAllTexts, allTexts }) {
+export default function CalendarWithNotes({ setAllTexts, handleClose, allTexts }) {
     const [selectedStart, setSelectedStart] = useState(null);
     const [selectedEnd, setSelectedEnd] = useState(null);
+    const [loading, setLoading] = useState(false);
     const { userInfo } = useContext(Usercontext);
 
     const getAllNotes = async () => {
@@ -36,7 +37,9 @@ export default function CalendarWithNotes({ setAllTexts, allTexts }) {
     }, [userInfo?.token]);
 
     const handleFilterWithCalendar = async () => {
+
         try {
+            setLoading(true)
             const startDayjs = selectedStart ? dayjs(selectedStart) : null;
             const endDayjs = selectedEnd ? dayjs(selectedEnd) : null;
 
@@ -52,15 +55,17 @@ export default function CalendarWithNotes({ setAllTexts, allTexts }) {
                     "Content-Type": "application/json",
                 },
             });
-
+            handleClose()
             if (res.data.data?.length === 0) {
                 toast.error("Couldn't find any results for the date range");
             } else {
                 toast.success('Filter selected successfully');
             }
+            setLoading(false)
             setAllTexts(res.data.data);
 
         } catch (error) {
+            setLoading(false)
             toast.error(error.message || 'An error occurred');
         }
     };
@@ -180,6 +185,7 @@ export default function CalendarWithNotes({ setAllTexts, allTexts }) {
                     onClick={() => {
                         setSelectedStart(null); setSelectedEnd(null);
                         getAllNotes();
+                        handleClose()
                     }}
                     className="mr-4 px-4 py-2 border border-gray-300 text-gray-700 rounded"
                 >
@@ -189,7 +195,15 @@ export default function CalendarWithNotes({ setAllTexts, allTexts }) {
                     onClick={handleFilterWithCalendar}
                     className="px-4 py-2 bg-[#DA9658] text-white rounded"
                 >
-                    Save
+
+                    {loading ? 'Saving ...' : 'Save'}
+                    {loading && (
+                        <CircularProgress
+                            size={20}
+                            sx={{ color: "white" }}
+                            className=" text-white ml-[.5rem]"
+                        />
+                    )}
                 </button>
             </div>
         </div>

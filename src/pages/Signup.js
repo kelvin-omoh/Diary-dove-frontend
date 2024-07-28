@@ -136,18 +136,16 @@ const Signup = () => {
       } else {
         console.log(error);
       }
-      // toast.error(error);
-      // error.response.data.errors.map((e) => toast.error(e));
-      // toast.error(error.response.data.errors[0]);
+
     }
   };
 
 
-  useEffect(() => {
-    if (userInfo?.token) {
-      navigate("/dashboard")
-    }
-  }, [userInfo?.token])
+  // useEffect(() => {
+  //   if (userInfo?.token) {
+  //     navigate("/dashboard")
+  //   }
+  // }, [userInfo?.token])
 
   const handleGoogleAuth = async () => {
     try {
