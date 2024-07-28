@@ -6,7 +6,7 @@ export const UserContextProvider = ({ children }) => {
     const [whatsappNumber, setWhatsappNumber] = useState('')
     const [userInfo, setUserInfo] = useState(() => {
         const storedAuthData = localStorage.getItem('authData');
-        return storedAuthData ? JSON.parse(storedAuthData) : {};
+        return storedAuthData && JSON.parse(storedAuthData)
     });
     const [verifyEmail, setVerifyEmail] = useState(() => {
         const storedVerifyEmail = localStorage.getItem('verifyEmail');

@@ -150,16 +150,14 @@ const Login = () => {
     }
   };
   const fetchUserInfo = async (token) => {
+    console.log(token);
     try {
       const response = await axiosInstance.get("api/users/personalinfo", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      return response.data.data.reduce((acc, item) => {
-        const [key, value] = Object.entries(item)[0];
-        acc[key] = value;
-        return acc;
-      }, {});
+      console.log(response.data);
     } catch (error) {
+      console.log(error);
       throw new Error("Error while getting user information");
     }
   };
@@ -184,19 +182,22 @@ const Login = () => {
         };
 
         localStorage.setItem("authData", JSON.stringify(userInfo));
-
-        try {
-          const personalInfo = await fetchUserInfo(userInfo.token);
-          const completeUserInfo = { ...userInfo, ...personalInfo };
-          localStorage.setItem("authData", JSON.stringify(completeUserInfo));
-          setAuthInfo(completeUserInfo);
-        } catch (error) {
-          toast.error("Error while getting user information");
-          console.error(error);
+        if (userInfo.token) {
+          try {
+            const personalInfo = await fetchUserInfo(userInfo.token);
+            const completeUserInfo = { ...userInfo, ...personalInfo };
+            localStorage.setItem("authData", JSON.stringify(completeUserInfo));
+            setAuthInfo(completeUserInfo);
+            navigate("/setup");
+            handleVerifyEmail(userInfo.email);
+          } catch (error) {
+            toast.error("Error while getting user information");
+            console.error(error);
+          }
         }
 
-        navigate("/setup");
-        handleVerifyEmail(userInfo.email);
+
+
       }
     } catch (error) {
       setIsLoading(false);

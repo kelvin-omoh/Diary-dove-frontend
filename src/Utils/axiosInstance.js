@@ -26,28 +26,26 @@ axiosInstance.interceptors.response.use(
             originalRequest._retry = true;
             try {
                 const storedAuthData = JSON.parse(localStorage.getItem('authData'));
-                const refreshToken = storedAuthData?.refreshtoken
-                    ; // Ensure the token name matches
-                console.log(refreshToken);
+                const refreshToken = storedAuthData?.refreshToken; // Ensure the token name matches
+
                 if (refreshToken) {
                     // Request a new token using the refresh token
+                    const response = await axios.post('/api/auth/refresh', { refreshToken });
+                    const { newToken } = response.data; // Adjust based on your API response
 
                     // Update local storage and axios headers with the new token
-                    storedAuthData.token = refreshToken;
+                    storedAuthData.token = newToken;
                     localStorage.setItem('authData', JSON.stringify(storedAuthData));
 
-                    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${refreshToken}`;
-                    originalRequest.headers['Authorization'] = `Bearer ${refreshToken}`;
+                    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+                    originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
 
                     return axiosInstance(originalRequest);
                 }
             } catch (err) {
-                console.log('Failed to refresh token:');
-                console.log(error.response);
+                console.error('Failed to refresh token:', err);
                 logOut(); // Logout the user if refreshing the token fails
             }
-        } else {
-            logOut(); // Logout the user
         }
         return Promise.reject(error);
     }
