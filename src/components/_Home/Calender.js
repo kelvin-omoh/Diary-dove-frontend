@@ -1,155 +1,57 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { DateCalendar, LocalizationProvider, PickersDay } from '@mui/x-date-pickers';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import dayjs from 'dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Usercontext } from '../../context/userContext';
 import axiosInstance from '../../Utils/axiosInstance';
-
-const isInSameWeek = (dayA, dayB) => {
-    if (dayB == null) {
-        return false;
-    }
-    return dayA.isSame(dayB, 'week');
-};
-
-function Day(props) {
-    const { day, selectedStart, selectedEnd, ...other } = props;
-
-    const isInSelectedRange = selectedStart && selectedEnd
-        ? (dayjs(day).isAfter(selectedStart, 'day') && dayjs(day).isBefore(selectedEnd, 'day')) ||
-        dayjs(day).isSame(selectedStart, 'day') ||
-        dayjs(day).isSame(selectedEnd, 'day')
-        : false;
-
-    const isStartDay = selectedStart && !selectedEnd && dayjs(day).isSame(selectedStart, 'day');
-
-    const dayStyle = {
-        borderRadius: 0,
-        padding: '8px',
-        margin: '0px',
-        backgroundColor: isInSelectedRange || isStartDay ? '#DA9658' : 'white',
-        color: isInSelectedRange || isStartDay ? 'white' : 'black',
-        ...(day.day() === 0 && {
-            borderTopLeftRadius: '50%',
-            borderBottomLeftRadius: '50%',
-        }),
-        ...(day.day() === 6 && {
-            borderTopRightRadius: '50%',
-            borderBottomRightRadius: '50%',
-        }),
-    };
-
-    return (
-        <PickersDay
-            {...other}
-            day={day}
-            disableMargin
-            selected={false}
-            style={dayStyle}
-        />
-    );
-}
+import { registerLocale } from 'react-datepicker';
+import enUS from 'date-fns/locale/en-US';
+import { MenuItem, Select } from '@mui/material';
+import rightIcon from '../../assets/Right 2.png'
+registerLocale('en-US', enUS);
 
 export default function CalendarWithNotes({ setAllTexts, allTexts }) {
     const [selectedStart, setSelectedStart] = useState(null);
     const [selectedEnd, setSelectedEnd] = useState(null);
-    const [value, setValue] = useState(dayjs(''));
     const { userInfo } = useContext(Usercontext);
-    const [hoveredDay, setHoveredDay] = useState(null);
-    useEffect(() => {
-        const getAllNotes = async () => {
-            try {
-                const response = await axiosInstance.get("api/diaries/", {
-                    headers: {
-                        Authorization: userInfo?.token ? `Bearer ${userInfo?.token}` : "",
-                        "Content-Type": "application/json",
-                    },
-                });
-                console.log(response.data);
-                setAllTexts(response.data.data);
-            } catch (error) {
-                toast.error("Error while getting notes");
-                console.error("Error fetching notes:", error);
-            }
-        };
-        getAllNotes();
-    }, [userInfo?.token]);
 
-    const handleDayClick = (day) => {
-        if (!selectedStart || selectedEnd) {
-            setSelectedStart(day);
-            setSelectedEnd(null);
-        } else if (day.isBefore(selectedStart)) {
-            setSelectedEnd(selectedStart);
-            setSelectedStart(day);
-        } else {
-            setSelectedEnd(day);
+    const getAllNotes = async () => {
+        try {
+            const response = await axiosInstance.get("api/diaries/", {
+                headers: {
+                    Authorization: userInfo?.token ? `Bearer ${userInfo?.token}` : "",
+                    "Content-Type": "application/json",
+                },
+            });
+            setAllTexts(response.data.data);
+        } catch (error) {
+            toast.error("Error while getting notes");
         }
     };
 
-    const filteredNotes = React.useMemo(() => {
-        if (!selectedStart || !selectedEnd) {
-            return allTexts;
-        }
-        return allTexts.filter((note) => {
-            const noteDate = dayjs(note.date);
-            return (noteDate.isAfter(selectedStart.subtract(1, 'day')) && noteDate.isBefore(selectedEnd.add(1, 'day'))) ||
-                noteDate.isSame(selectedStart, 'day') ||
-                noteDate.isSame(selectedEnd, 'day');
-        });
-    }, [selectedEnd, selectedStart, allTexts]);
+    useEffect(() => {
 
-    // const handleFilterWithCalendar = async () => {
-    //     try {
-    //         const filterParams = {
-    //             startDate: selectedStart ? selectedStart.format('YYYY-MM-DD') : '',
-    //             endDate: selectedEnd ? selectedEnd.format('YYYY-MM-DD') : '',
-    //             limit: 12,
-    //             page: 1,
-    //         };
-
-    //         const res = await axios.get("/api/diaries/filter", filterParams, {
-    //             headers: {
-    //                 Authorization: userInfo?.token ? ` Bearer ${userInfo?.token} ` : "",
-    //                 "Content-Type": "application/json",
-    //             },
-    //         });
-
-    //         console.log(res.data);
-
-    //         if (res.data.data?.length === 0) {
-    //             toast.error(" Couldn't find any results for the date range");
-    //         } else {
-    //             toast.success('Filter selected successfully');
-    //         }
-    //         setAllTexts(res.data.data);
-
-    //     } catch (error) {
-    //         console.log(error);
-    //         toast.error(error.message || 'An error occurred');
-    //     }
-    // };
+        getAllNotes();
+    }, [userInfo?.token]);
 
     const handleFilterWithCalendar = async () => {
         try {
-            // Construct query parameters
+            const startDayjs = selectedStart ? dayjs(selectedStart) : null;
+            const endDayjs = selectedEnd ? dayjs(selectedEnd) : null;
+
             const filterParams = new URLSearchParams({
-                startDate: selectedStart ? selectedStart.format('YYYY-MM-DD') : '',
-                endDate: selectedEnd ? selectedEnd.format('YYYY-MM-DD') : '',
+                startDate: startDayjs ? startDayjs.format('YYYY-MM-DD') : '',
+                endDate: endDayjs ? endDayjs.format('YYYY-MM-DD') : '',
                 limit: 12,
             }).toString();
 
-            // Send GET request with query parameters
             const res = await axiosInstance.get(`/api/diaries/filter?${filterParams}`, {
                 headers: {
                     Authorization: userInfo?.token ? `Bearer ${userInfo?.token}` : "",
                     "Content-Type": "application/json",
                 },
             });
-
-            console.log(res.data);
 
             if (res.data.data?.length === 0) {
                 toast.error("Couldn't find any results for the date range");
@@ -159,49 +61,137 @@ export default function CalendarWithNotes({ setAllTexts, allTexts }) {
             setAllTexts(res.data.data);
 
         } catch (error) {
-            console.log(error);
             toast.error(error.message || 'An error occurred');
         }
     };
 
-    useEffect(() => {
-        if (selectedStart && selectedEnd) {
-            handleFilterWithCalendar();
-            // setAllTexts([]);
-        }
-    }, [selectedEnd]);
+    const renderHeader = ({ date, decreaseMonth, increaseMonth, changeYear, changeMonth }) => {
+        const years = Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - 50 + i);
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        return (
+            <div className="flex justify-between w-full gap-[3rem]  items-center px-2 py-2">
+
+
+                <div className="relative flex gap-1  items-start">
+                    <Select
+                        value={date.getFullYear()}
+                        onChange={({ target: { value } }) => changeYear(parseInt(value))}
+                        className="mr-2 bg-white w-fit flex gap-1 rounded"
+                        MenuProps={{
+                            PaperProps: {
+                                style: {
+                                    maxHeight: '10rem',
+                                },
+                            },
+                        }}
+                        sx={{
+                            '& .MuiOutlinedInput-notchedOutline': {
+                                border: 0,
+                            },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                border: 0,
+                            },
+                            '&.MuiOutlinedInput-root': {
+                                paddingRight: '0 !important',
+                            },
+                            '&.MuiSelect-select': {
+                                padding: 0,
+                            },
+                        }}
+                    >
+                        {years.map((year) => (
+                            <MenuItem key={year} value={year}>
+                                {year}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <Select
+                        value={months[date.getMonth()]}
+                        onChange={({ target: { value } }) => changeMonth(months.indexOf(value))}
+                        className="bg-white rounded w-fit "
+                        MenuProps={{
+                            PaperProps: {
+                                style: {
+                                    maxHeight: '10rem',
+                                },
+                            },
+                        }}
+                        sx={{
+                            '& .MuiOutlinedInput-notchedOutline': {
+                                border: 0,
+                            },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                border: 0,
+                            },
+                            '&.MuiOutlinedInput-root': {
+                                paddingRight: '0 !important',
+                            },
+                            '&.MuiSelect-select': {
+                                padding: 0,
+                            },
+                        }}
+                    >
+                        {months.map((month, index) => (
+                            <MenuItem key={month} value={month}>
+                                {month}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </div>
+                <div className=' flex items-center gap-[1rem]'>
+                    <button onClick={decreaseMonth} className="focus:outline-none text-xl">
+                        <img src={rightIcon} alt='icon' className=' rotate-[180deg] transform size-[24px] ' />
+                    </button>
+                    <button onClick={increaseMonth} className="focus:outline-none text-xl">
+                        <img src={rightIcon} alt='icon' className=' size-[24px] ' />
+                    </button>
+                </div>
+
+            </div>
+        );
+    };
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', margin: 'auto' }}>
-                <div style={{ width: 'fit-content' }}>
-                    <DateCalendar
-                        value={value}
-                        onChange={(newValue) => setValue(newValue)}
-                        showDaysOutsideCurrentMonth
-                        displayWeekNumber
-                        slots={{
-                            day: (props) => (
-                                <Day
-                                    {...props}
-                                    selectedStart={selectedStart}
-                                    selectedEnd={selectedEnd}
-                                    isInRange={props.isInRange}
-                                />
-                            ),
-                        }}
-                        slotProps={{
-                            day: (ownerState) => ({
-                                selectedStart,
-                                selectedEnd,
-                                onPointerEnter: () => setHoveredDay(ownerState.day),
-                                onPointerLeave: () => setHoveredDay(null),
-                                onClick: () => handleDayClick(ownerState.day),
-                            }),
-                        }}
-                    />
-                </div>
+        <div className="flex flex-col w-full items-center ">
+            <DatePicker
+                selected={selectedStart}
+                onChange={(dates) => {
+                    const [start, end] = dates;
+                    setSelectedStart(start);
+                    setSelectedEnd(end);
+                }}
+                startDate={selectedStart}
+                endDate={selectedEnd}
+                selectsRange
+                inline
+                renderCustomHeader={renderHeader}
+                locale="en-US"
+                showMonthDropdown
+                className=' border-0 border-[#DA9658] p-0 m-0 border-none outline-0 outline-none'
+                showYearDropdown
+                dropdownMode="select"
+                calendarClassName="calendar-custom"
+            />
+            <div className="flex w-full justify-between  px-4 mb-4 mt-4">
+                <button
+                    onClick={() => {
+                        setSelectedStart(null); setSelectedEnd(null);
+                        getAllNotes();
+                    }}
+                    className="mr-4 px-4 py-2 border border-gray-300 text-gray-700 rounded"
+                >
+                    Cancel
+                </button>
+                <button
+                    onClick={handleFilterWithCalendar}
+                    className="px-4 py-2 bg-[#DA9658] text-white rounded"
+                >
+                    Save
+                </button>
             </div>
-        </LocalizationProvider>
+        </div>
     );
 }

@@ -77,8 +77,9 @@ const HomeTab = ({ setAllTexts, allTexts, isGrid, setIsGrid, ss, sss }) => {
                         horizontal: 'center',
                     }}
                 >
-                    <Box p={2}>
+                    <Box p={0}>
                         <CalendarWithNotes setAllTexts={setAllTexts} allTexts={allTexts} />
+
                     </Box>
                 </Popover>
 

@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { Usercontext } from '../context/userContext'; // Adjust the path as needed
 import { useContext } from 'react';
+import toast from 'react-hot-toast';
 
 const axiosInstance = axios.create();
 
@@ -22,32 +23,40 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (error.response.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
-            try {
-                const storedAuthData = JSON.parse(localStorage.getItem('authData'));
-                const refreshToken = storedAuthData?.refreshToken; // Ensure the token name matches
+        if (error.response && error.response.status === 401) {
+            if (!originalRequest._retry) {
+                originalRequest._retry = true;
 
-                if (refreshToken) {
-                    // Request a new token using the refresh token
-                    const response = await axios.post('/api/auth/refresh', { refreshToken });
-                    const { newToken } = response.data; // Adjust based on your API response
+                try {
+                    const storedAuthData = JSON.parse(localStorage.getItem('authData'));
+                    const refreshToken = storedAuthData?.refreshToken; // Ensure the token name matches
 
-                    // Update local storage and axios headers with the new token
-                    storedAuthData.token = newToken;
-                    localStorage.setItem('authData', JSON.stringify(storedAuthData));
+                    if (refreshToken) {
+                        // Request a new token using the refresh token
+                        const response = await axios.post('/api/auth/refresh', { refreshToken });
+                        const { newToken } = response.data; // Adjust based on your API response
 
-                    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
-                    originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+                        // Update local storage and axios headers with the new token
+                        storedAuthData.token = newToken;
+                        localStorage.setItem('authData', JSON.stringify(storedAuthData));
 
-                    return axiosInstance(originalRequest);
+                        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+                        originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+
+                        return axiosInstance(originalRequest);
+                    }
+                } catch (err) {
+                    console.error('Failed to refresh token:', err);
+                    logOut(); // Logout the user if refreshing the token fails
                 }
-            } catch (err) {
-                console.error('Failed to refresh token:', err);
-                logOut(); // Logout the user if refreshing the token fails
             }
+            logOut();
+            return Promise.reject(error);
+
         }
+        toast.error(`Error: ${error.message || 'An error occurred'}`);
         return Promise.reject(error);
+
     }
 )
 

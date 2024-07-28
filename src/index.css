@@ -26,3 +26,97 @@ body {
   font-optical-sizing: auto;
   scroll-behavior: smooth;
 }
+
+.calendar-custom .react-datepicker__current-month {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  height: 2rem;
+}
+
+.year-dropdown {
+  max-height: 10rem;
+  overflow-y: auto;
+}
+
+react-datepicker {
+  border: none;
+
+  outline: none;
+}
+
+
+.calendar-custom .react-datepicker__day {
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+}
+
+.calendar-custom .react-datepicker__day-name {
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+}
+
+.calendar-custom .react-datepicker__day--keyboard-selected,
+.calendar-custom .react-datepicker__day--selected {
+  background-color: #DA9658;
+  /* Orange */
+  color: white;
+}
+
+.calendar-custom .react-datepicker__header {
+  background-color: white;
+  border-bottom: none;
+}
+
+.calendar-custom,
+.calendar-custom .react-datepicker__month-container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.calendar-custom {
+  width: 100%;
+}
+
+.calendar-custom .react-datepicker__navigation {
+  top: 1rem;
+}
+
+.react-datepicker,
+.calendar-custom {
+  border: 0;
+  border: rgba(245, 222, 179, 0);
+  border: none;
+}
+
+div .react-datepicker {
+  font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+  font-size: 0.8rem;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  /* Remove the border */
+  border-radius: 0.3rem;
+  display: inline-block;
+  position: relative;
+  line-height: initial;
+}
+
+.calendar-custom .react-datepicker__navigation-icon::before {
+  border: none;
+
+  border-color: #00000000;
+}
+
+.calendar-custom .react-datepicker__navigation--previous {
+  left: 10px;
+}
+
+.calendar-custom .react-datepicker__navigation--next {
+  right: 10px;
+}
