@@ -27,7 +27,8 @@ const ForgetPassword = () => {
             navigate('/verify-email');
         } catch (error) {
             console.log(error);
-            toast.error('An error occurred while resending code, please try again later.....');
+            toast.error(error?.response?.data?.message)
+
         } finally {
             setLoading(false);
         }

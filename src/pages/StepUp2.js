@@ -44,6 +44,12 @@ const SetUp2 = () => {
     };
 
 
+    useEffect(() => {
+        if (userInfo.setup === true) {
+            navigate("/dashboard")
+        }
+    }, [userInfo])
+
 
     const getUserData = async () => {
         try {

@@ -26,6 +26,8 @@ import Success from "./pages/SuccesFulPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import WhatsappSuccess from "./components/Whatappverification/WhatsappSuccess";
 import SetUp2 from "./pages/StepUp2";
+import ChangePhoneNumber from "./pages/ChangePhoneNumber";
+import WhatsappNoVerification from "./pages/WhatsappNoVerification";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -65,6 +67,8 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/setup" element={<PrivateRoute element={<SetUp />} />} />
             <Route path="/setup2" element={<PrivateRoute element={<SetUp2 />} />} />
+            <Route path="/change/phoneNumber" element={<PrivateRoute element={<ChangePhoneNumber />} />} />
+            <Route path="/change/phoneNumber/verify" element={<PrivateRoute element={<WhatsappNoVerification />} />} />
 
             {/* <Route path="/setup" element={<SetUp />} /> */}
 

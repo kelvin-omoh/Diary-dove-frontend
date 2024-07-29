@@ -105,7 +105,7 @@ const Verification = () => {
     } catch (error) {
       setIsSuccess(false);
       toast.error(
-        "An error occurred while resending code, please try again later....."
+        error.response.data.message
       );
     }
   };

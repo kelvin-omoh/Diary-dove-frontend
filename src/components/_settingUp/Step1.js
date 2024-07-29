@@ -28,10 +28,25 @@ const Step1 = ({ handleNext }) => {
   const { setAuthInfo, userInfo, whatsappNumber, handleVerifyWhatsapp, setWhatsappNumber } = useContext(Usercontext);
   const navigate = useNavigate();
   const [loading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const handleGoogleChange = (event) => {
     setGoogle(event.target.checked);
   };
 
+
+
+
+  const validatePhoneNumber = (value, country, countries, hiddenAreaCodes) => {
+    const strippedNumber = stripCountryCode(value, country);
+    const isValidLength = strippedNumber.length === 13;
+    if (isValidLength) {
+      setError('');
+      return true;
+    } else {
+      setError('Invalid phone number: Must be exactly 10 digits after the country code');
+      return false;
+    }
+  };
 
 
   const getAllReminders = async () => {
@@ -182,19 +197,17 @@ const Step1 = ({ handleNext }) => {
                 {checked &&
                   <div className="  flex items-start gap-3">
 
-
                     <PhoneInput
-                      country={'ng'} // Default country code
+                      country={'ng'}
                       placeholder="Enter phone number"
                       value={whatsappNumber}
                       onChange={handlePhoneNumberChange}
+                      isValid={validatePhoneNumber}
                       className="text-[#262728] ease-in delay-75 transition-all my-[8px] mt-[1rem] outline-none rounded-[8px]"
-                      isValid={(value, country, countries, hiddenAreaCodes) => {
-                        const strippedNumber = stripCountryCode(value, country);
-                        const isValidLength = strippedNumber.length === 10;
-                        return isValidLength ? true : 'Invalid phone number: Must be exactly 10 digits after the country code';
-                      }}
                     />
+                    {error && (
+                      <p className="error-message text-red-500">{error}</p>
+                    )}
 
                   </div>
                 }

@@ -50,6 +50,10 @@ export const UserContextProvider = ({ children }) => {
         setWhatsappNumber(whatsappNo);
     };
 
+    const resetTimer = () => {
+        localStorage.setItem('timer', 360);
+    };
+
     const logOut = () => {
         console.log('Logging out'); // Debugging log
         setUserInfo({});
@@ -60,7 +64,7 @@ export const UserContextProvider = ({ children }) => {
     };
 
     return (
-        <Usercontext.Provider value={{ whatsappNumber, handleVerifyWhatsapp, setWhatsappNumber, userInfo, handleVerifyEmail, setUserInfo, setAuthInfo, logOut, verifyEmail, setVerifyEmail }}>
+        <Usercontext.Provider value={{ resetTimer, whatsappNumber, handleVerifyWhatsapp, setWhatsappNumber, userInfo, handleVerifyEmail, setUserInfo, setAuthInfo, logOut, verifyEmail, setVerifyEmail }}>
             {children}
         </Usercontext.Provider>
     );
