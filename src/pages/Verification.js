@@ -61,13 +61,14 @@ const Verification = () => {
   useEffect(() => {
     console.log(verifyEmail);
     if (verifyEmail === '' || verifyEmail === null) {
-      navigate("/change-email")
+      navigate("/login")
     }
   }, [verifyEmail]);
 
   console.log(verifyEmail);
   const verifyOTP = async () => {
     try {
+      setIsSuccess(false);
       if (otp.length === 6) {
         const response = await axiosInstance.post("/api/users/verifyOTP", {
           email: verifyEmail,
@@ -77,19 +78,22 @@ const Verification = () => {
         localStorage.removeItem("verifyEmail");
         toast.success(response.data.message);
         setTimer(360);
-        navigate("/login");
+        setIsSuccess(true);
 
       } else {
+        setIsSuccess(false);
         toast.error("otp verification is incorrect");
       }
     } catch (error) {
       console.log(error);
+      setIsSuccess(false);
       toast.error(error.response.data.message);
     }
   };
 
   const handleResendOfCode = async () => {
     try {
+      setIsSuccess(false);
       setTimer(360);
       const res = await axiosInstance.post("/api/users/resendOTPCode", {
         email: verifyEmail,
@@ -97,7 +101,9 @@ const Verification = () => {
       console.log(res);
       toast.success(res.data.message);
       setTimer(360);
+      setIsSuccess(false);
     } catch (error) {
+      setIsSuccess(false);
       toast.error(
         "An error occurred while resending code, please try again later....."
       );
@@ -173,7 +179,9 @@ const Verification = () => {
         <button
           type="submit"
           onClick={() => {
-            verifyOTP();
+            !isSuccess ?
+              verifyOTP() :
+              navigate("/login")
           }}
           className={` w-full font-[500] rounded-[8px]  py-[16px] bg-[#DA9658] text-center text-white ${isSuccess ? "w-[192px]" : "w-full"
             }`}

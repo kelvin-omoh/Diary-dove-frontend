@@ -56,7 +56,7 @@ axiosInstance.interceptors.response.use(
         }
 
         toast.error(`Error: ${error.message || 'An error occurred'}`);
-        logOut();
+        // logOut();
         return Promise.reject(error);
 
     }

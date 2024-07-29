@@ -91,9 +91,9 @@ const Step1 = ({ handleNext }) => {
 
   const handlePhoneNumberChange = (value) => {
     // Ensure the value starts with +
-    if (!value.startsWith('+')) {
-      value = `+${value}`;
-    }
+    // if (!value.startsWith('+')) {
+    //   value = `+${value}`;
+    // }
     setWhatsappNumber(value);
   };
   return (
@@ -163,28 +163,17 @@ const Step1 = ({ handleNext }) => {
                   </Box>
                 </Box>
                 {checked &&
-                  <div className=" flex items-start gap-3">
+                  <div className="  flex items-start gap-3">
 
 
                     <PhoneInput
+                      country={'ng'}
                       placeholder="Enter phone number"
                       value={whatsappNumber}
                       onChange={handlePhoneNumberChange}
-                      className=" px-[1em] text-[#8F96A3] ease-in delay-75 transition-all  my-[8px]  mt-[1rem] outline-none  rounded-[8px]   "
+                      className=" px-[1em] w-[1rem] text-[#262728] ease-in delay-75 transition-all  my-[8px]  mt-[1rem] outline-none  rounded-[8px]   "
                     />
-                    {/* <input
-                      value={whatsappNumber}
-                      onChange={handlePhoneNumberChange}
-                      minLength={14}
-                      maxLength={14}
-                      type="text"
-                      pattern="[0-9]*"
-                      max={14}
-                      placeholder="08032******"
-                      className=" px-[1em] text-[#8F96A3] ease-in delay-75 transition-all  w-full my-[8px] h-[40px] outline-none  rounded-[8px] border-[1px] border-[#EDEDED] "
-                      name=""
-                      id=""
-                    /> */}
+
                   </div>
                 }
                 {checked && <button

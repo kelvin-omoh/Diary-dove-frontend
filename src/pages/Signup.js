@@ -141,11 +141,11 @@ const Signup = () => {
   };
 
 
-  // useEffect(() => {
-  //   if (userInfo?.token) {
-  //     navigate("/dashboard")
-  //   }
-  // }, [userInfo?.token])
+  useEffect(() => {
+    if (userInfo?.token) {
+      navigate("/dashboard")
+    }
+  }, [userInfo?.token])
 
   const handleGoogleAuth = async () => {
     try {
