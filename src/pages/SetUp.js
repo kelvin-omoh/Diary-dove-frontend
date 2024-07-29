@@ -43,6 +43,12 @@ const SetUp = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
+    useEffect(() => {
+        if (userInfo.setup === true) {
+            navigate("/dashboard")
+        }
+    }, [userInfo])
+
 
 
     const getUserData = async () => {
