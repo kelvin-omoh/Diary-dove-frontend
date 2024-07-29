@@ -102,6 +102,10 @@ const Step1 = ({ handleNext }) => {
   };
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
+  const stripCountryCode = (number, country) => {
+    const countryCode = country.dialCode;
+    return number.replace(countryCode, '');
+  };
   const handlePhoneNumberChange = (value) => {
     // Ensure the value starts with +
     // if (!value.startsWith('+')) {
@@ -180,11 +184,16 @@ const Step1 = ({ handleNext }) => {
 
 
                     <PhoneInput
-                      country={'ng'}
+                      country={'ng'} // Default country code
                       placeholder="Enter phone number"
                       value={whatsappNumber}
                       onChange={handlePhoneNumberChange}
-                      className="   text-[#262728] ease-in delay-75 transition-all  my-[8px]  mt-[1rem] outline-none  rounded-[8px]   "
+                      className="text-[#262728] ease-in delay-75 transition-all my-[8px] mt-[1rem] outline-none rounded-[8px]"
+                      isValid={(value, country, countries, hiddenAreaCodes) => {
+                        const strippedNumber = stripCountryCode(value, country);
+                        const isValidLength = strippedNumber.length === 10;
+                        return isValidLength ? true : 'Invalid phone number: Must be exactly 10 digits after the country code';
+                      }}
                     />
 
                   </div>
