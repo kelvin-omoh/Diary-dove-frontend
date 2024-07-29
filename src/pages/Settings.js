@@ -286,7 +286,7 @@ const Settings = () => {
                                                 />
 
                                             </div>
-                                            : "change"}
+                                            : "Change"}
                                     </> :
                                     <>
 
@@ -298,9 +298,8 @@ const Settings = () => {
                                                     sx={{ color: "white" }}
                                                     className=" text-white ml-[.5rem]"
                                                 />
-
                                             </div>
-                                            : "select an Image"}
+                                            : "Select an Image"}
                                     </>
                                 }
                             </span>
