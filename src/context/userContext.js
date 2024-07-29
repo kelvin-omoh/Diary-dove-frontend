@@ -3,7 +3,11 @@ import React, { createContext, useEffect, useState } from "react";
 export const Usercontext = createContext({});
 
 export const UserContextProvider = ({ children }) => {
-    const [whatsappNumber, setWhatsappNumber] = useState('')
+    const [whatsappNumber, setWhatsappNumber] = useState(() => {
+        const storedVerifyWhatsapp = localStorage.getItem('whatsapp');
+        return storedVerifyWhatsapp ? JSON.parse(storedVerifyWhatsapp).
+            whatsappNo : '';
+    })
     const [userInfo, setUserInfo] = useState(() => {
         const storedAuthData = localStorage.getItem('authData');
         return storedAuthData && JSON.parse(storedAuthData)
@@ -41,15 +45,22 @@ export const UserContextProvider = ({ children }) => {
         setVerifyEmail(email);
     };
 
+    const handleVerifyWhatsapp = (whatsappNo) => {
+        localStorage.setItem('whatsapp', JSON.stringify({ whatsappNo }));
+        setWhatsappNumber(whatsappNo);
+    };
+
     const logOut = () => {
         console.log('Logging out'); // Debugging log
         setUserInfo({});
         localStorage.removeItem('authData');
         localStorage.removeItem('verifyEmail');
+        localStorage.removeItem('whatsapp');
+        localStorage.removeItem('timer');
     };
 
     return (
-        <Usercontext.Provider value={{ whatsappNumber, setWhatsappNumber, userInfo, handleVerifyEmail, setUserInfo, setAuthInfo, logOut, verifyEmail, setVerifyEmail }}>
+        <Usercontext.Provider value={{ whatsappNumber, handleVerifyWhatsapp, setWhatsappNumber, userInfo, handleVerifyEmail, setUserInfo, setAuthInfo, logOut, verifyEmail, setVerifyEmail }}>
             {children}
         </Usercontext.Provider>
     );

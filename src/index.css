@@ -120,3 +120,7 @@ div .react-datepicker {
 .calendar-custom .react-datepicker__navigation--next {
   right: 10px;
 }
+
+div .react-tel-input .form-control {
+  width: 100%;
+}

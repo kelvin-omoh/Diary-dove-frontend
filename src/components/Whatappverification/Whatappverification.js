@@ -10,12 +10,21 @@ import axiosInstance from "../../Utils/axiosInstance";
 
 const WhatsAppVerification = () => {
   const navigate = useNavigate();
-  const { verifyWhatsApp, logOut, whatsappNumber, setWhatsappNumber } = useContext(Usercontext); // Removed setVerifyWhatsApp
-  const [timer, setTimer] = useState(360); // 6 minutes countdown
+  const { verifyWhatsApp, userInfo, logOut, handleVerifyWhatsapp, whatsappNumber, setWhatsappNumber } = useContext(Usercontext); // Removed setVerifyWhatsApp
+  const [timer, setTimer] = useState(() => {
+    const savedTimer = localStorage.getItem('timer');
+    return savedTimer !== null ? parseInt(savedTimer, 10) : 360;
+  });
+  const [canResend, setCanResend] = useState(false);
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
   const [otp, setOtp] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+
+
+  useEffect(() => {
+    localStorage.setItem('timer', timer);
+  }, [timer]);
 
   useEffect(() => {
     if (timer > 0) {
@@ -23,9 +32,10 @@ const WhatsAppVerification = () => {
         setTimer((prev) => prev - 1);
       }, 1000);
       return () => clearInterval(interval);
+    } else {
+      setCanResend(true);
     }
   }, [timer]);
-
 
 
   const formatTime = (seconds) => {
@@ -38,55 +48,70 @@ const WhatsAppVerification = () => {
   };
 
   useEffect(() => {
-    console.log(verifyWhatsApp);
-    if (!verifyWhatsApp) {
+    console.log(whatsappNumber);
+    if (!whatsappNumber) {
       toast.error("WhatsApp number verification is required.");
     }
-  }, [verifyWhatsApp]);
+  }, [whatsappNumber]);
 
   const verifyOTP = async () => {
     if (!isSuccess) {
       setLoading(true);
       try {
         if (otp.length === 6) {
-          const response = await axiosInstance.post("/api/verify-whatsapp", {
-            phoneNumber: verifyWhatsApp,
+          const response = await axiosInstance.post("/api/users/verifyPhoneOTP", {
             otp,
+          }, {
+            headers: {
+              Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+              "Content-Type": "application/json",
+            }
           });
 
-          localStorage.removeItem("verifyWhatsApp");
+          localStorage.removeItem("whatsapp");
           toast.success(response.data.message);
-          setIsSuccess(true);
-          logOut();
+          navigate("/verify-whatsapp/success")
         } else {
           toast.error("OTP verification is incorrect.");
         }
       } catch (error) {
-        console.log(error.response.data.message);
-        toast.error(error.response.data.message);
+
+        console.log(error);
+        toast.error("OTP verification is incorrect.");
       } finally {
         setLoading(false);
+        setIsSuccess(true)
       }
-    } else {
-      logOut();
-      navigate("/");
     }
   };
 
   const handleResendOfCode = async () => {
     try {
-      const res = await axiosInstance.post("/api/resend-whatsapp-code", {
-        phoneNumber: verifyWhatsApp,
+      const formattedNumber = `+${whatsappNumber}`;
+
+      const res = await axiosInstance.post("/api/users/sendphoneOTP", {
+        phonenumber: formattedNumber,
+      }, {
+        headers: {
+          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+          "Content-Type": "application/json",
+        }
       });
       console.log(res);
       toast.success(res.data.message);
       setTimer(360);
     } catch (error) {
+      console.log(error);
       toast.error(
         "An error occurred while resending code, please try again later..."
       );
     }
   };
+
+  const formatNumber = (num) => {
+    return `+ ${num.toString().split('').join(' ')}`;
+  };
+
 
   return (
     <div className=" w-full flex justify-center items-center h-[100vh] bg-[#FDFAF7]">
@@ -107,7 +132,7 @@ const WhatsAppVerification = () => {
           {!isSuccess && (
             <>
               <p className=" text-[#8F96A3] text-[14px] md:text-[18px]  w-full leading-[27px] ">
-                Enter the code sent to {whatsappNumber}. Wrong number?
+                Enter the code sent to {whatsappNumber.replace(/(\d{3})(\d{3})(\d{3})(\d{4})/, '$1 $2 $3 $4')} Wrong number?
                 {/*}  <span className=" text-[#DA9658]">
                   {" "}
                   {maskPhoneNumber(verifyWhatsApp)}
@@ -155,7 +180,7 @@ const WhatsAppVerification = () => {
           onClick={() => {
             verifyOTP();
           }}
-          className={` w-full font-[500] rounded-[8px]  py-[16px] bg-[#DA9658] text-center text-white ${isSuccess ? "w-[192px]" : "w-full"
+          className={` w-full font-[500] rounded-[8px] ${!isSuccess && otp.length < 6 ? 'bg-[#da975887]' : 'bg-[#DA9658]'}  py-[16px]  text-center text-white ${isSuccess ? "w-[192px]" : "w-full"
             }`}
         >
           {loading ? (

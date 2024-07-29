@@ -201,11 +201,13 @@ const Login = () => {
       }
     } catch (error) {
       setIsLoading(false);
-      console.error("Error:", error);
+      console.log(error);
       if (error.response?.status === 400) {
         toast.error(error.response.data.message);
       } else if (Array.isArray(error.response?.data?.errors)) {
         error.response.data.errors.forEach((msg) => toast.error(msg));
+      } else {
+        toast.error("Error while getting login in ,try again later....");
       }
     } finally {
       setIsLoading(false);

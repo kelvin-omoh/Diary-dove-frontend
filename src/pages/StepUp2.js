@@ -35,9 +35,9 @@ const CustomStepConnector = styled(StepConnector)(({ theme }) => ({
     },
 }));
 
-const SetUp = () => {
+const SetUp2 = () => {
     const { userInfo, setAuthInfo } = useContext(Usercontext)
-    const [activeStep, setActiveStep] = useState(0);
+    const [activeStep, setActiveStep] = useState(1);
     const navigate = useNavigate()
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -111,4 +111,4 @@ const SetUp = () => {
     );
 };
 
-export default SetUp;
+export default SetUp2;

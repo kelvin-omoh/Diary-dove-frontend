@@ -24,6 +24,8 @@ import GoogleCallback from "./components/_GoogleCallback/GoogleCallBack";
 import { useEffect } from "react";
 import Success from "./pages/SuccesFulPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import WhatsappSuccess from "./components/Whatappverification/WhatsappSuccess";
+import SetUp2 from "./pages/StepUp2";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -49,6 +51,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/verify-whatsapp" element={<WhatsAppVerification />} />
+            <Route path="/verify-whatsapp/success" element={<WhatsappSuccess />} />
             <Route path="/auth/callback" element={<GoogleCallback />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/verify" element={<Verification />} />
@@ -61,6 +64,7 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="/setup" element={<PrivateRoute element={<SetUp />} />} />
+            <Route path="/setup2" element={<PrivateRoute element={<SetUp2 />} />} />
 
             {/* <Route path="/setup" element={<SetUp />} /> */}
 

@@ -3,7 +3,7 @@ import whatsappIcon from "../../assets/Group (1).png";
 import googleIcon from "../../assets/icons8-google 1.png";
 import { Checkbox } from "@mui/material";
 import { useState } from "react";
-
+import { CircularProgress } from "@mui/material";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import {
@@ -25,9 +25,9 @@ import toast from "react-hot-toast";
 const Step1 = ({ handleNext }) => {
   const [google, setGoogle] = useState(false);
   const [checked, setChecked] = useState(false);
-  const { setAuthInfo, userInfo, whatsappNumber, setWhatsappNumber } = useContext(Usercontext);
+  const { setAuthInfo, userInfo, whatsappNumber, handleVerifyWhatsapp, setWhatsappNumber } = useContext(Usercontext);
   const navigate = useNavigate();
-
+  const [loading, setIsLoading] = useState(false);
   const handleGoogleChange = (event) => {
     setGoogle(event.target.checked);
   };
@@ -57,14 +57,26 @@ const Step1 = ({ handleNext }) => {
   }, []);
   const handleWhatsapp = async () => {
     try {
+      setIsLoading(true);
+      handleVerifyWhatsapp(whatsappNumber)
+      const formattedNumber = `+${whatsappNumber}`;
+
       const res = await axiosInstance.post("/api/users/sendphoneOTP", {
-        phoneNumber: whatsappNumber,
+        phonenumber: formattedNumber,
+      }, {
+        headers: {
+          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+          "Content-Type": "application/json",
+        }
       });
       console.log(res);
       toast.success(res.data.message);
       // setTimer(360);
+      setIsLoading(false);
       navigate('/verify-whatsapp')
     } catch (error) {
+      setIsLoading(false);
+      console.log(error);
       toast.error(
         "An error occurred while resending code, please try again later..."
       );
@@ -171,22 +183,33 @@ const Step1 = ({ handleNext }) => {
                       placeholder="Enter phone number"
                       value={whatsappNumber}
                       onChange={handlePhoneNumberChange}
-                      className=" px-[1em] w-[1rem] text-[#262728] ease-in delay-75 transition-all  my-[8px]  mt-[1rem] outline-none  rounded-[8px]   "
+                      className="   text-[#262728] ease-in delay-75 transition-all  my-[8px]  mt-[1rem] outline-none  rounded-[8px]   "
                     />
 
                   </div>
                 }
                 {checked && <button
                   onClick={() => {
-
-                    handleWhatsapp()
+                    console.log(whatsappNumber);
+                    handleVerifyWhatsapp(whatsappNumber)
+                    whatsappNumber.length > 12 && handleWhatsapp()
                   }
                   }
                   disabled={whatsappNumber.length < 13}
                   className=" rounded-[8px] ease-in delay-75 transition-all disabled:bg-[#da97588a]  mt-[32px] bg-[#DA9658] px-[19px] py-[4px] text-white "
 
                 >
-                  Connect
+                  {loading ? (
+                    <div className=" flex gap-4 items-center">
+                      Connecting
+                      <CircularProgress
+                        size={20}
+                        sx={{ color: "white" }}
+                        className=" text-white ml-[.5rem]"
+                      />
+                    </div>
+
+                  ) : " Connect "}
                 </button>}
 
               </Box>
