@@ -132,7 +132,7 @@ const WhatsAppVerification = () => {
           {!isSuccess && (
             <>
               <p className=" text-[#8F96A3] text-[14px] md:text-[18px]  w-full leading-[27px] ">
-                Enter the code sent to {whatsappNumber.replace(/(\d{3})(\d{3})(\d{3})(\d{4})/, '$1 $2 $3 $4')} Wrong number?
+                Enter the code sent to {`+${whatsappNumber.replace(/(\d{3})(\d{3})(\d{3})(\d{4})/, '$1 $2 $3 $4')}`} Wrong number?
                 {/*}  <span className=" text-[#DA9658]">
                   {" "}
                   {maskPhoneNumber(verifyWhatsApp)}

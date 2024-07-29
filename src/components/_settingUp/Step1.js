@@ -77,8 +77,9 @@ const Step1 = ({ handleNext }) => {
     } catch (error) {
       setIsLoading(false);
       console.log(error);
+      console.log(error);
       toast.error(
-        "An error occurred while resending code, please try again later..."
+        error.response.data.message
       );
 
     }
