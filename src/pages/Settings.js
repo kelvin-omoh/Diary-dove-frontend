@@ -377,7 +377,7 @@ const Settings = () => {
                                             Your email address is
 
 
-                                            <span> {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}</span>
+                                            {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}
                                         </span>
                                         <span className="block md:hidden">
 
@@ -408,7 +408,7 @@ const Settings = () => {
                                             className="size-[20px] text-[#B4B9C2]"
                                         />
                                         <input
-                                            value={memoizedUserData.phonenumber}
+                                            value={memoizedUserData.phonenumber === null ? 'N/A' : memoizedUserData.phonenumber}
                                             onChange={(e) => {
                                                 const value = e.target.value;
                                                 // Allow only numeric characters and limit length to 11
