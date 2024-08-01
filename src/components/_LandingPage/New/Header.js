@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import logo from '../../../assets/DiaraDove Logo.png';
 import { HiBars3 } from 'react-icons/hi2';
 import { LiaTimesSolid } from 'react-icons/lia';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,6 +25,7 @@ const Header = () => {
     //     setIsMobileMenuOpen(false);
     // };
 
+    const navigate = useNavigate()
     return (
         <div className='z-10 fixed top-0 w-[100vw] flex flex-row items-center py-[16px] justify-start md:justify-between px-[24px] md:px-[80px] bg-white'>
             <div className='hidden md:block'>
@@ -44,8 +46,8 @@ const Header = () => {
             </ul>
             <div className='hidden md:flex items-center justify-center'>
                 <div className='flex gap-[16px] items-center ml-[64px]'>
-                    <button className='rounded-lg border border-[#F1F2F3] px-[24px] py-[8px]'>Sign In</button>
-                    <button className='bg-[#DA9658] text-white rounded-lg px-[24px] py-[8px]'>Sign up for free</button>
+                    <button onClick={() => navigate('/login')} className='rounded-lg border border-[#F1F2F3] px-[24px] py-[8px]'>Sign In</button>
+                    <button onClick={() => navigate('/sign-up')} className='bg-[#DA9658] text-white rounded-lg px-[24px] py-[8px]'>Sign up for free</button>
                 </div>
             </div>
 
@@ -59,8 +61,8 @@ const Header = () => {
                     ))}
                 </ul>
                 <div className='flex flex-col z-[50] relative gap-[20px] mt-[24px] justify-center items-center'>
-                    <button className='rounded-lg border z-[50] relative hover:bg-[#8c6138] ease-in transition-all w-full duration-150 border-[#F1F2F3] px-[24px] py-[8px]'>Sign In</button>
-                    <button className='bg-[#DA9658] z-[50] relative hover:bg-[#8c6138] ease-in transition-all duration-150 text-white rounded-lg px-[24px] py-[8px]'>Sign up for free</button>
+                    <button onClick={() => navigate('/login')} className='rounded-lg border z-[50] relative hover:bg-[#8c6138] ease-in transition-all w-full duration-150 border-[#F1F2F3] px-[24px] py-[8px]'>Sign In</button>
+                    <button onClick={() => navigate('/sign-up')} className='bg-[#DA9658] z-[50] relative hover:bg-[#8c6138] ease-in transition-all duration-150 text-white rounded-lg px-[24px] py-[8px]'>Sign up for free</button>
                 </div>
             </div>
         </div>
