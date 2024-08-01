@@ -12,6 +12,10 @@ body {
   scroll-behavior: smooth;
 }
 
+* {
+  scroll-behavior: smooth;
+}
+
 html {
   scroll-behavior: smooth;
 }

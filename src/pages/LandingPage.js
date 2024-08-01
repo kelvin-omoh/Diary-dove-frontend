@@ -12,7 +12,7 @@ import markunread from '../assets/mark_unread_chat_alt (1).png'
 import note from '../assets/add_comment.png'
 import search from '../assets/feature_search.png'
 // import Footer from '../components/_LandingPage/Footer'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { HashLink as Link } from 'react-router-hash-link';
 import Header from '../components/_LandingPage/New/Header'
 import Hero from '../components/_LandingPage/New/Hero'
@@ -65,12 +65,12 @@ const LandingPage = () => {
             <Header />
 
             <Hero />
-            <section id="services" className='   md:px-[100px] bg-[#F1F2F3] flex flex-col gap-[40px] md:gap-[118px] overflow-x-hidden md:pb-[40px] pb-[64px]  px-0  ' >
+            <div id="services" className='   md:px-[100px] bg-[#F1F2F3] flex flex-col gap-[40px] md:gap-[118px] overflow-x-hidden md:pb-[40px] pb-[64px]  px-0  ' >
 
 
                 <div
 
-                    className='  justify-between flex  md:flex-row flex-col md:gap-y-[118px] h-full  gap-x-[24.5] md:gap-x-[60px] pt-[64px] md:pt-[40px] items-center text-start'>
+                    className='  justify-between flex  md:flex-row flex-col md:gap-y-[18px] h-full  gap-x-[24.5] md:gap-x-[60px] pt-[64px] md:pt-[40px] items-center text-start'>
                     <div className=' px-[48px] md:px-0 md:w-auto w-full'>
                         <img className=" h-full  object-contain w-[512px] " src={s1} alt="" />
                     </div>
@@ -83,7 +83,7 @@ const LandingPage = () => {
                         </ul>
 
                         <div className=' flex-1 flex justify-end'>
-                            <Link to={'#how-it-works'} className='  mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </Link>
+                            <a href={'#how-it-works'} className='  mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </a>
                         </div>
 
                     </div>
@@ -102,7 +102,7 @@ const LandingPage = () => {
                         </ul>
 
                         <div className=' flex-1 flex justify-start'>
-                            <Link to={'#how-it-works'} className='  mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </Link>
+                            <a href={'#how-it-works'} className='  mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </a>
                         </div>
 
                     </div>
@@ -110,8 +110,8 @@ const LandingPage = () => {
                 </div>
 
 
-            </section>
-            <section id="how-it-works" className=' mt-[34px] md:mt-[100px] text-[24px] md:text-[40px] font-[600] px-[20px] md:px-[100px] bg-[#ffffff] flex flex-col   ' >
+            </div>
+            <div id="how-it-works" className=' mt-[34px] md:mt-[100px] text-[24px] md:text-[40px] font-[600] px-[20px] md:px-[100px] bg-[#ffffff] flex flex-col   ' >
                 <h1 className=' text-center'>How it works</h1>
                 <div className=' mt-[18px] grid-cols-1 gap-[20px]  grid md:grid-cols-3 md:mt-[40px] '>
                     {howItWorks.map((item) => (
@@ -125,72 +125,22 @@ const LandingPage = () => {
 
 
                 </div>
-            </section>
+            </div>
 
-            <section className=' bg-[#F1F2F3] relative rounded-[8px] pb-[51px] pt-[81px] md:py-[51px] text-center flex flex-col justify-center items-center my-[40px] mx-0 md:m-[100px]'>
+            <div className=' bg-[#F1F2F3] relative rounded-[8px] pb-[51px] pt-[81px] md:py-[51px] text-center flex flex-col justify-center items-center my-[40px] mx-0 md:m-[100px]'>
                 <h1 className='text-[24px] md:text-[40px] font-[500] mb-[8px] '>Seamlessly capture your <span className=' text-[#DA9658]'>
                     thoughts</span> </h1>
                 <p className=' text-[14ppx] md:text-[16px] text-[#8F96A3]'>Accessible anytime through Email and WhatsApp</p>
-                <button className=' bg-[#FFFFFF] relative z-10 px-[32px] py-[8px] rounded-[8px] mt-[40px] '>Sign up for free</button>
+                <button onClick={() => navigate("/sign-up")} className=' bg-[#FFFFFF] relative z-10 px-[32px] py-[8px] rounded-[8px] mt-[40px] '>Sign up for free</button>
                 <img src={frame} alt={'Background'} className=' h-[217px] w-[260px]  absolute top-[31px] md:top-[31px]' />
 
-            </section>
+            </div>
 
 
 
             <Footer />
 
 
-
-
-
-
-
-            {/* <div
-
-                        className=' flex flex-col  justify-between  md:flex-row-reverse gap-[24.5] md:gap-[163px] mt-[56px] items-center text-start'>
-                        <div className='px-[24px] grid text-center items-center justify-center md:px-0 w-full md:w-[753px] '>
-                            <h1 className=' font-[600] text-[20px] w-fit text-center  md:text-[40px]'>Easily create and edit your diary entries in seconds</h1>
-                            <p className=' text-[#8F96A3] font-[400] text-[12px] md:text-start text-center md:text-[18px] md:leading-[27px] leading-4 mt-[16px]'>Safe and secure space to be one with your thoughts not matter when , no matter where. Create multiple diaries entries throughout the day either with our website or by replying our reminders to you.</p>
-                            <Link to={'#how-it-works'} className=' mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </Link>
-                        </div>
-                        <div className='bg-gradient-to-t px-[48px] md:px-0 from-[#FAF2EA]  to-[#fff9f3] md:w-auto w-full'>
-                            <img data-aos="fade" className=" h-full md:h-[496px] object-contain w-[512px] " src={screen2} alt="" />
-                        </div>
-
-                    </div>
-
-
-
-                </section>
-                <div className='border-[#F8EADE]  left-0 h-fit absolute my-14 border-[1px] w-full text-black '></div>
-                <section className='mt-28' id={"how-it-works"}>
-
-
-
-                    <h1 className=' font-[600] mb-[32px] text-[20px] text-center  md:text-[40px]'>How it works</h1>
-
-                    <div className='  grid gap-[44px] px-6 md:grid-cols-2 grid-cols-1'>
-                        {howItWorks.map((item) => (
-                            <div data-aos="fade-in"
-                                data-aos-offset="-30"
-                                data-aos-delay="50"
-                                data-aos-duration="800"
-                                data-aos-easing="ease-in-out"
-                                data-aos-mirror="true"
-                                data-aos-once="false"
-                                data-aos-anchor-placement="top-center"
-                                key={item.title} className=' bg-[white] p-[32px] w-full md:items-start items-center rounded-lg justify-center  gap-[8px] md:text-start text-center flex flex-col'>
-                                <img src={item.img} alt={item.title} className='  size-[72px] ' />
-                                <h1 className=' font-[600] text-[20px]'>{item.title}</h1>
-                                <p className=' text-[14px] text-[#8F96A3] '>{item.description}</p>
-                            </div>
-                        ))}
-
-                    </div>
-              
-
-            <Footer /> */}
         </div>
     )
 }
