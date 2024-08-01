@@ -60,12 +60,12 @@ const LandingPage = () => {
     const navigate = useNavigate()
 
     return (
-        <div className=' h-full pb-[4rem]     '>
+        <div className=' h-full pb-[4rem] overflow-x-hidden     '>
             {/* <Header /> */}
             <Header />
 
             <Hero />
-            <section id="services" className=' md:px-[100px] bg-[#F1F2F3] flex flex-col gap-[40px] md:gap-[118px] overflow-hidden md:pb-[40px] pb-[64px]  px-0  ' >
+            <section id="services" className=' overflow-x-hidden  md:px-[100px] bg-[#F1F2F3] flex flex-col gap-[40px] md:gap-[118px] overflow-hidden md:pb-[40px] pb-[64px]  px-0  ' >
 
 
                 <div
