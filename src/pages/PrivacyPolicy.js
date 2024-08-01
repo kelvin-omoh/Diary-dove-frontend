@@ -1,15 +1,15 @@
 import React from 'react'
 import Header from '../components/_LandingPage/Header'
-import Hero from '../components/_LandingPage/Hero'
 import Footer from '../components/_LandingPage/Footer'
+import Hero from '../components/_LandingPage/New/privacy/Hero'
 
 const PrivacyPolicy = () => {
     return (
-        <div className='bg-gradient-to-t h-full pb-[4rem]    from-[#FAF2EA] ] to-[#fff9f3] '>
+        <div className=' '>
 
             <Header />
             <Hero />
-            <section data-aos="fade-up-left" id="services" className=' px-[24px] md:px-[234px] overflow-hidden md:pb-[80px] pb-[64px] py-[35px] md:py-[70px]   ' >
+            <section data-aos="fade-up-left" id="services" className=' px-[24px] md:px-[234px] overflow-hidden md:pb-[80px] pb-[64px] py-[35px] md:pt-[95px]   ' >
                 <div className='pb-[20px] md:pb-[40px]'>
                     <h1 className=' font-[500] text-[16px] md:text-[24px] leading-9'>Definitions</h1>
                     <p className=' text-[14px] md:text-[18px]'>For the purpose of this Policy:
@@ -107,7 +107,7 @@ const PrivacyPolicy = () => {
 
 
 
-                <div className='py-[20px] md:pb-[122px]'>
+                <div className='py-[20px] md:pb-[0px]'>
                     <h1 className=' font-[500] text-[16px] md:text-[24px] leading-9'>Amendment</h1>
                     <p className=' text-[14px] md:text-[18px]'>
                         We may amend or revise this Policy at any time by posting a revised version on our website. Notice of the amendment shall be posted on our website and the revised version will be effective from the date of publication. Kindly, note that your continued use of our Software after the publication of the revised version constitutes your acceptance of our amended terms of the Policy.
