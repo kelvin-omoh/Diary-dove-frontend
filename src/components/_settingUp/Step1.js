@@ -36,9 +36,10 @@ const Step1 = ({ handleNext }) => {
 
 
 
-  const validatePhoneNumber = (value, country, countries, hiddenAreaCodes) => {
+  const validatePhoneNumber = (value, country) => {
     const strippedNumber = stripCountryCode(value, country);
-    const isValidLength = strippedNumber.length === 13;
+    console.log(value);
+    const isValidLength = strippedNumber.length === 13; // Adjust length as per requirement
     if (isValidLength) {
       setError('');
       return true;
@@ -47,7 +48,6 @@ const Step1 = ({ handleNext }) => {
       return false;
     }
   };
-
 
   const getAllReminders = async () => {
     try {
@@ -116,11 +116,11 @@ const Step1 = ({ handleNext }) => {
     return segments;
   };
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
   const stripCountryCode = (number, country) => {
-    const countryCode = country.dialCode;
+    const countryCode = `+${country.dialCode}`;
     return number.replace(countryCode, '');
   };
+
   const handlePhoneNumberChange = (value) => {
     // Ensure the value starts with +
     // if (!value.startsWith('+')) {
@@ -202,8 +202,7 @@ const Step1 = ({ handleNext }) => {
                       placeholder="Enter phone number"
                       value={whatsappNumber}
                       onChange={handlePhoneNumberChange}
-                      isValid={validatePhoneNumber}
-                      className="text-[#262728] ease-in delay-75 transition-all my-[8px] mt-[1rem] outline-none rounded-[8px]"
+                      className={`text-[#262728] border ease-in delay-75 transition-all my-[8px] mt-[1rem] outline-none rounded-[8px] `}
                     />
                     {error && (
                       <p className="error-message text-red-500">{error}</p>
@@ -213,14 +212,13 @@ const Step1 = ({ handleNext }) => {
                 }
                 {checked && <button
                   onClick={() => {
-                    console.log(whatsappNumber);
-                    handleVerifyWhatsapp(whatsappNumber)
-                    whatsappNumber.length > 12 && handleWhatsapp()
-                  }
-                  }
+                    if (validatePhoneNumber(whatsappNumber, { dialCode: '234' })) {
+                      handleVerifyWhatsapp(whatsappNumber);
+                      if (whatsappNumber.length > 12) handleWhatsapp();
+                    }
+                  }}
                   disabled={whatsappNumber.length < 13}
-                  className=" rounded-[8px] ease-in delay-75 transition-all disabled:bg-[#da97588a]  mt-[32px] bg-[#DA9658] px-[19px] py-[4px] text-white "
-
+                  className="rounded-[8px] ease-in delay-75 transition-all disabled:bg-[#da97588a] mt-[32px] bg-[#DA9658] px-[19px] py-[4px] text-white"
                 >
                   {loading ? (
                     <div className=" flex gap-4 items-center">

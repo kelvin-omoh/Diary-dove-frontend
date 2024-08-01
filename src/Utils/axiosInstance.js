@@ -10,8 +10,10 @@ const logOut = () => {
     console.log('Logging out'); // Debugging log
     localStorage.removeItem('authData');
     localStorage.removeItem('verifyEmail');
+    localStorage.removeItem('whatsapp');
+    localStorage.removeItem('timer');
     // Optional: If using React Router, you might want to use history to redirect
-    window.location.href = '/login'; // Redirect to login page
+    window.location.href = '/'; // Redirect to login page
 };
 
 const setAuthInfo = (data) => {
