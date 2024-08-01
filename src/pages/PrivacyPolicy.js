@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
 
             <Header />
             <Hero />
-            <section data-aos="fade-up-left" id="services" className=' px-[24px] md:px-[234px] overflow-hidden md:pb-[80px] pb-[64px] py-[35px] md:pt-[95px]   ' >
+            <section id="services" className=' px-[24px] md:px-[234px] overflow-hidden md:pb-[80px] pb-[64px] py-[35px] md:pt-[95px]   ' >
                 <div className='pb-[20px] md:pb-[40px]'>
                     <h1 className=' font-[500] text-[16px] md:text-[24px] leading-9'>Definitions</h1>
                     <p className=' text-[14px] md:text-[18px]'>For the purpose of this Policy:
