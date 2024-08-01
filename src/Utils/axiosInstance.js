@@ -55,6 +55,7 @@ axiosInstance.interceptors.response.use(
 
         }
         if (error.response.status === 403) {
+            toast.error(error.response.data.message)
             logOut();
         }
         // toast.error(`Error: ${error.message || 'An error occurred'}`);

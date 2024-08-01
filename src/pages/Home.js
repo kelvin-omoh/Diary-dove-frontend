@@ -122,6 +122,13 @@ const Home = () => {
         const noteToEdit = allTexts.find((note) => note.id === index);
         setEditIndex(index);
         setText(noteToEdit?.content || "");
+        setOpen(true);
+    };
+
+    const handleEdit2 = (index) => {
+        const noteToEdit = allTexts.find((note) => note.id === index);
+        setEditIndex(index);
+        setText(noteToEdit?.content || "");
         // setOpen(true);
     };
 
@@ -260,8 +267,8 @@ const Home = () => {
 
             <>
                 {open2 && (
-                    <div className={` overflow-hidden ${!open2 ? 'hidden' : 'block'}`}>
-                        <div className={` overflow-hidden items-center justify-between w-full`}>
+                    <div className={`  ${!open2 ? 'hidden' : 'block'}`}>
+                        <div className={`  items-center justify-between w-full`}>
                             <div className={`pt-[104px] py-[32px] items-center flex gap-3 md:justify-between px-[24px] md:px-[80px]`}>
                                 <div className="flex items-start gap-[12px]">
                                     {userInfo?.profilePicture ? (
@@ -388,7 +395,7 @@ const Home = () => {
                                         allTexts.slice(0, 4).map((note, index) => (
                                             <div
                                                 key={note.id}
-                                                onClick={() => handleEdit(note.id)}
+                                                onClick={() => handleEdit2(note.id)}
                                                 className={`flex  duration-150 ease-in hover:scale-105  transition-all  rounded-xl  justify-between flex-col md:min-h-[30px] gap-[8px]   max-h-[200px] hover:bg-orange-50/40 hover:px-[16px] bg-[#FFFFFF] py-[24px]  ${note.id === editIndex ? 'px-[16px] bg-orange-50/40  ' : 'bg-[#FFFFFF]'}`}
                                             >
                                                 <div className="  ">

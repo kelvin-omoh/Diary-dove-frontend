@@ -53,7 +53,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
     };
 
     return (
-        <div className=" w-full px-[24px]  md:px-[80px] mt-[49px] ">
+        <div className=" w-full pb-[3rem] px-[24px]   md:px-[80px] mt-[49px] ">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <div
                     className={` pb-[48px] ${isGrid ? "h-full md:h-[85vh]" : "h-full md:h-[100vh]"} relative  w-full`}
