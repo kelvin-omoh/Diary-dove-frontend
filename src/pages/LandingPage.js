@@ -60,17 +60,17 @@ const LandingPage = () => {
     const navigate = useNavigate()
 
     return (
-        <div className=' h-full pb-[4rem] overflow-hidden relative     '>
+        <div className=' h-full pb-[4rem]    '>
             {/* <Header /> */}
             <Header />
 
             <Hero />
-            <section id="services" className='   md:px-[100px] bg-[#F1F2F3] flex flex-col gap-[40px] md:gap-[118px] overflow-hidden md:pb-[40px] pb-[64px]  px-0  ' >
+            <section id="services" className='   md:px-[100px] bg-[#F1F2F3] flex flex-col gap-[40px] md:gap-[118px] overflow-x-hidden md:pb-[40px] pb-[64px]  px-0  ' >
 
 
                 <div
 
-                    id='services' className='  justify-between flex  md:flex-row flex-col md:gap-y-[118px] h-full  gap-x-[24.5] md:gap-x-[60px] pt-[64px] md:pt-[40px] items-center text-start'>
+                    className='  justify-between flex  md:flex-row flex-col md:gap-y-[118px] h-full  gap-x-[24.5] md:gap-x-[60px] pt-[64px] md:pt-[40px] items-center text-start'>
                     <div className=' px-[48px] md:px-0 md:w-auto w-full'>
                         <img className=" h-full  object-contain w-[512px] " src={s1} alt="" />
                     </div>
@@ -91,7 +91,7 @@ const LandingPage = () => {
                 </div>
                 <div
 
-                    id='services' className='  justify-between flex  md:flex-row-reverse flex-col h-full  gap-x-[24.5] md:gap-x-[60px] pt-0 md:pt-[40px] items-center text-start'>
+                    className='  justify-between flex  md:flex-row-reverse flex-col h-full  gap-x-[24.5] md:gap-x-[60px] pt-0 md:pt-[40px] items-center text-start'>
                     <div className=' px-[48px] md:px-0 md:w-auto w-full'>
                         <img className=" h-full  object-contain w-[512px] " src={s2} alt="" />
                     </div>
@@ -111,7 +111,7 @@ const LandingPage = () => {
 
 
             </section>
-            <section id="services" className=' mt-[34px] md:mt-[100px] text-[24px] md:text-[40px] font-[600] px-[20px] md:px-[100px] bg-[#ffffff] flex flex-col   ' >
+            <section id="how-it-works" className=' mt-[34px] md:mt-[100px] text-[24px] md:text-[40px] font-[600] px-[20px] md:px-[100px] bg-[#ffffff] flex flex-col   ' >
                 <h1 className=' text-center'>How it works</h1>
                 <div className=' mt-[18px] grid-cols-1 gap-[20px]  grid md:grid-cols-3 md:mt-[40px] '>
                     {howItWorks.map((item) => (
