@@ -426,7 +426,7 @@ const Settings = () => {
                                     <button
                                         type="button"
                                         onClick={() => {
-                                            handleEditClick();
+                                            navigate('/change/phoneNumber')
 
                                         }}
                                         className="text-[#DA9658] cursor-pointer"
