@@ -44,11 +44,6 @@ const SetUp2 = () => {
     };
 
 
-    useEffect(() => {
-        if (userInfo.setup === true) {
-            navigate("/dashboard")
-        }
-    }, [userInfo])
 
 
     const getUserData = async () => {
@@ -61,6 +56,7 @@ const SetUp2 = () => {
             });
 
             const newData = response.data.data;
+            console.log(newData);
             const updatedData = { ...userInfo };
 
             newData.forEach((item) => {

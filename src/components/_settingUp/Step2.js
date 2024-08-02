@@ -268,6 +268,9 @@ const Step2 = () => {
       if (response.status === 200) {
         console.log(response.data.message);
         toast.success(response.data.message);
+        const updatedData = { ...userInfo, setup: true };
+
+        setAuthInfo(updatedData);
         navigate("/dashboard");
       }
     } catch (error) {

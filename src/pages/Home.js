@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { Usercontext } from "../context/userContext";
 import useCheckToken from "../components/hooks/useCheckToken";
 import axiosInstance from "../Utils/axiosInstance";
-import { addHours, format, parseISO } from "date-fns";
+import { addHours, format, parseISO, isSameDay } from "date-fns";
 import trash from "../assets/trash2.png";
 import list from "../assets/Vector list.png";
 const Home = () => {
@@ -79,8 +79,9 @@ const Home = () => {
         try {
             if (editIndex !== null) {
                 // Update existing note
-                const response = await axiosInstance.patch(
-                    `api/diaries/${editIndex}`,
+                setLoading(true)
+                const response = await axiosInstance.post(
+                    "api/diaries/",
                     { content: text },
                     {
                         headers: {
@@ -93,8 +94,10 @@ const Home = () => {
                 // setAllTexts(response.data.data);
                 getAllNotes();
                 toast.success("Note updated successfully");
+                setLoading(false)
             } else {
                 // Create new note
+                setLoading(true)
                 const response = await axiosInstance.post(
                     "api/diaries/",
                     { content: text },
@@ -107,11 +110,13 @@ const Home = () => {
                 );
                 setAllTexts((prevNotes) => [response.data.data, ...prevNotes]);
                 toast.success("Note created successfully");
+                setLoading(false)
             }
         } catch (error) {
             toast.error("Failed to save note");
             console.log(error);
             console.error("Error saving note:", error);
+            setLoading(false)
         } finally {
             setLoading(false);
             handleClose();
@@ -133,14 +138,19 @@ const Home = () => {
     };
 
     const handleDelete = async (index) => {
+
         try {
             await axiosInstance.delete(`api/diaries/delete/${index}`, {
                 headers: {
                     Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
                 },
             });
+            setEditIndex(null)
+            setText("");
             setAllTexts((prev) => prev.filter((note) => note.id !== index));
             toast.success("Note deleted successfully");
+
+
         } catch (error) {
             toast.error("Failed to delete note");
             console.error("Error deleting note:", error);
@@ -261,6 +271,23 @@ const Home = () => {
         const lastNameInitial = nameParts[nameParts.length - 1][0].toUpperCase();
         return `${firstName} ${lastNameInitial}.`;
     };
+
+
+    useEffect(() => {
+        if (allTexts.length > 0) {
+            const today = new Date();
+            const firstNoteDate = parseISO(allTexts[0].date);
+            const foundIndex = allTexts.findIndex(note => isSameDay(parseISO(note.date), today));
+
+            if (foundIndex !== -1) {
+                setText(allTexts[foundIndex].content);
+                setEditIndex(allTexts[foundIndex].id);
+            } else {
+                setText(null);
+                setEditIndex(null);
+            }
+        }
+    }, [allTexts]);
     return (
         <div className="  overflow-hidden bg-[#FDFAF7]">
             <Header />
@@ -354,7 +381,7 @@ const Home = () => {
                                 id="auto-resize-textarea"
                                 value={text}
                                 onChange={handleInput}
-                                className="w-full mt-[50px] pr-[16px] text-[40px] placeholder:text-[#29292d55] font-[700] bg-[#ff000000] px-2   border-0 outline-none"
+                                className="w-full mt-[50px] pr-[16px]  text-[40px] placeholder:text-[#29292d55] font-[400] bg-[#ff000000] px-2  placeholder:font-[700]  border-0 outline-none"
                                 placeholder="What’s on your mind today..."
 
                             />
@@ -378,7 +405,7 @@ const Home = () => {
                             </button>
                         </div>
                         <div className=" fixed top-[64px] pt-[16px] pb-[32px] right-0 bg-[#ffffff] w-[456px] h-[100vh]" >
-                            <ul className=" border-b border-b-[#F1F2F3]  px-[42px] pb-[16px] w-full flex justify-between">
+                            <ul className=" border-b border-b-[#11181e]  px-[42px] pb-[16px] w-full flex justify-between">
                                 <li className=" text-[20px] font-[600]">Recent</li>
                                 <button onClick={() => {
 
@@ -395,10 +422,10 @@ const Home = () => {
                                         allTexts.slice(0, 4).map((note, index) => (
                                             <div
                                                 key={note.id}
-                                                onClick={() => handleEdit2(note.id)}
+
                                                 className={`flex  duration-150 ease-in hover:scale-105  transition-all  rounded-xl  justify-between flex-col md:min-h-[30px] gap-[8px]   max-h-[200px] hover:bg-orange-50/40 hover:px-[16px] bg-[#FFFFFF] py-[24px]  ${note.id === editIndex ? 'px-[16px] bg-orange-50/40  ' : 'bg-[#FFFFFF]'}`}
                                             >
-                                                <div className="  ">
+                                                <div onClick={() => handleEdit2(note.id)} className="  ">
                                                     <p className="text-[#E0A774] text-[12px] justify-start flex ">
                                                         {formatNigerianTime(note.date)}
                                                     </p>
@@ -428,7 +455,7 @@ const Home = () => {
                                                     </div>
                                                 </div>
                                                 <div className="mt-[18px] md:mt-[24.94px] flex items-center justify-start gap-[10.4px]">
-                                                    <button>
+                                                    <button type="button" >
                                                         <img
                                                             src={trash}
                                                             onClick={() => handleDelete(note.id)}

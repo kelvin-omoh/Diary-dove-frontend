@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HomeTab from "./Tabs";
 import trash from "../../assets/trash2.png";
 import list from "../../assets/Vector list.png";
@@ -51,6 +51,11 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
             return "Invalid Time"; // or any fallback value
         }
     };
+
+
+    useEffect(() => {
+
+    }, [])
 
     return (
         <div className=" w-full pb-[3rem] px-[24px]   md:px-[80px] mt-[49px] ">
