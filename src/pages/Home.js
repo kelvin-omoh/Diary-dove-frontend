@@ -358,25 +358,28 @@ const Home = () => {
                 {!open2 && (
                     <div className={` md:hide-scrollbar  overflow-hidden relative ${open ? 'hidden' : ' hidden md:flex'}  mt-[72px]   pt-[32px] h-[100vh]  gap-3 md:justify-between px-[24px] md:px-[80px]`}>
                         <div className="flex  flex-col    w-[70%]  px-[16px] items-start gap-[12px]">
-                            {userInfo?.profilePicture ? (
-                                <img
-                                    src={userInfo?.profilePicture}
-                                    className="object-cover object-center rounded-full size-[50px]"
-                                    alt=""
-                                />
-                            ) : (
-                                <div className="bg-orange-300 p-[10px] text-white rounded-full">
-                                    <BsPerson className="size-[40px]" />
+                            <div className=" flex items-center gap-4 ">
+                                {userInfo?.profilePicture ? (
+                                    <img
+                                        src={userInfo?.profilePicture}
+                                        className="object-cover object-center rounded-full size-[50px]"
+                                        alt=""
+                                    />
+                                ) : (
+                                    <div className="bg-orange-300 p-[10px] text-white rounded-full">
+                                        <BsPerson className="size-[40px]" />
+                                    </div>
+                                )}
+                                <div className="flex flex-col items-start">
+                                    <h1 className="leading-[21px] m-0 md:leading-[30px] font-[600] md:font-[700] text-[14px] md:text-[16px]">
+                                        Hello ✌️
+                                    </h1>
+                                    <p className="text-[#7C7B87] text-[12px] md:text-[16px] leading-6">
+                                        {formatLastName(userInfo?.fullname)}
+                                    </p>
                                 </div>
-                            )}
-                            <div className="flex flex-col items-start">
-                                <h1 className="leading-[21px] m-0 md:leading-[30px] font-[600] md:font-[700] text-[14px] md:text-[16px]">
-                                    Hello ✌️
-                                </h1>
-                                <p className="text-[#7C7B87] text-[12px] md:text-[16px] leading-6">
-                                    {formatLastName(userInfo?.fullname)}
-                                </p>
                             </div>
+
                             <textarea
                                 id="auto-resize-textarea"
                                 value={text}
