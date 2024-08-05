@@ -292,7 +292,7 @@ const Settings = () => {
 
                                         {loading ?
                                             <div className=" flex gap-2 items-center  ">
-                                                updating
+                                                Updating
                                                 <CircularProgress
                                                     size={20}
                                                     sx={{ color: "white" }}
