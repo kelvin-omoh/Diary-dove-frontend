@@ -15,15 +15,16 @@ const ToggleIcon = ({ checked, setChecked }) => {
             checked={checked}
             onChange={handleChange}
             sx={{
-                width: 62,
-                height: 30,
-                marginL: 8,
+                width: 38,
+                height: 20,
+                marginL: 2,
                 padding: 0,
                 '& .MuiSwitch-switchBase': {
                     transitionDuration: '300ms',
                     '&.Mui-checked': {
                         transform: 'translateX(25px)',
                         color: '#fff',
+                        marginLeft: -.4,
                         '& + .MuiSwitch-track': {
                             backgroundColor: '#02AB75',
                             opacity: 1,
@@ -36,6 +37,7 @@ const ToggleIcon = ({ checked, setChecked }) => {
                     '&.Mui-focusVisible .MuiSwitch-thumb': {
                         color: '#33cf4d',
                         border: '6px solid #fff',
+                        marginLeft: 4
                     },
                     '&.Mui-disabled .MuiSwitch-thumb': {
                         color: (theme) => theme.palette.mode === 'light'
@@ -48,9 +50,10 @@ const ToggleIcon = ({ checked, setChecked }) => {
                 },
                 '& .MuiSwitch-thumb': {
                     boxSizing: 'border-box',
-                    width: 22,
-                    height: 22,
-                    marginTop: -0.5,
+                    width: 12,
+                    height: 12,
+                    marginTop: -0.65,
+                    marginLeft: -0.9
                 },
                 '& .MuiSwitch-track': {
                     borderRadius: 26 / 2,

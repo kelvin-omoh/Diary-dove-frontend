@@ -276,6 +276,7 @@ const Home = () => {
     useEffect(() => {
         if (allTexts.length > 0) {
             const today = new Date();
+            console.log(today);
             const firstNoteDate = parseISO(allTexts[0].date);
             const foundIndex = allTexts.findIndex(note => isSameDay(parseISO(note.date), today));
 
@@ -287,7 +288,7 @@ const Home = () => {
                 setEditIndex(null);
             }
         }
-    }, [allTexts]);
+    }, [allTexts, new Date()]);
     return (
         <div className="  overflow-hidden bg-[#FDFAF7]">
             <Header />

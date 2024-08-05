@@ -168,17 +168,21 @@ const Step1 = ({ handleNext }) => {
                     Google
                   </Box>
                   <Box className=" w-fit   text-[#8F96A3] ">
-                    <Checkbox checked={true} {...label} defaultChecked color="success" />
+                    <Checkbox
+                      checked={true}
+                      sx={{
+                        padding: 0,
+                        color: '#02AB75',
+                        '&.Mui-checked': {
+                          color: '#02AB75',
+                        },
+                      }}
+                      {...label}
+                      defaultChecked
+                    />
                   </Box>
                 </Box>
-                {/* <input
-                  disabled
-                  value={userInfo?.email}
-                  type="text"
-                  className=" px-[1em] text-[#8F96A3] w-full my-[8px] h-[40px] outline-none  rounded-[8px] border-[1px] border-[#EDEDED] "
-                  name=""
-                  id=""
-                /> */}
+
               </Box>
               <Box className={` border-[#EDEDED]  ease-in delay-75 transition-all  rounded-[12px] mt-[16px] w-[306px] md:w-[595px]  p-[16px] border-[1px]`}>
                 <Box className=" flex justify-between w-full  ">
@@ -190,7 +194,7 @@ const Step1 = ({ handleNext }) => {
                     />
                     Whatsapp
                   </Box>
-                  <Box className=" w-fit   text-[#8F96A3] ">
+                  <Box className=" w-[38px]   text-[#8F96A3] ">
                     <ToggleIcon checked={checked} setChecked={setChecked} />
                   </Box>
                 </Box>
