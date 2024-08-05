@@ -375,13 +375,18 @@ const Settings = () => {
                                     <p className="flex flex-col items-start gap-[4px] font-[400] leading-[24px] text-[#8F96A3] break-all">
                                         <span className="hidden gap-3 md:flex">
                                             Your email address is
-
-
-                                            {` ${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}
+                                            {` ${((email) => {
+                                                const [localPart, domain] = email.split("@");
+                                                return localPart.length > 6 ? `${localPart.substring(0, 6)}*****@${domain}` : email;
+                                            })(memoizedUserData.email)}`}
                                         </span>
                                         <span className="block md:hidden">
-
-                                            <span> {`${memoizedUserData.email.replace(/.{4}(?=@)/, "****")}`}</span>
+                                            <span>
+                                                {`${((email) => {
+                                                    const [localPart, domain] = email.split("@");
+                                                    return localPart.length > 6 ? `${localPart.substring(0, 6)}*****@${domain}` : email;
+                                                })(memoizedUserData.email)}`}
+                                            </span>
                                         </span>
                                     </p>
                                     <button
