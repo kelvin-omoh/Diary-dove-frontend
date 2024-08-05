@@ -22,6 +22,7 @@ const Home = () => {
     const [isGrid, setIsGrid] = useState(true);
     const handleClickOpen = () => {
         setOpen(true);
+
     };
 
     const handleClose = () => {
@@ -279,7 +280,7 @@ const Home = () => {
             console.log(today);
             const firstNoteDate = parseISO(allTexts[0].date);
             const foundIndex = allTexts.findIndex(note => isSameDay(parseISO(note.date), today));
-
+            console.log('1111');
             if (foundIndex !== -1) {
                 setText(allTexts[foundIndex].content);
                 setEditIndex(allTexts[foundIndex].id);
@@ -288,7 +289,7 @@ const Home = () => {
                 setEditIndex(null);
             }
         }
-    }, [allTexts, new Date()]);
+    }, [allTexts, open2]);
     return (
         <div className="  overflow-hidden bg-[#FDFAF7]">
             <Header />
