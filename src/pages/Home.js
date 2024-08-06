@@ -386,7 +386,7 @@ const Home = () => {
                                 id="auto-resize-textarea"
                                 value={text}
                                 onChange={handleInput}
-                                className="w-full mt-[50px] pr-[16px]  text-[40px] placeholder:text-[#29292d55] font-[400] bg-[#ff000000] px-2  placeholder:font-[700]  border-0 outline-none"
+                                className="w-full mt-[50px] pr-[16px]  text-[32px] placeholder:text-[#29292d55] font-[400] bg-[#ff000000] px-2  placeholder:font-[700]  border-0 outline-none"
                                 placeholder="What’s on your mind today..."
 
                             />

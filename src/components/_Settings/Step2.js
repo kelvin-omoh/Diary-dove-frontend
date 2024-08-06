@@ -13,6 +13,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -47,6 +48,7 @@ import { Usercontext } from "../../context/userContext";
 import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
 import axiosInstance from "../../Utils/axiosInstance";
+import { useQuery, useQueryClient } from "react-query";
 
 const checkboxTheme = createTheme({
   palette: {
@@ -68,6 +70,7 @@ const renderDashedLine = () => {
 
 
 const Step2 = () => {
+
   const [open, setOpen] = useState(false);
   const [reminders, setReminders] = useState([]);
   const [reminder, setReminder] = useState("Everyday");
@@ -81,6 +84,8 @@ const Step2 = () => {
   const { userInfo, logOut } = useContext(Usercontext);
   const [loading, setLoading] = useState(false);
   const [hourRange, setHourRange] = useState({ min: 0, max: 23 });
+  const queryClient = useQueryClient();
+
   const extractToken = (token) => {
     return token;
   };
@@ -129,6 +134,36 @@ const Step2 = () => {
       }
     }
   };
+
+
+  const fetchReminders = async (token) => {
+    if (token?.length > 4) {
+      const response = await axios.get('/api/reminders', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data.data.map((reminder) => ({
+        id: reminder.id,
+        hour: reminder.hour + 1,
+        minute: reminder.time,
+        period: reminder.hour + 1 < 12 ? 'AM' : 'PM',
+      }));
+    }
+    return [];
+  };
+
+  const { data: fetchedReminders = [], isLoading, error } = useQuery(
+    ['reminders', userInfo?.token],
+    () => fetchReminders(userInfo?.token),
+    {
+      enabled: !!userInfo?.token,
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      cacheTime: 1000 * 60 * 10, // 10 minutes
+      onSuccess: (data) => setReminders(data),
+    }
+  );
 
 
   const handleOpen = () => {
@@ -193,13 +228,18 @@ const Step2 = () => {
 
 
   const addReminder = () => {
-    if (time.hour !== '' && time.minute !== '') {
-      setReminders((prevReminders) => [
-        ...prevReminders,
-        { hour: parseInt(time.hour, 10), minute: parseInt(time.minute, 10), period: time.period },
-      ]);
-      setTime({ hour: '', minute: '', period: 'AM' });
+    if (reminders.length < 4) {
+      if (time.hour !== '' && time.minute !== '') {
+        setReminders((prevReminders) => [
+          ...prevReminders,
+          { index: reminders.length + 1, hour: parseInt(time.hour, 10), minute: parseInt(time.minute, 10), period: time.period },
+        ]);
+        setTime({ hour: '', minute: '', period: 'AM' });
+      }
+    } else {
+      toast.error(`You've reached your limit `)
     }
+
   };
 
   const savePreferences = async () => {
@@ -223,20 +263,27 @@ const Step2 = () => {
       return `${hour}:${minute} ${period}`;
     });
 
+    // console.log(reminders);
     try {
-      const response = await axiosInstance.post('/api/reminders/addnew', {
-        times: formattedReminders,
-      }, {
-        headers: {
-          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-          "Content-Type": "application/json",
-        },
-      });
+      if (reminders.length < 4) {
+        const response = await axiosInstance.post('/api/reminders/addnew', {
+          times: formattedReminders,
+        }, {
+          headers: {
+            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+            "Content-Type": "application/json",
+          },
+        });
 
-      if (response.status === 200) {
-        console.log(response.data.message);
-        toast.success(response.data.message);
+        if (response.status === 200) {
+          console.log(response.data.message);
+          toast.success(response.data.message);
+        }
       }
+      else {
+        toast.error("You've reached the limit")
+      }
+
     } catch (error) {
       console.log(error);
       toast.error('Failed to save preferences.');
@@ -281,26 +328,22 @@ const Step2 = () => {
 
   useEffect(() => {
     getAllReminders();
-  }, [userInfo?.token]);
+  }, [userInfo?.token, reminders]);
+
 
 
   const isValidReminder = () => {
     return daysOfWeek.includes(reminder);
   };
 
-  // const convertToReadableTime = (hour, time) => {
-  //   let hours = hour;
-  //   let minutes = time;
 
-  //   const ampm = hours >= 12 ? "PM" : "AM";
-  //   hours = hours % 12;
-  //   hours = hours ? hours : 12;
-  //   minutes = minutes < 10 ? "0" + minutes : minutes;
+  const deleteReminderId = (id) => {
+    console.log(id);
+    const newReminders = reminders.filter(reminder => reminder.index !== id);
+    console.log(newReminders);
+    setReminders(newReminders)
 
-  //   return `${hours}:${minutes} ${ampm}`;
-  // };
-
-
+  }
 
   const containerRef = useRef(null);
 
@@ -310,7 +353,6 @@ const Step2 = () => {
   }, []);
 
   const daysOfWeek = ["Everyday"];
-
 
 
   return (
@@ -504,19 +546,29 @@ const Step2 = () => {
                         <button
                           type="button"
                           className="text-white px-2 py-1 rounded"
-                          onClick={() => deleteReminder(reminder.id)}
+                          onClick={() => {
+                            reminder.id ? deleteReminder(reminder.id) : deleteReminderId(index + 1)
+                          }
+
+                          }
                         >
                           <img className="h-[18px]" src={trash} alt="trash" />
                         </button>
                       </div>
                     ))}
+                    {reminders.length > 2 && <p className=" text-red-500">Maximum is 3</p>}
                   </div>
                 </div>
 
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    savePreferences();
+                    if (reminders.length < 4) {
+                      savePreferences();
+                    } else {
+                      toast.error(`You've reached your limit `)
+                    }
+
                   }}
                   className="bg-[#DA9658] mt-[77px] md:mt-[126px] text-white py-[16.5px] text-center w-[236px] h-[60px] rounded-[8px]"
                 >

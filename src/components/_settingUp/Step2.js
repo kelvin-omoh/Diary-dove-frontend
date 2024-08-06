@@ -187,13 +187,18 @@ const Step2 = () => {
 
 
   const addReminder = () => {
-    if (time.hour !== '' && time.minute !== '') {
-      setReminders((prevReminders) => [
-        ...prevReminders,
-        { hour: parseInt(time.hour, 10), minute: parseInt(time.minute, 10), period: time.period },
-      ]);
-      setTime({ hour: '', minute: '', period: 'AM' });
+    if (reminders.length < 4) {
+      if (time.hour !== '' && time.minute !== '') {
+        setReminders((prevReminders) => [
+          ...prevReminders,
+          { index: reminders.length + 1, hour: parseInt(time.hour, 10), minute: parseInt(time.minute, 10), period: time.period },
+        ]);
+        setTime({ hour: '', minute: '', period: 'AM' });
+      }
+    } else {
+      toast.error(`You've reached your limit `)
     }
+
   };
   const convertToReadableTime = (hour, minute) => {
     let period = 'AM';
@@ -228,6 +233,15 @@ const Step2 = () => {
       toast.error("Error deleting reminder");
     }
   };
+
+  const deleteReminderId = (id) => {
+    console.log(id);
+    const newReminders = reminders.filter(reminder => reminder.index !== id);
+    console.log(newReminders);
+    setReminders(newReminders)
+
+  }
+
 
   useEffect(() => {
     getAllReminders();
@@ -491,13 +505,20 @@ const Step2 = () => {
                         </button>
                       </div>
                     ))}
+
+                    {reminders.length > 2 && <p className=" text-red-500">Maximum is 3</p>}
+
                   </div>
                 </div>
 
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    savePreferences();
+                    if (reminders.length < 4) {
+                      savePreferences();
+                    } else {
+                      toast.error(`You've reached your limit `)
+                    }
                   }}
                   className=" bg-[#DA9658] mt-[77px] md:mt-[126px] text-white py-[16.5px] text-center w-[236px] h-[60px] rounded-[8px]"
                 >
