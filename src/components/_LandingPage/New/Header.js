@@ -8,9 +8,9 @@ const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const links = [
-        { name: 'Services', path: '#services' },
-        { name: 'How it works', path: '#how-it-works' },
-        { name: 'Contact Us', path: '/contact' },
+        { name: 'Services', path: '/#services' },
+        { name: 'How it works', path: '/#how-it-works' },
+        { name: 'Contact Us', path: '/#footer' },
     ];
 
     const handleToggle = () => {
