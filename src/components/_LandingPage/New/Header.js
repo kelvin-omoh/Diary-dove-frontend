@@ -10,7 +10,7 @@ const Header = () => {
     const links = [
         { name: 'Services', path: '/#services' },
         { name: 'How it works', path: '/#how-it-works' },
-        { name: 'Contact Us', path: '/#footer' },
+        { name: 'Contact Us', path: '/contact' },
     ];
 
     const handleToggle = () => {
