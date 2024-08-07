@@ -20,6 +20,7 @@ const Home = () => {
     const { userInfo } = useContext(Usercontext);
     const [loading, setLoading] = useState(false);
     const [isGrid, setIsGrid] = useState(true);
+    const [isEdit, setIsEdit] = useState(false)
     const handleClickOpen = () => {
         setOpen(true);
 
@@ -63,56 +64,60 @@ const Home = () => {
 
 
     const handleSave = async () => {
-        const getCurrentDateTime = () => {
-            const currentDate = new Date();
-            const time = currentDate.toLocaleTimeString("en-US", {
-                hour: "numeric",
-                minute: "2-digit",
-            });
-            const date = currentDate.toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-            });
-            return { time, date };
-        };
 
         try {
-            if (editIndex !== null) {
+            if (!isEdit) {
+                if (editIndex !== null) {
+                    // Update existing note
+                    setLoading(true)
+                    const response = await axiosInstance.post(
+                        "api/diaries/",
+                        { content: text },
+                        {
+                            headers: {
+                                Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
+                    console.log(response);
+                    // setAllTexts(response.data.data);
+                    getAllNotes();
+                    toast.success("Note updated successfully");
+                    setLoading(false)
+                } else {
+                    // Create new note
+                    setLoading(true)
+                    const response = await axiosInstance.post(
+                        "api/diaries/",
+                        { content: text },
+                        {
+                            headers: {
+                                Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
+                    setAllTexts((prevNotes) => [response.data.data, ...prevNotes]);
+                    toast.success("Note created successfully");
+                    setLoading(false)
+                }
+            } else {
                 // Update existing note
                 setLoading(true)
-                const response = await axiosInstance.post(
-                    "api/diaries/",
-                    { content: text },
-                    {
-                        headers: {
-                            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
+                const response = await axios.patch(`api/diaries/${editIndex}`, { content: text }, {
+                    headers: {
+                        Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+                        "Content-Type": "application/json",
+                    },
+                });
                 console.log(response);
                 // setAllTexts(response.data.data);
                 getAllNotes();
-                toast.success("Note updated successfully");
-                setLoading(false)
-            } else {
-                // Create new note
-                setLoading(true)
-                const response = await axiosInstance.post(
-                    "api/diaries/",
-                    { content: text },
-                    {
-                        headers: {
-                            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-                setAllTexts((prevNotes) => [response.data.data, ...prevNotes]);
-                toast.success("Note created successfully");
+                toast.success('Note updated successfully');
                 setLoading(false)
             }
+
         } catch (error) {
             toast.error("Failed to save note");
             console.log(error);
@@ -133,9 +138,19 @@ const Home = () => {
 
     const handleEdit2 = (index) => {
         const noteToEdit = allTexts.find((note) => note.id === index);
+
+        const noteDate = new Date(noteToEdit?.date || null);
+        console.log(noteToEdit);
+        const today = new Date();
+        const isSameDayCheck = noteDate.getFullYear() === today.getFullYear() &&
+            noteDate.getMonth() === today.getMonth() &&
+            noteDate.getDate() === today.getDate();
+
+        console.log(isSameDayCheck);
+        isSameDay ? setIsEdit(true) : setIsEdit(false);
+
         setEditIndex(index);
         setText(noteToEdit?.content || "");
-        // setOpen(true);
     };
 
     const handleDelete = async (index) => {
@@ -160,15 +175,65 @@ const Home = () => {
     };
 
     const handleSaveOrUpdate = async () => {
+        const noteToEdit = allTexts.find((note) => note.id === editIndex);
+        console.log(noteToEdit);
+
         if (editIndex !== null) {
             handleSave();
         } else {
             createNote();
         }
+
     };
 
-    const createNote = async () => {
+
+
+
+    const hanleEdit = async (index) => {
+        const getCurrentDateTime = () => {
+            const currentDate = new Date();
+            const time = currentDate.toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+            });
+            const date = currentDate.toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+            });
+            return { time, date };
+        };
+
         try {
+            if (editIndex !== null) {
+                // Update existing note
+                const response = await axiosInstance.patch(
+                    `api/diaries/${editIndex}`,
+                    { content: text },
+                    {
+                        headers: {
+                            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                console.log(response);
+                // setAllTexts(response.data.data);
+                getAllNotes();
+                toast.success("Note updated successfully");
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("Failed to create note");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const createNote = async () => {
+
+        try {
+
             setLoading(true);
             const response = await axiosInstance.post(
                 "api/diaries/",
@@ -276,18 +341,27 @@ const Home = () => {
 
     useEffect(() => {
         if (allTexts.length > 0) {
+
+
             const today = new Date();
+
+
             console.log(today);
             const firstNoteDate = parseISO(allTexts[0].date);
+
             const foundIndex = allTexts.findIndex(note => isSameDay(parseISO(note.date), today));
-            console.log('1111');
+            console.log(foundIndex);
             if (foundIndex !== -1) {
+                console.log('note is found');
                 setText(allTexts[foundIndex].content);
                 setEditIndex(allTexts[foundIndex].id);
             } else {
+                console.log('If no matching note is found');
+                setIsEdit(false)
                 setText(null);
                 setEditIndex(null);
             }
+            console.log(editIndex);
         }
     }, [allTexts, open2]);
     return (
@@ -472,7 +546,7 @@ const Home = () => {
                                                     <button>
                                                         <img
                                                             src={list}
-                                                            onClick={() => handleEdit(note.id)}
+                                                            onClick={() => handleEdit2(note.id)}
                                                             alt={"list"}
                                                             className="h-[16.13px]"
                                                         />

@@ -48,7 +48,6 @@ import { Usercontext } from "../../context/userContext";
 import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
 import axiosInstance from "../../Utils/axiosInstance";
-import { useQuery, useQueryClient } from "react-query";
 
 const checkboxTheme = createTheme({
   palette: {
@@ -70,7 +69,6 @@ const renderDashedLine = () => {
 
 
 const Step2 = () => {
-
   const [open, setOpen] = useState(false);
   const [reminders, setReminders] = useState([]);
   const [reminder, setReminder] = useState("Everyday");
@@ -84,8 +82,6 @@ const Step2 = () => {
   const { userInfo, logOut } = useContext(Usercontext);
   const [loading, setLoading] = useState(false);
   const [hourRange, setHourRange] = useState({ min: 0, max: 23 });
-  const queryClient = useQueryClient();
-
   const extractToken = (token) => {
     return token;
   };
@@ -134,36 +130,6 @@ const Step2 = () => {
       }
     }
   };
-
-
-  const fetchReminders = async (token) => {
-    if (token?.length > 4) {
-      const response = await axios.get('/api/reminders', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      return response.data.data.map((reminder) => ({
-        id: reminder.id,
-        hour: reminder.hour + 1,
-        minute: reminder.time,
-        period: reminder.hour + 1 < 12 ? 'AM' : 'PM',
-      }));
-    }
-    return [];
-  };
-
-  const { data: fetchedReminders = [], isLoading, error } = useQuery(
-    ['reminders', userInfo?.token],
-    () => fetchReminders(userInfo?.token),
-    {
-      enabled: !!userInfo?.token,
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      cacheTime: 1000 * 60 * 10, // 10 minutes
-      onSuccess: (data) => setReminders(data),
-    }
-  );
 
 
   const handleOpen = () => {
@@ -323,12 +289,12 @@ const Step2 = () => {
     } catch (error) {
       console.log(error);
       toast.error("Error deleting reminder");
-    }
+    }x
   };
 
   useEffect(() => {
     getAllReminders();
-  }, [userInfo?.token, reminders]);
+  }, [userInfo?.token]);
 
 
 
@@ -525,7 +491,14 @@ const Step2 = () => {
                       <button
                         type="button"
                         className="bg-[#DA9658] h-[34px] w-[34px] flex items-center justify-center text-[32px] font-light text-white rounded-full"
-                        onClick={addReminder}
+                        onClick={()=>{
+                          if(reminders.length!==3){
+                            addReminder()
+                          }
+                          else{
+                            toast.error("Youve reached your limit !!")
+                          }
+                        }}
                       >
                         +
                       </button>

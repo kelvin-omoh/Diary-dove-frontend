@@ -82,8 +82,8 @@ const LandingPage = () => {
                             <li>create multiple reminders for different times through out the day.</li>
                         </ul>
 
-                        <div className=' flex-1 flex justify-end'>
-                            <a href={'#how-it-works'} className='  mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </a>
+                        <div className=' flex-1 '>
+                            <a href={'#features'} className='  mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </a>
                         </div>
 
                     </div>
@@ -102,7 +102,7 @@ const LandingPage = () => {
                         </ul>
 
                         <div className=' flex-1 flex justify-start'>
-                            <a href={'#how-it-works'} className='  mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </a>
+                            <a href={'#features'} className='  mt-[32px] w-[143px] md:w-[154px] mx-auto md:mx-0 mb-[24px] md:mb-0 bg-[#DA9658] flex items-center justify-center gap-[4px] text-white  rounded-lg px-[16px] py-[12px]'>Learn more <AiOutlineArrowRight className=' h-[17.66px] font-[400]' /> </a>
                         </div>
 
                     </div>
@@ -111,8 +111,8 @@ const LandingPage = () => {
 
 
             </div>
-            <div id="how-it-works" className=' mt-[34px] md:mt-[100px] text-[24px] md:text-[40px] font-[600] px-[20px] md:px-[100px] bg-[#ffffff] flex flex-col   ' >
-                <h1 className=' text-center'>How it works</h1>
+            <div id="features" className=' mt-[34px] md:mt-[100px] text-[24px] md:text-[40px] font-[600] px-[20px] md:px-[100px] bg-[#ffffff] flex flex-col   ' >
+                <h1 className=' text-center'>Features</h1>
                 <div className=' mt-[18px] grid-cols-1 gap-[20px]  grid md:grid-cols-3 md:mt-[40px] '>
                     {howItWorks.map((item) => (
                         <div key={item.description} className=' rounded-[8px] bg-[#FDFAF7] text-center justify-center items-center flex flex-col py-[12px] md:py-[40px] px-[32px] '>
