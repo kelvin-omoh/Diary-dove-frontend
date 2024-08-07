@@ -30,12 +30,15 @@ const Header = () => {
             <div className='mx-auto md:hidden block'>
                 <img src={logo} alt='logo' className=' cursor-pointer h-[36px]' />
             </div>
-            <ul className='hidden md:flex gap-x-[56px] items-center'>
-                {links.map(link => (
-                    <li key={link.name} >
-                        <a href={link.path} className='ease-in z-[50] relative transition-all duration-150 hover:text-[#dd9a5b]'>{link.name}</a>
-                    </li>
-                ))}
+            <ul className='hidden md:flex gap-x-[80px] items-center'>
+                <div className='hidden md:flex gap-x-[56px] items-center'>
+                    {links.map(link => (
+                        <li key={link.name} >
+                            <a href={link.path} className='ease-in z-[50] relative transition-all duration-150 hover:text-[#dd9a5b]'>{link.name}</a>
+                        </li>
+                    ))}
+                </div>
+
 
                 <div className='hidden md:flex items-center justify-center'>
                     <div className='flex gap-[16px] items-center ml-[64px]'>
