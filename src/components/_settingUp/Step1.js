@@ -128,6 +128,51 @@ const Step1 = ({ handleNext }) => {
     // }
     setWhatsappNumber(value);
   };
+
+
+
+  const getUserData = async () => {
+    try {
+      const response = await axiosInstance.get("api/users/personalinfo", {
+        headers: {
+          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const newData = response.data.data;
+      const updatedData = { ...userInfo };
+
+      newData.forEach((item) => {
+        const [key] = Object.keys(item);
+        const [value] = Object.values(item);
+        if (!(key in updatedData)) {
+          updatedData[key] = value;
+        }
+      });
+      setWhatsappNumber(updatedData.phonenumber);
+
+      const userDataArray = response.data.data;
+      const userDataObject = userDataArray.reduce((acc, item) => {
+        const entries = Object.entries(item);
+        if (entries.length > 0) {
+          const [key, value] = entries[0];
+          acc[key] = value;
+        }
+        return acc;
+      }, {});
+
+
+    } catch (error) {
+      toast.error("Error while getting user information");
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserData()
+  }, [userInfo?.token])
+
   return (
     <>
       <div className=" overflow-hidden ">
