@@ -484,7 +484,7 @@ const Home = () => {
                             </button>
                         </div>
                         <div className=" fixed top-[64px] pt-[16px] pb-[32px] right-0 bg-[#ffffff] w-[456px] h-[100vh]" >
-                            <ul className=" border-b border-b-[#11181e]  px-[42px] pb-[16px] w-full flex justify-between">
+                            <ul className=" border-b border-b-[#F1F2F3]  px-[42px] pb-[16px] w-full flex justify-between">
                                 <li className=" text-[20px] font-[600]">Recent</li>
                                 <button onClick={() => {
 
