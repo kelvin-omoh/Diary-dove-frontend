@@ -289,7 +289,7 @@ const Step2 = () => {
     } catch (error) {
       console.log(error);
       toast.error("Error deleting reminder");
-    }x
+    }
   };
 
   useEffect(() => {
@@ -491,11 +491,11 @@ const Step2 = () => {
                       <button
                         type="button"
                         className="bg-[#DA9658] h-[34px] w-[34px] flex items-center justify-center text-[32px] font-light text-white rounded-full"
-                        onClick={()=>{
-                          if(reminders.length!==3){
+                        onClick={() => {
+                          if (reminders.length !== 3) {
                             addReminder()
                           }
-                          else{
+                          else {
                             toast.error("Youve reached your limit !!")
                           }
                         }}
