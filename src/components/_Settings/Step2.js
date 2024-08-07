@@ -496,7 +496,7 @@ const Step2 = () => {
                             addReminder()
                           }
                           else {
-                            toast.error("Youve reached your limit !!")
+                            toast.error("You've reached your limit !!")
                           }
                         }}
                       >
@@ -539,7 +539,7 @@ const Step2 = () => {
                     if (reminders.length < 4) {
                       savePreferences();
                     } else {
-                      toast.error(`You've reached your limit `)
+                      toast.error(`You've reached your limit !!! `)
                     }
 
                   }}
