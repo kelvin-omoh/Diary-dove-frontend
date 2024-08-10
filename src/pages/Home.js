@@ -11,20 +11,42 @@ import axiosInstance from "../Utils/axiosInstance";
 import { addHours, format, parseISO, isSameDay } from "date-fns";
 import trash from "../assets/trash2.png";
 import list from "../assets/Vector list.png";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { CreateDiary, DeleteDiary, GetAllDiary, UpdateDiary } from "../components/Service/Service";
+
+
+
+
+
 const Home = () => {
+    const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(open);
-    const [allTexts, setAllTexts] = useState([]);
+
     const [text, setText] = useState("");
     const [editIndex, setEditIndex] = useState(null);
     const { userInfo } = useContext(Usercontext);
     const [loading, setLoading] = useState(false);
+
+    const { isLoading, data, isError, error } = useQuery('diaries', () => GetAllDiary(userInfo), { refetchOnWindowFocus: true })
+
+    const [allTexts, setAllTexts] = useState(data ? data : []);
     const [isGrid, setIsGrid] = useState(true);
     const [isEdit, setIsEdit] = useState(false)
+
+
+
     const handleClickOpen = () => {
         setOpen(true);
 
     };
+
+    useEffect(() => {
+        if (data) {
+            setAllTexts(data);
+        }
+    }, [data]);
+
 
     const handleClose = () => {
         setOpen(false);
@@ -32,97 +54,67 @@ const Home = () => {
         setEditIndex(null);
     };
 
-    const getAllNotes = async () => {
-        if (useCheckToken) {
-            try {
-                const response = await axiosInstance.get("api/diaries/", {
-                    headers: {
-                        Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-                        "Content-Type": "application/json",
-                    },
-                });
-                console.log(response.data.data);
-                setAllTexts(response.data.data);
-            } catch (error) {
-                toast.error("Error while getting notes");
-                console.error("Error fetching notes:", error);
+    const createDiaryMutation = useMutation(
+        ({ userInfo, text }) => CreateDiary({ userInfo, text }),
+        {
+            onSuccess: (newDiary) => {
+                queryClient.invalidateQueries('diaries');
+                toast.success("Diary created successfully");
+            },
+            onError: (error) => {
+                toast.error("Failed to create note");
+                console.error("Error creating note:", error);
             }
         }
-    };
+    );
 
-
-    useEffect(() => {
-        if (
-            userInfo.token !== "" &&
-            userInfo.token !== undefined &&
-            userInfo.token !== null
-        ) {
-            getAllNotes();
+    const updateDiaryMutation = useMutation(
+        ({ userInfo, text, editIndex }) => UpdateDiary({ userInfo, text, editIndex }),
+        {
+            onSuccess: (updatedDiary) => {
+                queryClient.invalidateQueries('diaries');
+                toast.success("Note updated successfully");
+            },
+            onError: (error) => {
+                toast.error("Failed to update note");
+                console.error("Error updating note:", error);
+            }
         }
-    }, [userInfo?.token]);
+    );
+
+
+
+
+    const deleteDiaryMutation = useMutation(
+        ({ userInfo, index }) => DeleteDiary({ userInfo, index }),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries('diaries');
+                toast.success("Note deleted successfully");
+            },
+            onError: (error) => {
+                toast.error("Failed to delete note");
+                console.error("Error deleting note:", error);
+            }
+        }
+    );
 
 
 
     const handleSave = async () => {
-
         try {
+            setLoading(true);
             if (!isEdit) {
                 if (editIndex !== null) {
-                    // Update existing note
-                    setLoading(true)
-                    const response = await axiosInstance.post(
-                        "api/diaries/",
-                        { content: text },
-                        {
-                            headers: {
-                                Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-                                "Content-Type": "application/json",
-                            },
-                        }
-                    );
-                    console.log(response);
-                    // setAllTexts(response.data.data);
-                    getAllNotes();
-                    toast.success("Note updated successfully");
-                    setLoading(false)
+                    await createDiaryMutation.mutateAsync({ userInfo, text });
                 } else {
-                    // Create new note
-                    setLoading(true)
-                    const response = await axiosInstance.post(
-                        "api/diaries/",
-                        { content: text },
-                        {
-                            headers: {
-                                Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-                                "Content-Type": "application/json",
-                            },
-                        }
-                    );
-                    setAllTexts((prevNotes) => [response.data.data, ...prevNotes]);
-                    toast.success("Note created successfully");
-                    setLoading(false)
+                    await createDiaryMutation.mutateAsync({ userInfo, text });
                 }
             } else {
-                // Update existing note
-                setLoading(true)
-                const response = await axios.patch(`api/diaries/${editIndex}`, { content: text }, {
-                    headers: {
-                        Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-                        "Content-Type": "application/json",
-                    },
-                });
-                console.log(response);
-                // setAllTexts(response.data.data);
-                getAllNotes();
-                toast.success('Note updated successfully');
-                setLoading(false)
+                await updateDiaryMutation.mutateAsync({ userInfo, text, editIndex });
             }
-
         } catch (error) {
-            toast.error("Failed to save note");
-            console.log(error);
             console.error("Error saving note:", error);
-            setLoading(false)
         } finally {
             setLoading(false);
             handleClose();
@@ -154,23 +146,13 @@ const Home = () => {
     };
 
     const handleDelete = async (index) => {
-
         try {
-            await axiosInstance.delete(`api/diaries/delete/${index}`, {
-                headers: {
-                    Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-                },
-            });
-            setEditIndex(null)
+            await deleteDiaryMutation.mutateAsync({ userInfo, index });
+            setEditIndex(null);
             setText("");
             setAllTexts((prev) => prev.filter((note) => note.id !== index));
-            toast.success("Note deleted successfully");
-
-
         } catch (error) {
-            toast.error("Failed to delete note");
             console.error("Error deleting note:", error);
-            console.log(error);
         }
     };
 
@@ -219,7 +201,7 @@ const Home = () => {
                 );
                 console.log(response);
                 // setAllTexts(response.data.data);
-                getAllNotes();
+                // getAllNotes();
                 toast.success("Note updated successfully");
             }
         } catch (error) {
@@ -231,29 +213,15 @@ const Home = () => {
     }
 
     const createNote = async () => {
-
         try {
-
             setLoading(true);
-            const response = await axiosInstance.post(
-                "api/diaries/",
-                {
-                    content: text,
-                },
-                {
-                    headers: {
-                        Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            const newNote = response.data.data;
-            setAllTexts((prevNotes) => [newNote, ...prevNotes]);
-            toast.success("Note created successfully");
-            handleClose(); // Close dialog after creating note
+            await createDiaryMutation.mutateAsync({ userInfo, text });
+            handleClose(); // Close dialog after creating the note
+
         } catch (error) {
-            console.log(error);
+            console.error("Error in createNote:", error);
             toast.error("Failed to create note");
+            console.error("Error creating note:", error);
         } finally {
             setLoading(false);
         }
@@ -329,18 +297,18 @@ const Home = () => {
         if (!fullName) return '';
 
         const nameParts = fullName.split(' ');
-        if (nameParts.length === 1) {
+        if (nameParts?.length === 1) {
             return nameParts[0];
         }
 
         const firstName = nameParts[0];
-        const lastNameInitial = nameParts[nameParts.length - 1][0].toUpperCase();
+        const lastNameInitial = nameParts[nameParts?.length - 1][0].toUpperCase();
         return `${firstName} ${lastNameInitial}.`;
     };
 
 
     useEffect(() => {
-        if (allTexts.length > 0) {
+        if (allTexts?.length > 0) {
 
 
             const today = new Date();
@@ -407,6 +375,7 @@ const Home = () => {
                                             setOpen2(false)
                                             setEditIndex(null)
                                             setText('')
+                                            setAllTexts(data);
                                         }
 
                                         }
@@ -432,7 +401,7 @@ const Home = () => {
 
             <>
                 {!open2 && (
-                    <div className={` md:hide-scrollbar  overflow-hidden relative ${open ? 'hidden' : ' hidden md:flex'}  mt-[72px]   pt-[32px] h-[100vh]  gap-3 md:justify-between px-[24px] md:px-[80px]`}>
+                    <div className={` md:hide-scrollbar  overflow-hidden relative ${open ? 'hidden' : ' hidden md:flex'}  mt-[72px]   pt-[32px] h-[100vh]  gap-3 md:justify-between px-[24px] lg:px-[80px]`}>
                         <div className="flex  flex-col    w-[70%]  px-[16px] items-start gap-[12px]">
                             <div className=" flex items-center gap-4 ">
                                 {userInfo?.profilePicture ? (
@@ -460,7 +429,7 @@ const Home = () => {
                                 id="auto-resize-textarea"
                                 value={text}
                                 onChange={handleInput}
-                                className="w-full mt-[50px] pr-[16px]  text-[18px] placeholder:text-[#29292d55] font-[400] bg-[#ff000000] px-2  placeholder:font-[700]  border-0 outline-none"
+                                className="w-full mt-[50px] pr-[50px] lg:pr-[16px]  text-[18px] placeholder:text-[#29292d55] font-[400] bg-[#ff000000] lg:px-2  placeholder:font-[700]  border-0 outline-none"
                                 placeholder="What’s on your mind today..."
 
                             />
@@ -483,26 +452,24 @@ const Home = () => {
                                 )}
                             </button>
                         </div>
-                        <div className=" fixed top-[64px] pt-[16px] pb-[32px] right-0 bg-[#ffffff] w-[456px] h-[100vh]" >
+                        <div className="fixed top-[64px] right-0 bg-[#ffffff] w-[300px] lg:w-[456px] min-h-[calc(100vh-64px)] overflow-y-auto pt-[16px] pb-[32px]">
+
                             <ul className=" border-b border-b-[#F1F2F3]  px-[42px] pb-[16px] w-full flex justify-between">
                                 <li className=" text-[20px] font-[600]">Recent</li>
                                 <button onClick={() => {
-
                                     setOpen2(true)
-
-                                }
-                                } className=" ">See All</button>
+                                }} className=" ">See All</button>
                             </ul>
 
-                            <div className=" px-[56px] ">
-                                <div className=" flex gap-[12px] flex-col">
+                            <div className=" px-[30px] lg:px-[56px] overflow-y-auto" style={{ maxHeight: 'calc(100vh - 64px - 80px)' }}>
+                                <div className=" flex   gap-[12px] flex-col">
 
                                     {allTexts &&
-                                        allTexts.slice(0, 4).map((note, index) => (
+                                        allTexts?.slice(0, 4).map((note, index) => (
                                             <div
                                                 key={note.id}
 
-                                                className={`flex  duration-150 ease-in hover:scale-105  transition-all  rounded-xl  justify-between flex-col md:min-h-[30px] gap-[8px]   max-h-[200px] hover:bg-orange-50/40 hover:px-[16px] bg-[#FFFFFF] py-[24px]  ${note.id === editIndex ? 'px-[16px] bg-orange-50/40  ' : 'bg-[#FFFFFF]'}`}
+                                                className={`flex   duration-150 ease-in hover:scale-105  transition-all  rounded-xl  justify-between flex-col md:min-h-[30px] gap-[8px]   max-h-[200px] hover:bg-orange-50/40 hover:px-[16px] bg-[#FFFFFF] py-[24px]  ${note.id === editIndex ? 'px-[16px] bg-orange-50/40  ' : 'bg-[#FFFFFF]'}`}
                                             >
                                                 <div onClick={() => handleEdit2(note.id)} className="  ">
                                                     <p className="text-[#E0A774] text-[12px] justify-start flex ">
@@ -511,7 +478,7 @@ const Home = () => {
                                                     <div className="mt-[8px] w-full h-full">
                                                         {note?.content && (
                                                             <p className="hidden md:flex text-sm text-[#303236] justify-start text-left leading-[21px]  max-w-full ">
-                                                                {note?.content.length > 170
+                                                                {note?.content?.length > 170
                                                                     ? isGrid
                                                                         ? `${note?.content.slice(0, 170)}${note?.content.length > 170 ? "..." : ""
                                                                         }`

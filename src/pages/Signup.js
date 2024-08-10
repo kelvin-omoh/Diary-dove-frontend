@@ -16,6 +16,7 @@ import logo3 from "../assets/DiaraDove Logo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { CircularProgress } from "@mui/material";
 import axiosInstance from "../Utils/axiosInstance";
+import PhoneInput from "react-phone-input-2";
 
 const Signup = () => {
   const [isNewUser, setIsNewUser] = useState(false);
@@ -106,7 +107,7 @@ const Signup = () => {
         fullname: fullName,
         username: userName,
         email,
-        phonenumber: phoneNumber,
+        phonenumber: `+${phoneNumber}`,
         password: newPassword,
       };
 
@@ -158,7 +159,7 @@ const Signup = () => {
 
 
   return (
-    <div className="bg-[#FDFAF7] w-full relative h-full py-0 md:py-[25.5px] flex">
+    <div className="bg-[#FDFAF7] w-full relative h-full lg:h-full md:h-[100vh] py-0 md:py-[25.5px] flex">
       <div className="bg-gradient-to-b hidden relative left-sm left-md from-[#DA9658] to-[#91643B] h-[101vh] w-[100vw]">
         <div className="bg-[#ffffff37] rounded-bl-full h-[55px] w-[100%] left-[315px] absolute top-0" />
         <div className="bg-[#ffffff37] rounded-tr-full h-[55px] w-[100%] right-[315px] absolute bottom-0" />
@@ -202,7 +203,7 @@ const Signup = () => {
 
       {/* Right */}
       <div
-        className="right ease-in h-full md:h-[972px] pb-[48px] md:pb-0  w-[390px] md:w-[572px] bg-white my-auto transition-all delay-300 mx-auto  flex flex-col items-center justify-center pt-[0px] md:pt-[20px]"
+        className="right ease-in h-full lg:h-[972px] pb-[48px] md:pb-0  w-[390px] md:w-[572px] bg-white my-auto transition-all delay-300 mx-auto  flex flex-col items-center justify-center pt-[0px] md:pt-[20px]"
         style={{ boxShadow: "0px 4px 24px 0px #0000000A" }}
       >
         <div onClick={() => navigate('/')} className="w-[412px] pl-[24px] md:pl-0 mt-[72px] md:mt-0 mb-[20px] flex  justify-start  items-start">
@@ -296,12 +297,23 @@ const Signup = () => {
             >
               Phone Number
               <div className="w-full border-[#bfc5d0d3] p-4 rounded-lg border gap-[8px] flex items-center">
-                <img
+                {/* <img
                   src={phone}
                   className="text-[#bfc5d0d3] size-[16px]"
                   alt="Phone"
+                /> */}
+                <PhoneInput
+                  country={'ng'}
+                  placeholder="Enter phone number"
+                  value={phoneNumber}
+                  onChange={(value) => setPhoneNumber(value)}
+                  countryCodeEditable={true}
+                  enableSearch={true}
+                  autoFormat={true}
+                  className={`text-[#262728] w-[412px] border-none ease-in delay-75 transition-all p-0 mt-[0rem] outline-none rounded-[8px] `}
                 />
-                <input
+                {/* <p>{phoneNumber}</p> */}
+                {/* <input
                   minLength={11}
                   maxLength={11}
                   type="text"
@@ -319,7 +331,7 @@ const Signup = () => {
                       setPhoneNumber(sanitizedInput);
                     }
                   }}
-                />
+                /> */}
               </div>
               <span className="text-[12px] mt-[8px]">WhatsApp Number</span>
             </label>

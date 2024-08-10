@@ -65,17 +65,17 @@ const LandingPage = () => {
             <Header />
 
             <Hero />
-            <div id="services" className='   md:px-[100px] bg-[#F1F2F3] flex flex-col gap-[40px] md:gap-[118px] overflow-x-hidden md:pb-[40px] pb-[64px]  px-0  ' >
+            <div id="services" className='   lg:px-[100px] bg-[#F1F2F3] flex flex-col gap-[40px] lg:gap-[118px] overflow-x-hidden md:pb-[40px] pb-[64px] md:px-[20px]  px-0  ' >
 
 
                 <div
 
-                    className='  justify-between flex  md:flex-row flex-col md:gap-y-[18px] h-full  gap-x-[24.5] md:gap-x-[60px] pt-[64px] md:pt-[40px] items-center text-start'>
+                    className='  justify-between flex  lg:flex-row flex-col lg:gap-y-[18px] h-full md:gap-4  gap-x-[24.5] lg:gap-x-[60px] pt-[64px] lg:pt-[40px] items-center text-start'>
                     <div className=' px-[48px] md:px-0 md:w-auto w-full'>
-                        <img className=" h-full  object-contain w-[512px] " src={s1} alt="" />
+                        <img className=" h-full  object-contain  w-full md:w-[412px] lg:w-[512px] " src={s1} alt="" />
                     </div>
-                    <div className='px-[24px]  text-center md:text-start justify-center md:px-0 w-full md:w-[600px] '>
-                        <h1 className=' font-[600] text-[20px] md:mt-0 mt-[60px] md:leading-[48px] leading-6 md:text-[40px]'>Get reminded of your daily <br /> schedules effortlessly</h1>
+                    <div className='px-[24px]  text-center lg:text-start justify-center lg:px-0 w-full lg:w-[600px] '>
+                        <h1 className=' font-[600] text-[20px] md:mt-0 mt-[60px] md:leading-[48px] leading-6 md:text-[30px] lg:text-[40px]'>Get reminded of your daily <br className=' md:hidden block lg:block' /> schedules effortlessly</h1>
                         <ul className=' text-[#8F96A3] list-disc  font-[400] md:text-[18px] md:leading-[27px] md:text-start leading-4 text-[12px] text-center mt-[16px]'>
                             <li>  Set reminders to let you know it's time your jot down your thoughts so far.</li>
                             <li>Be reminded to take a break and put down your thoughs through your email or whatsapp</li>
@@ -91,12 +91,12 @@ const LandingPage = () => {
                 </div>
                 <div
 
-                    className='  justify-between flex  md:flex-row-reverse flex-col h-full  gap-x-[24.5] md:gap-x-[60px] pt-0 md:pt-[40px] items-center text-start'>
+                    className='  justify-between flex  lg:flex-row-reverse flex-col h-full  gap-x-[24.5] md:gap-x-[60px] pt-0 md:pt-[40px] items-center text-start'>
                     <div className=' px-[48px] md:px-0 md:w-auto w-full'>
-                        <img className=" h-full  object-contain w-[512px] " src={s2} alt="" />
+                        <img className=" h-full  object-contain w-full md:w-[412px] lg:w-[512px] " src={s2} alt="" />
                     </div>
-                    <div className='px-[24px]  text-center md:text-start justify-center md:px-0 w-full md:w-[600px] '>
-                        <h1 className=' font-[600] md:mt-0 mt-[60px] text-[20px] md:leading-[48px] leading-6 md:text-[40px]'>Easily create and edit your diary entries in seconds</h1>
+                    <div className='px-[24px]  text-center lg:text-start justify-center md:px-0 w-full lg:w-[600px] '>
+                        <h1 className=' font-[600] text-[20px] md:mt-0 mt-[60px] md:leading-[48px] leading-6 md:text-[30px] lg:text-[40px]'>Easily create and edit your diary entries in seconds</h1>
                         <ul className=' text-[#8F96A3] list-disc  font-[400] md:text-[18px] md:leading-[27px] md:text-start leading-4 text-[12px] text-center mt-[16px]'>
                             Safe and secure space to be one with your thoughts not matter when , no matter where. Create multiple diaries entries throughout the day either with our website or by replying our reminders to you.
                         </ul>
@@ -111,9 +111,9 @@ const LandingPage = () => {
 
 
             </div>
-            <div id="features" className=' mt-[34px] md:mt-[100px] text-[24px] md:text-[40px] font-[600] px-[20px] md:px-[100px] bg-[#ffffff] flex flex-col   ' >
+            <div id="features" className=' mt-[34px] md:mt-[100px] text-[24px] md:text-[40px] font-[600] px-[20px] lg:px-[100px] bg-[#ffffff] flex flex-col   ' >
                 <h1 className=' text-center'>Features</h1>
-                <div className=' mt-[18px] grid-cols-1 gap-[20px]  grid md:grid-cols-3 md:mt-[40px] '>
+                <div className=' mt-[18px] grid-cols-1  gap-[20px]  grid md:grid-cols-2 lg:grid-cols-3 md:mt-[40px] '>
                     {howItWorks.map((item) => (
                         <div key={item.description} className=' rounded-[8px] bg-[#FDFAF7] text-center justify-center items-center flex flex-col py-[12px] md:py-[40px] px-[32px] '>
                             <img src={item.img} alt={item.title} className=' size-[48px] object-contain object-center ' />
@@ -127,7 +127,7 @@ const LandingPage = () => {
                 </div>
             </div>
 
-            <div className=' bg-[#F1F2F3] relative rounded-[8px] pb-[51px] pt-[81px] md:py-[51px] text-center flex flex-col justify-center items-center my-[40px] mx-0 md:m-[100px]'>
+            <div className=' bg-[#F1F2F3] relative rounded-[8px] pb-[51px] pt-[81px] md:py-[51px] text-center flex flex-col justify-center items-center my-[40px] mx-0 lg:m-[100px]'>
                 <h1 className='text-[24px] md:text-[40px] font-[500] mb-[8px] '>Seamlessly capture your <span className=' text-[#DA9658]'>
                     thoughts</span> </h1>
                 <p className=' text-[14ppx] md:text-[16px] text-[#8F96A3]'>Accessible anytime through Email and WhatsApp</p>

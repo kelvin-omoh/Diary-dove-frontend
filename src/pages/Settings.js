@@ -320,14 +320,14 @@ const Settings = () => {
                     </div>
                 </div>
                 <form
-                    className="w-[342px] md:w-[832px] overflow-x-hidden flex flex-col justify-center gap-[16px] md:gap-[32px] text-start mt-[32px] md:mt-[60px] py-[24px]"
+                    className="w-[342px] md:w-[832px] overflow-x-hidden flex flex-col justify-center gap-[16px] md:gap-0 lg:gap-[32px] text-start md:mt-0 mt-[32px] lg:mt-[60px] py-[24px]"
                     action=""
                 >
                     <label className=" border-b-0 md:border-b-[2px] pb-0 md:pb-[48px] border-[#F1F2F3]">
                         <p className="text-[#8F96A3]  mb-[16px] md:mb-[24px] text-[18px] leading-[27px]">
                             Personal Information
                         </p>
-                        <div className="flex flex-col md:flex-row items-start md:items-center gap-[16px] md:gap-[32px]">
+                        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-[16px] md:gap-[32px]">
                             <div>
                                 <h1 className="text-[16px] mb-[8px] leading-[24px]">
                                     Full Name
@@ -366,7 +366,7 @@ const Settings = () => {
                         </div>
                     </label>
                     <div>
-                        <div className="pb-[48px] md:flex-row flex-col  border-b-[2px] md:border-b-[2px] md:border-[#F1F2F3] flex items-start md:items-center gap-[32px]">
+                        <div className="pb-[48px] lg:flex-row flex-col  border-b-[2px] md:border-b-[2px] md:border-[#F1F2F3] flex items-start lg:items-center gap-[32px]">
                             <div>
                                 <h1 className="text-[16px] mb-[8px] leading-[24px]">
                                     Email address
@@ -402,7 +402,7 @@ const Settings = () => {
                                 <h1 className="text-[16px] mb-[8px] leading-[24px]">
                                     Phone Number
                                 </h1>
-                                <div className={`flex justify-between h-[56px] w-[311px] md:w-[400px] px-[16px] items-center gap-[8px] md:bg-[#fdfaf70a] bg-[#FDFAF7] 
+                                <div className={`flex justify-between h-[56px] w-[311px] lg:w-[400px] px-[16px] items-center gap-[8px] md:bg-[#fdfaf70a] bg-[#FDFAF7] 
                                  ${isEditing ? 'border-[#da9758c3]' : ' border-[#f1f2f300] md:border-[#F1F2F3] '} 
                                 
                                 border-[#f1f2f300] border-[1px] rounded-[8px]`}>
@@ -445,7 +445,7 @@ const Settings = () => {
                             <p className="text-[#8F96A3] font-[400] mt-[24px] text-[18px] leading-[27px]">
                                 Security and Privacy
                             </p>
-                            <div className=" flex items-center gap-[100px] md:gap-[344px] mt-[24px]">
+                            <div className=" flex items-center gap-[100px] md:gap-[180px] lg:gap-[344px] mt-[24px]">
                                 <h4 className=" text-[18px]  ">Password</h4>
                                 <button
                                     onClick={handleClickOpen}
@@ -464,7 +464,7 @@ const Settings = () => {
                                 e.preventDefault();
                                 handleChangeProfile(e);
                             }}
-                            className="bg-[#DA9658] font-[500] mt-[72px] md:mt-[128px] w-[359px] h-[60px] rounded-[8px] mb-[92px] md:mb-0 text-center text-white"
+                            className="bg-[#DA9658] font-[500] mt-[72px] md:mt-[30px] lg:mt-[128px] w-[359px] h-[60px] rounded-[8px] mb-[92px] md:mb-0 text-center text-white"
 
                         >
                             {loading ?
@@ -485,7 +485,7 @@ const Settings = () => {
                         <img
                             src={vector}
                             alt="phone"
-                            className="  hidden md:block h-[89px] mb-[80px] pl-[48px] absolute bottom-[0px] right-[80px] text-[#B4B9C2]"
+                            className="  hidden lg:block h-[89px] mb-[80px] pl-[48px] absolute bottom-[0px] right-[80px] text-[#B4B9C2]"
                         />
                     </div>
                     <ChangePasswordDialog

@@ -78,7 +78,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                         </p>
                     )}
                     <div
-                        className={`w-full notes grid ${isGrid ? "grid-cols-2 md:grid-cols-4" : "grid-cols-1"
+                        className={`w-full notes grid ${isGrid ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : "grid-cols-1"
                             } gap-[16px]`}
                     >
                         {paginatedNotes &&

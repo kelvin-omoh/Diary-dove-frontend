@@ -74,7 +74,8 @@ function App() {
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/" element={<LandingPage />} />
-              <Route path="/setup" element={<SetUp />} />
+              <Route path="/setup" element={<PrivateRoute element={<SetUp />} />} />
+              {/* <Route path="/setup" element={<SetUp />} /> */}
               <Route path="/setup2" element={<SetUp2 />} />
               <Route path="/change/phoneNumber" element={<PrivateRoute element={<ChangePhoneNumber />} />} />
               <Route path="/change/phoneNumber/verify" element={<PrivateRoute element={<WhatsappNoVerification />} />} />

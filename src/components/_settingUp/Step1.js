@@ -27,6 +27,7 @@ const Step1 = ({ handleNext }) => {
   const [checked, setChecked] = useState(false);
   const { setAuthInfo, userInfo, whatsappNumber, handleVerifyWhatsapp, setWhatsappNumber } = useContext(Usercontext);
   const navigate = useNavigate();
+  const [formattedNumber, setFormattedNumber] = useState('');
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const handleGoogleChange = (event) => {
@@ -74,7 +75,7 @@ const Step1 = ({ handleNext }) => {
     try {
       setIsLoading(true);
       handleVerifyWhatsapp(whatsappNumber)
-      const formattedNumber = `+${whatsappNumber}`;
+      const formattedNumber = `${whatsappNumber}`;
 
       const res = await axiosInstance.post("/api/users/sendphoneOTP", {
         phonenumber: formattedNumber,
@@ -123,9 +124,9 @@ const Step1 = ({ handleNext }) => {
 
   const handlePhoneNumberChange = (value) => {
     // Ensure the value starts with +
-    // if (!value.startsWith('+')) {
-    //   value = `+${value}`;
-    // }
+    if (!value.startsWith('+')) {
+      value = `+#${value}`;
+    }
     setWhatsappNumber(value);
   };
 
@@ -168,6 +169,16 @@ const Step1 = ({ handleNext }) => {
       console.log(error);
     }
   };
+
+
+  useEffect(() => {
+    // Format the number to include the country code and remove the leading zero
+    // const formatted = `+234${whatsappNumber.slice(1)}`;
+    // setFormattedNumber(formatted);
+    setFormattedNumber(whatsappNumber);
+  }, [whatsappNumber]);
+
+
 
   useEffect(() => {
     getUserData()
@@ -251,19 +262,21 @@ const Step1 = ({ handleNext }) => {
                       placeholder="Enter phone number"
                       value={whatsappNumber}
                       onChange={handlePhoneNumberChange}
+                      countryCodeEditable={true}
+                      enableSearch={true}
+                      autoFormat={true}
                       className={`text-[#262728] border ease-in delay-75 transition-all my-[8px] mt-[1rem] outline-none rounded-[8px] `}
                     />
-                    {error && (
+                    {/* {error && (
                       <p className="error-message text-red-500">{error}</p>
-                    )}
+                    )} */}
 
                   </div>
                 }
                 {checked && <button
                   onClick={() => {
-                    if (validatePhoneNumber(whatsappNumber, { dialCode: '234' })) {
-                      handleVerifyWhatsapp(whatsappNumber);
-                      if (whatsappNumber.length > 12) handleWhatsapp();
+                    if (whatsappNumber.length > 10) {
+                      handleWhatsapp();
                     }
                   }}
                   disabled={whatsappNumber.length < 13}

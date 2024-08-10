@@ -73,15 +73,17 @@ const Step2 = () => {
   const [reminders, setReminders] = useState([]);
   const [reminder, setReminder] = useState("Everyday");
   const [time, setTime] = useState({
-    hour: '00',
+    hour: '06',
     minute: '00',
-    period: 'am'
+    period: 'AM',
   });
   const [checkReminder, setCheckReminder] = useState(true);
   const navigate = useNavigate();
-  const { userInfo, logOut } = useContext(Usercontext);
+  const { userInfo, setAuthInfo, logOut } = useContext(Usercontext);
   const [loading, setLoading] = useState(false);
   const [hourRange, setHourRange] = useState({ min: 0, max: 23 });
+  const [Deleteloading, setDeleteLoading] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
   const extractToken = (token) => {
     return token;
   };
@@ -106,7 +108,6 @@ const Step2 = () => {
 
 
 
-
   const getAllReminders = async () => {
     if (userInfo?.token?.length > 4) {
       try {
@@ -116,21 +117,25 @@ const Step2 = () => {
             "Content-Type": "application/json",
           },
         });
-        const fetchedReminders = response.data.data.map((reminder) => ({
-          id: reminder.id,
-          hour: reminder.hour + 1,
-          minute: reminder.time,
-          period: reminder.hour + 1 < 12 ? 'AM' : 'PM',
-        }));
+        const fetchedReminders = response.data.data.map((reminder) => {
+
+          let hour = reminder.hour;
+          const minute = reminder.time.toString().padStart(2, '0');
+          let period = hour >= 12 ? 'PM' : 'AM';
+          return {
+            id: reminder.id,
+            hour: reminder.hour,
+            minute: reminder.time,
+            period: period,
+          }
+        })
+        console.log(response.data);
         setReminders(fetchedReminders);
-        console.log(fetchedReminders);
       } catch (error) {
-        console.log(error);
         console.error('Error fetching reminders:', error);
       }
     }
   };
-
 
   const handleOpen = () => {
     setOpen(true);
@@ -150,145 +155,95 @@ const Step2 = () => {
   };
 
 
+
   const handleAlignment = (selectedPeriod) => {
-    // Determine if selectedPeriod is AM or PM, defaulting to AM if not provided
-    const isAM = selectedPeriod ? selectedPeriod === 'AM' : true;
+    const isAM = selectedPeriod === 'AM';
 
-    // Define hour range based on AM or PM
-    const min = isAM ? 0 : 12;  // AM hours range from 0-11, PM hours range from 12-23
-    const max = isAM ? 11 : 23;
-
-    // Update hour range and time state
-    setHourRange({ min, max });
+    setHourRange({ min: 0, max: 23 });
     setTime((prevTime) => ({
       ...prevTime,
-      hour: isAM ? '00' : '12',  // Default hour for AM is 00, for PM is 12
-      minute: '00',
-      period: isAM ? 'am' : 'pm',
-    }));
-  };
-
-  const formatReminderToString = (reminder) => {
-    const { hour, time } = reminder;
-
-    // Determine AM/PM period
-    const period = hour >= 12 ? 'PM' : 'AM';
-
-    // Convert 24-hour format to 12-hour format
-    const displayHour = hour % 12 || 12; // Convert 0 to 12 for 12 AM
-    const displayMinute = time.toString().padStart(2, '0'); // Ensure two-digit minute
-
-    // Return formatted string
-    return `${displayHour}:${displayMinute} ${period.toLowerCase()}`;
-  };
-
-
-
-  const handleTimeChange = (field, e) => {
-    const value = e.target.value;
-    setTime((prevTime) => ({
-      ...prevTime,
-      [field]: value,
+      period: isAM ? 'AM' : 'PM',
     }));
   };
 
 
-  const addReminder = () => {
-    if (reminders.length < 4) {
-      if (time.hour !== '' && time.minute !== '') {
-        setReminders((prevReminders) => [
-          ...prevReminders,
-          { index: reminders.length + 1, hour: parseInt(time.hour, 10), minute: parseInt(time.minute, 10), period: time.period },
-        ]);
-        setTime({ hour: '', minute: '', period: 'AM' });
-      }
-    } else {
-      toast.error(`You've reached your limit `)
-    }
 
-  };
+
+
+
 
   const savePreferences = async () => {
     setLoading(true);
-
+    console.log(reminders);
     const formattedReminders = reminders.map(reminder => {
-      let hour = reminder.hour;
+      let hour = parseInt(reminder.hour + 1, 10);
+      const minute = reminder.minute.toString().padStart(2, '0');
       let period = reminder.period.toLowerCase();
 
+      // Normalize the hour and period
       if (hour === 0) {
-        hour = 12; // Midnight case
-      } else if (hour === 12) {
-        period = 'pm'; // Noon case
+        hour = 12; // Convert 0 AM to 12 AM
+        period = 'am';
       } else if (hour > 12) {
         hour -= 12;
         period = 'pm';
+      } else if (hour === 12) {
+        period = period === 'am' ? 'pm' : 'am'; // Adjust 12 PM or 12 AM correctly
+      } else {
+        period = period === 'pm' ? 'pm' : 'am'; // For any hour from 1 to 11, set period based on input or default to 'am'
       }
 
-      const minute = reminder.minute.toString().padStart(2, '0');
+      // Ensure hour is in 12-hour format with a leading zero if needed
+      const formattedHour = hour.toString().padStart(2, '0');
 
-      return `${hour}:${minute} ${period}`;
+      return `${formattedHour}:${minute} ${period}`;
     });
 
-    // console.log(reminders);
     try {
-      if (reminders.length < 4) {
-        const response = await axiosInstance.post('/api/reminders/addnew', {
-          times: formattedReminders,
-        }, {
-          headers: {
-            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.status === 200) {
-          console.log(response.data.message);
-          toast.success(response.data.message);
-        }
-      }
-      else {
-        toast.error("You've reached the limit")
-      }
-
-    } catch (error) {
-      console.log(error);
-      toast.error('Failed to save preferences.');
-
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const convertToReadableTime = (hour, minute) => {
-    let period = 'AM';
-    let formattedHour = hour;
-
-    if (hour === 0) {
-      formattedHour = 12;
-    } else if (hour === 12) {
-      period = 'PM';
-    } else if (hour > 12) {
-      formattedHour = hour - 12;
-      period = 'PM';
-    }
-
-    return `${formattedHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${period}`;
-  };
-
-  const deleteReminder = async (id) => {
-    try {
-      const res = await axiosInstance.delete(`/api/reminders/delete/${id}`, {
+      const response = await axiosInstance.post('/api/reminders/addnew', {
+        times: formattedReminders,
+      }, {
         headers: {
           Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
           "Content-Type": "application/json",
         },
       });
-      console.log(res.data);
-      setReminders(reminders.filter((reminder) => reminder.id !== id));
-      toast.success(res.data.message);
+
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        const updatedData = { ...userInfo, setup: true };
+        setAuthInfo(updatedData);
+      }
     } catch (error) {
       console.log(error);
-      toast.error("Error deleting reminder");
+      toast.error('Failed to save preferences.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTimeChange = (field, e) => {
+    const value = e.target.value;
+
+    setTime(prevTime => ({
+      ...prevTime,
+      [field]: value,
+      period: field === 'hour' ? (value >= 12 ? 'PM' : 'AM') : prevTime.period,
+    }));
+  };
+
+
+  const addReminder = () => {
+    if (reminders.length < 3) {
+      if (time.hour !== '' && time.minute !== '') {
+        setReminders((prevReminders) => [
+          ...prevReminders,
+          { index: reminders.length + 1, hour: parseInt(time.hour, 10), minute: parseInt(time.minute, 10), period: time.period },
+        ]);
+        setTime({ hour: '06', minute: '00', period: 'AM' });
+      }
+    } else {
+      toast.error(`You've reached your limit`);
     }
   };
 
@@ -302,14 +257,36 @@ const Step2 = () => {
     return daysOfWeek.includes(reminder);
   };
 
+  const convertToReadableTime = (hour, minute, period) => {
+    return `${hour?.toString().padStart(2, '0')}:${minute?.toString().padStart(2, '0')} ${period}`;
+  };
+
+
+  const deleteReminder = async (id) => {
+    try {
+      setDeletingId(id)
+      setDeleteLoading(true)
+      const res = await axiosInstance.delete(`/api/reminders/delete/${id}`, {
+        headers: {
+          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+          "Content-Type": "application/json",
+        },
+      });
+      setReminders(reminders.filter((reminder) => reminder.id !== id));
+      toast.success(res.data.message);
+      setDeleteLoading(false)
+    } catch (error) {
+      setDeletingId(null);
+      setDeleteLoading(false)
+      toast.error("Error deleting reminder");
+    }
+  };
 
   const deleteReminderId = (id) => {
-    console.log(id);
     const newReminders = reminders.filter(reminder => reminder.index !== id);
-    console.log(newReminders);
-    setReminders(newReminders)
+    setReminders(newReminders);
+  };
 
-  }
 
   const containerRef = useRef(null);
 
@@ -399,23 +376,7 @@ const Step2 = () => {
                   className="text-[16px] text-black flex gap-[8px] flex-col mb-[8px]"
                   htmlFor=""
                 >
-                  {/* <FormControl fullWidth>
-                    <Select
-                      sx={{ outline: "none" }}
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={reminder}
-                      onChange={handleChange}
-                      label=""
-                      className="border outline-none rounded-sm border-[#F1F2F3]"
-                    >
-                      {daysOfWeek.map((day) => (
-                        <MenuItem key={day} value={day}>
-                          {day}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl> */}
+
                 </label>
 
                 <label
@@ -472,7 +433,7 @@ const Step2 = () => {
                               e.preventDefault();
                               handleAlignment('AM');
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "am" ? "bg-white text-black" : "bg-none text-gray-500"}`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "AM" ? "bg-white text-black" : "bg-none text-gray-500"}`}
                           >
                             AM
                           </button>
@@ -480,9 +441,9 @@ const Step2 = () => {
                             value="PM"
                             onClick={(e) => {
                               e.preventDefault();
-                              handleAlignment("PM");
+                              handleAlignment('PM')
                             }}
-                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "pm" ? "bg-white text-black" : "bg-none text-gray-500"}`}
+                            className={`w-[52px] h-[37px] m-auto rounded-[8px] ${time.period === "PM" ? "bg-white text-black" : "bg-none text-gray-500"}`}
                           >
                             PM
                           </button>
@@ -491,14 +452,7 @@ const Step2 = () => {
                       <button
                         type="button"
                         className="bg-[#DA9658] h-[34px] w-[34px] flex items-center justify-center text-[32px] font-light text-white rounded-full"
-                        onClick={() => {
-                          if (reminders.length !== 3) {
-                            addReminder()
-                          }
-                          else {
-                            toast.error("You've reached your limit !!")
-                          }
-                        }}
+                        onClick={addReminder}
                       >
                         +
                       </button>
@@ -514,22 +468,30 @@ const Step2 = () => {
                         className="flex w-full h-[62px] p-[16px] rounded-[8px] border-[#FAF2EA] justify-between border items-center gap-2"
                       >
                         <span>
-                          {convertToReadableTime(reminder.hour, reminder.minute)}
+                          {convertToReadableTime(reminder?.hour, reminder?.minute, reminder?.period)}
+
                         </span>
                         <button
                           type="button"
                           className="text-white px-2 py-1 rounded"
                           onClick={() => {
-                            reminder.id ? deleteReminder(reminder.id) : deleteReminderId(index + 1)
-                          }
+                            reminder.id ? deleteReminder(reminder.id) : deleteReminderId(reminder.index)
+                          }}>
+                          {reminder.id === deletingId ? (
+                            <div className="text-black items-center text-[14px] gap-3 justify-center flex w-full h-full">
+                              Deleting...{" "}
+                              <CircularProgress size={18} style={{ color: "orange" }} />
+                            </div>
+                          ) : (
+                            <img className="h-[18px]" src={trash} alt="trash" />
+                          )}
 
-                          }
-                        >
-                          <img className="h-[18px]" src={trash} alt="trash" />
                         </button>
                       </div>
                     ))}
+
                     {reminders.length > 2 && <p className=" text-red-500">Maximum is 3</p>}
+
                   </div>
                 </div>
 
