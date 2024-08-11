@@ -10,7 +10,7 @@ import axiosInstance from "../Utils/axiosInstance";
 
 const WhatsappNoVerification = () => {
     const navigate = useNavigate();
-    const { verifyWhatsApp, userInfo, resetTimer, logOut, handleVerifyWhatsapp, whatsappNumber, setWhatsappNumber } = useContext(Usercontext); // Removed setVerifyWhatsApp
+    const { verifyWhatsApp, userInfo, setAuthInfo, resetTimer, logOut, handleVerifyWhatsapp, whatsappNumber, setWhatsappNumber } = useContext(Usercontext); // Removed setVerifyWhatsApp
     const [timer, setTimer] = useState(() => {
         const savedTimer = localStorage.getItem('timer');
         return savedTimer !== null ? parseInt(savedTimer, 10) : 360;
@@ -54,6 +54,31 @@ const WhatsappNoVerification = () => {
         }
     }, [whatsappNumber]);
 
+
+    const fetchUserInfo = async (token) => {
+        console.log(token);
+        try {
+
+            const response = await axiosInstance.get("/api/users/personalinfo", {
+                headers: {
+                    Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : '',
+                    "Content-Type": "application/json",
+                },
+            });
+            console.log(response.data);
+
+            const newData = response.data.data;
+            const updatedData = { ...userInfo, phonenumber: newData.filter((data) => data.phonenumber)[0].phonenumber };
+            console.log(updatedData);
+            setAuthInfo(updatedData);
+        } catch (error) {
+            console.log(error);
+            throw new Error("Error while getting user information");
+        }
+    };
+
+
+
     const verifyOTP = async () => {
         if (!isSuccess) {
             setLoading(true);
@@ -69,10 +94,10 @@ const WhatsappNoVerification = () => {
                     });
 
                     localStorage.removeItem("whatsapp");
+                    await fetchUserInfo(userInfo.token);
                     toast.success(response.data.message);
                     setTimer(360);
                     resetTimer()
-                    navigate("/verify-whatsapp/success")
                 } else {
                     toast.error("OTP verification is incorrect.");
                 }
@@ -173,7 +198,7 @@ const WhatsappNoVerification = () => {
                             {!isSuccess ? (
                                 <>{timer !== 0 && formatTime(timer)}</>
                             ) : (
-                                "You have successfully verified your account"
+                                "You have successfully verify your whatsapp number "
                             )}
                         </span>
                     </button>
@@ -182,7 +207,10 @@ const WhatsappNoVerification = () => {
                 <button
                     type="submit"
                     onClick={() => {
-                        verifyOTP();
+                        {
+                            isSuccess ? navigate('/settings') :
+                                verifyOTP()
+                        }
                     }}
                     className={` w-full font-[500] rounded-[8px] ${!isSuccess && otp.length < 6 ? 'bg-[#da975887]' : 'bg-[#DA9658]'}  py-[16px]  text-center text-white ${isSuccess ? "w-[192px]" : "w-full"
                         }`}
@@ -193,7 +221,7 @@ const WhatsappNoVerification = () => {
                             <CircularProgress size={24} style={{ color: "white" }} />
                         </div>
                     ) : (
-                        <> {isSuccess ? "Continue to Login" : "Verify"} </>
+                        <> {isSuccess ? "Continue " : "Verify"} </>
                     )}
                 </button>
             </div>

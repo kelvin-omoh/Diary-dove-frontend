@@ -73,9 +73,6 @@ const ChangePhoneNumber = () => {
             return;
         }
         else {
-
-
-
             try {
                 setLoading(true);
                 const formattedNumber = `+${number}`;
