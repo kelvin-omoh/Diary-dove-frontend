@@ -272,6 +272,12 @@ const Step2 = () => {
     console.log(reminders);
   }, [reminders])
 
+  useEffect(() => {
+    if (userInfo.setup === true) {
+      navigate("/dashboard")
+    }
+  }, [userInfo])
+
   return (
     <div className=" flex flex-col   gap-[16px]">
       <Timeline sx={{ padding: "0px" }}>

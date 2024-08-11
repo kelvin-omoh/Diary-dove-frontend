@@ -86,7 +86,9 @@ const Verification = () => {
       }
     } catch (error) {
       console.log(error);
+
       setIsSuccess(false);
+      toast.error("otp verification is incorrect");
       toast.error(error.response.data.message);
     }
   };
