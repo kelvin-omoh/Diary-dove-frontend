@@ -23,9 +23,10 @@ const ChangeEmail = () => {
                     'Content-Type': 'application/json'
                 }
             });
+
             toast.success(res.data.message);
             handleVerifyEmail(email)
-            navigate("/email-verification")
+            navigate("/change/email/verify")
         } catch (error) {
             console.error(error);
             toast.error(error.response?.data?.message || 'Failed to change the password. Please try again.');

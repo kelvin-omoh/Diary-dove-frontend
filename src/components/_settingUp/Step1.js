@@ -78,7 +78,7 @@ const Step1 = ({ handleNext }) => {
       const formattedNumber = `${whatsappNumber}`;
 
       const res = await axiosInstance.post("/api/users/sendphoneOTP", {
-        phonenumber: formattedNumber,
+        phonenumber: formattedNumber.replace('#', ''),
       }, {
         headers: {
           Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",

@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Inputs from '../components/_Verification/Inputs';
+import Inputs from '../../components/_Verification/Inputs';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { CircularProgress } from '@mui/material';
-import { Usercontext } from '../context/userContext';
-import axiosInstance from '../Utils/axiosInstance';
+import { Usercontext } from '../../context/userContext';
+import axiosInstance from '../../Utils/axiosInstance';
 
-const VerifyEmail = () => {
+const ChangeEmailVerificationPage = () => {
     const navigate = useNavigate();
-    const { verifyEmail, setVerifyEmail } = useContext(Usercontext);
+    const { verifyEmail, setVerifyEmail, userInfo } = useContext(Usercontext);
     const [timer, setTimer] = useState(360); // 6 minutes countdown
     const [otpValues, setOtpValues] = useState(Array(6).fill(''));
     const [otp, setOtp] = useState('');
@@ -66,8 +66,7 @@ const VerifyEmail = () => {
         setLoading(true);
         try {
             if (otp.length === 6) {
-                const response = await axiosInstance.post("/api/users/verifyOTP", {
-                    email: verifyEmail,
+                const response = await axiosInstance.post("/api/users/personalinfo/changeemail/verify", {
                     otp
                 });
                 await fetchUserInfo(userInfo.token);
@@ -89,10 +88,9 @@ const VerifyEmail = () => {
         <div className='w-full flex justify-center items-center h-[100vh] bg-[#FDFAF7]'>
             <div className='w-[342px] shadow-sm rounded-[8px] px-[22px] md:px-[80px] md:w-[570px] md:py-[48px] h-[467px] flex justify-center flex-col bg-[#Fff]'>
                 <h1 className='font-[600] text-[20px] md:text-[32px] mb-[16px] text-center md:text-start'>
-                    Please check your email
+                    Verify your email address
                 </h1>
-                <p className='text-[14px] md:text-[18px] mb-[24px] text-start text-[#8F96A3]'>
-                    We have sent the OTP code to your email
+                <p className=' text-[#8F96A3] text-[14px] md:text-[18px]  w-full leading-[27px] '>A verification email has been sent to your email<span className=' text-[#DA9658]'>  {verifyEmail?.email?.replace(/(.{4})[^@]+(?=@)/, '$1****')}</span>, copy the code provided in the email to complete your account verification.
                 </p>
                 <Inputs otp={otp} setOtp={setOtp} otpValues={otpValues} setOtpValues={setOtpValues} />
                 <button
@@ -125,4 +123,5 @@ const VerifyEmail = () => {
     );
 };
 
-export default VerifyEmail;
+export default ChangeEmailVerificationPage;
+

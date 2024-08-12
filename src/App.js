@@ -30,6 +30,7 @@ import ChangePhoneNumber from "./pages/ChangePhoneNumber";
 import WhatsappNoVerification from "./pages/WhatsappNoVerification";
 import { QueryClient, QueryClientProvider } from 'react-query';
 import ContactPage from "./pages/ContactPage";
+import ChangeEmailVerificationPage from "./components/_Settings/ChangeEmailVerificationPage";
 
 
 const queryClient = new QueryClient();
@@ -67,7 +68,6 @@ function App() {
               <Route path="/verify" element={<Verification />} />
               <Route path="/verify-email" element={<EmailVerification />} />
               <Route path="/reset-password" element={<ForgetPassword />} />
-              <Route path="/verify-email" element={<VerifyEmail />} />
               <Route path="/new-password" element={<CreateNewPassword />} />
               <Route path="/dashboard" element={<PrivateRoute element={<Home />} />} />
               <Route path="/success" element={<Success />} />
@@ -79,7 +79,7 @@ function App() {
               <Route path="/setup2" element={<SetUp2 />} />
               <Route path="/change/phoneNumber" element={<PrivateRoute element={<ChangePhoneNumber />} />} />
               <Route path="/change/phoneNumber/verify" element={<PrivateRoute element={<WhatsappNoVerification />} />} />
-
+              <Route path="/change/email/verify" element={<ChangeEmailVerificationPage />} />
               {/* <Route path="/setup" element={<SetUp />} /> */}
 
 
