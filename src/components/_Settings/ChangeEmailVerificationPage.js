@@ -9,7 +9,7 @@ import axiosInstance from '../../Utils/axiosInstance';
 
 const ChangeEmailVerificationPage = () => {
     const navigate = useNavigate();
-    const { verifyEmail, setVerifyEmail, userInfo } = useContext(Usercontext);
+    const { verifyEmail, setAuthInfo, setVerifyEmail, userInfo } = useContext(Usercontext);
     const [timer, setTimer] = useState(360); // 6 minutes countdown
     const [otpValues, setOtpValues] = useState(Array(6).fill(''));
     const [otp, setOtp] = useState('');
