@@ -46,8 +46,9 @@ export const UserContextProvider = ({ children }) => {
     };
 
     const handleVerifyWhatsapp = (whatsappNo) => {
-        localStorage.setItem('whatsapp', JSON.stringify({ whatsappNo }));
-        setWhatsappNumber(whatsappNo);
+        const no = whatsappNo.replace('#', '')
+        localStorage.setItem('whatsapp', JSON.stringify({ whatsappNo: no }));
+        setWhatsappNumber(no);
     };
 
     const resetTimer = () => {

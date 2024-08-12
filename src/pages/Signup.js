@@ -107,7 +107,7 @@ const Signup = () => {
         fullname: fullName,
         username: userName,
         email,
-        phonenumber: `+${phoneNumber}`,
+        phonenumber: `+${phoneNumber.replace('#', '')}`,
         password: newPassword,
       };
 
