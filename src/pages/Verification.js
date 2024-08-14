@@ -87,7 +87,7 @@ const Verification = () => {
     try {
       setIsSuccess(false);
       if (otp.length === 6) {
-        const response = await VerifyOTPInEmailVerificationMutation.mutateAsync({ verifyEmail: email, otp });
+        const response = await VerifyOTPInEmailVerificationMutation.mutateAsync({ email: verifyEmail, otp });
         localStorage.removeItem("verifyEmail");
         toast.success(response.data.message);
         setTimer(360);
