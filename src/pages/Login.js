@@ -179,6 +179,7 @@ const Login = () => {
           username: response.data.data[2]?.username,
           email: response.data.data[3]?.email,
           setup: response.data.data[4]?.setup,
+          password: true
         };
 
         localStorage.setItem("authData", JSON.stringify(userInfo));

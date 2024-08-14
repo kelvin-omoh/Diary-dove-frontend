@@ -458,7 +458,7 @@ const Settings = () => {
                                 </div>
                             </div>
                         </div>
-                        {userInfo.password && !userInfo.password.length > 2 ?
+                        {userInfo.password ?
                             <div className="mt-[40px] md:mt-[24px]">
                                 <p className="text-[#8F96A3] font-[400] mt-[24px] text-[18px] leading-[27px]">
                                     Security and Privacy
