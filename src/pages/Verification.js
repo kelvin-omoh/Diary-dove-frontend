@@ -86,7 +86,11 @@ const Verification = () => {
   const verifyOTP = async () => {
     try {
       setIsSuccess(false);
+      console.log(otp.length);
+
       if (otp.length === 6) {
+        console.log({ email: verifyEmail, otp });
+
         const response = await VerifyOTPInEmailVerificationMutation.mutateAsync({ email: verifyEmail, otp });
         localStorage.removeItem("verifyEmail");
         toast.success(response.data.message);
@@ -100,10 +104,7 @@ const Verification = () => {
       }
     } catch (error) {
       console.log(error);
-
       setIsSuccess(false);
-      toast.error("otp verification is incorrect");
-      toast.error(error.response.data.message);
     }
   };
 

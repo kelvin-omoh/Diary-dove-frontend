@@ -29,7 +29,7 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [loading, setIsLoading] = useState(false);
-  const { userInfo, handleVerifyEmail } = useContext(Usercontext);
+  const { userInfo, handleVerifyEmail, setAuthInfo } = useContext(Usercontext);
   const navigate = useNavigate();
   const formRef = useRef(null); // Ref to target the form element
   const toggleNewPasswordVisibility = () => {
@@ -122,6 +122,8 @@ const Signup = () => {
         setUserName("");
         setPhoneNumber("");
         setPassword("");
+        const newdata = { ...userInfo, password: '' };
+        setAuthInfo(newdata);
         navigate("/verify");
       }
       setIsLoading(false);

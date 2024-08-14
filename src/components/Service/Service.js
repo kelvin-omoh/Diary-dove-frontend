@@ -12,7 +12,7 @@ export const GetAllDiary = async (userInfo) => {
         return response.data.data;
     }
     catch (error) {
-        toast.error(error.message);
+        // toast.error(error.message);
         throw error;  // Propagate the error to useQuery
     }
 };
@@ -34,7 +34,7 @@ export const CreateDiary = async ({ userInfo, text }) => {
         return response.data.data;
     }
     catch (error) {
-        toast.error(error.message);
+        // toast.error(error.message);
         throw error;  // Propagate the error to useQuery
     }
 };
@@ -56,7 +56,7 @@ export const UpdateDiary = async ({ userInfo, text, editIndex }) => {
         return response.data.data;
     }
     catch (error) {
-        toast.error(error.message);
+        // toast.error(error.message);
         throw error;  // Propagate the error to useQuery
     }
 };
@@ -73,7 +73,7 @@ export const DeleteDiary = async ({ userInfo, index }) => {
         });
     }
     catch (error) {
-        toast.error(error.message);
+        // toast.error(error.message);
         throw error;  // Propagate the error to useQuery
     }
 };
@@ -88,19 +88,25 @@ export const GetUserInfo = async (userInfo) => {
         });
         return response.data.data;  // Ensure you return only the data if needed
     } catch (error) {
-        toast.error(error.message);
+        // toast.error(error.message);
         throw error;  // Propagate the error to useQuery
     }
 }
 
 
 
-export const verifyOTPInEmailVerification = async ({ verifyEmail, otp }) => {
-    const res = await axiosInstance.post("/api/users/verifyOTP", {
-        email: verifyEmail,
-        otp,
-    });
-    return res
+export const verifyOTPInEmailVerification = async ({ email, otp }) => {
+    try {
+
+        const res = await axiosInstance.post("/api/users/verifyOTP", {
+            email,
+            otp,
+        });
+        return res
+    } catch (error) {
+        // toast.error(error.message);
+        throw error;  // Propagate the error to useQuery
+    }
 }
 
 

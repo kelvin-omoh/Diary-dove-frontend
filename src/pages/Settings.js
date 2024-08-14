@@ -458,21 +458,22 @@ const Settings = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-[40px] md:mt-[24px]">
-                            <p className="text-[#8F96A3] font-[400] mt-[24px] text-[18px] leading-[27px]">
-                                Security and Privacy
-                            </p>
-                            <div className=" flex items-center gap-[100px] md:gap-[180px] lg:gap-[344px] mt-[24px]">
-                                <h4 className=" text-[18px]  ">Password</h4>
-                                <button
-                                    onClick={handleClickOpen}
-                                    type="button"
-                                    className="font-[500] text-[18px] outline-none text-[#DA9658]"
-                                >
-                                    Change password?
-                                </button>
-                            </div>
-                        </div>
+                        {userInfo.password && !userInfo.password.length > 2 ?
+                            <div className="mt-[40px] md:mt-[24px]">
+                                <p className="text-[#8F96A3] font-[400] mt-[24px] text-[18px] leading-[27px]">
+                                    Security and Privacy
+                                </p>
+                                <div className=" flex items-center gap-[100px] md:gap-[180px] lg:gap-[344px] mt-[24px]">
+                                    <h4 className=" text-[18px]  ">Password</h4>
+                                    <button
+                                        onClick={handleClickOpen}
+                                        type="button"
+                                        className="font-[500] text-[18px] outline-none text-[#DA9658]"
+                                    >
+                                        Change password?
+                                    </button>
+                                </div>
+                            </div> : null}
                     </div>
                     <div className=" flex justify-between w-full  items-end">
                         <button
