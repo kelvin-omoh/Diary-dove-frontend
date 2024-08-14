@@ -12,7 +12,8 @@ import call from "../assets/calling.png";
 import vector from "../assets/Vector (5).png";
 import { ToggleContext } from "../context/toggleContext";
 import axiosInstance from "../Utils/axiosInstance";
-
+import { GetAllDiary, GetUserInfo } from "../components/Service/Service";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 const Settings = () => {
     const navigate = useNavigate();
     const [newPasswordVisible, setNewPasswordVisible] = useState(false);
@@ -24,6 +25,8 @@ const Settings = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const { toggle, handleToggle } = useContext(ToggleContext);
+    console.log(userInfo);
+    const { data, } = useQuery('userInfo', () => GetUserInfo(userInfo))
 
     const [userData, setUserData] = useState({
         fullname: "",
@@ -33,6 +36,17 @@ const Settings = () => {
         profilePicture: "",
         verified: false,
     });
+
+
+
+
+    useEffect(() => {
+        // setUserData(data)
+        const completeUserInfo = { ...userInfo, ...data };
+        setUserData(completeUserInfo)
+        setAuthInfo(completeUserInfo);
+
+    }, [data])
 
     const toggleNewPasswordVisibility = () => {
         setNewPasswordVisible(!newPasswordVisible);
@@ -76,12 +90,12 @@ const Settings = () => {
 
     const getUserData = async () => {
         try {
-            // const response = await axiosInstance.get("api/users/personalinfo", {
-            //     headers: {
-            //         Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-            //         "Content-Type": "application/json",
-            //     },
-            // });
+            const response = await axiosInstance.get("api/users/personalinfo", {
+                headers: {
+                    Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+                    "Content-Type": "application/json",
+                },
+            });
 
             // const newData = response.data.data;
             // const updatedData = { ...userInfo };
@@ -249,6 +263,9 @@ const Settings = () => {
             setLoading(false);
         }
     };
+
+
+
 
     return (
         <Layout>

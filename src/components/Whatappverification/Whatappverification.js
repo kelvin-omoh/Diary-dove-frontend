@@ -7,10 +7,12 @@ import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import { Usercontext } from "../../context/userContext";
 import axiosInstance from "../../Utils/axiosInstance";
+import { useMutation } from "react-query";
+import { verifyOTPInWhatsappVerification } from "../Service/Service";
 
 const WhatsAppVerification = () => {
   const navigate = useNavigate();
-  const { verifyWhatsApp, userInfo, logOut, handleVerifyWhatsapp, whatsappNumber, setWhatsappNumber } = useContext(Usercontext); // Removed setVerifyWhatsApp
+  const { verifyWhatsApp, userInfo, setAuthInfo, logOut, handleVerifyWhatsapp, whatsappNumber, setWhatsappNumber } = useContext(Usercontext); // Removed setVerifyWhatsApp
   const [timer, setTimer] = useState(() => {
     const savedTimer = localStorage.getItem('timer');
     return savedTimer !== null ? parseInt(savedTimer, 10) : 360;
@@ -20,6 +22,9 @@ const WhatsAppVerification = () => {
   const [otp, setOtp] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isAgain, setIsAgain] = useState(false);
+
+  const verifyOTPInWhatsappVerificationMutation = useMutation(verifyOTPInWhatsappVerification)
 
 
   useEffect(() => {
@@ -59,23 +64,13 @@ const WhatsAppVerification = () => {
       setLoading(true);
       try {
         if (otp.length === 6) {
-          const response = await axiosInstance.post("/api/users/verifyPhoneOTP", {
-            otp,
-          }, {
-            headers: {
-              Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-              "Content-Type": "application/json",
-            }
-          });
-
+          const response = await verifyOTPInWhatsappVerificationMutation.mutateAsync({ otp, userInfo })
           localStorage.removeItem("whatsapp");
           toast.success(response.data.message);
+          setAuthInfo({ ...userInfo, phonenumber: whatsappNumber })
           navigate("/verify-whatsapp/success")
-        } else {
-          toast.error("OTP verification is incorrect.");
         }
       } catch (error) {
-
         console.log(error);
         toast.error("OTP verification is incorrect.");
       } finally {
@@ -87,7 +82,8 @@ const WhatsAppVerification = () => {
 
   const handleResendOfCode = async () => {
     try {
-      const formattedNumber = `+${whatsappNumber}`;
+      setIsAgain(true)
+      const formattedNumber = `${whatsappNumber}`;
 
       const res = await axiosInstance.post("/api/users/sendphoneOTP", {
         phonenumber: formattedNumber,
@@ -100,8 +96,10 @@ const WhatsAppVerification = () => {
       console.log(res);
       toast.success(res.data.message);
       setTimer(360);
+      setIsAgain(false)
     } catch (error) {
       console.log(error);
+      setIsAgain(false)
       toast.error(
         "An error occurred while resending code, please try again later..."
       );
@@ -159,7 +157,12 @@ const WhatsAppVerification = () => {
                   }}
                   className={`${timer === 0 ? "text-[#DA9658]" : ""}  mx-auto items-center w-full flex justify-center`}
                 >
-                  Send code again
+                  {isAgain ?
+                    <>
+                      Sending
+                      <CircularProgress className=" mx-4" size={24} style={{ color: "#DA9658" }} />
+                    </> : 'Send code again '
+                  }
                 </span>
                 <span style={{ marginLeft: "20px" }}></span>
               </>
@@ -178,7 +181,13 @@ const WhatsAppVerification = () => {
         <button
           type="submit"
           onClick={() => {
-            verifyOTP();
+            {
+              !isSuccess ?
+                !otp.length < 6 &&
+                verifyOTP()
+                :
+                navigate('/login')
+            }
           }}
           className={` w-full font-[500] rounded-[8px] ${!isSuccess && otp.length < 6 ? 'bg-[#da975887]' : 'bg-[#DA9658]'}  py-[16px]  text-center text-white ${isSuccess ? "w-[192px]" : "w-full"
             }`}
@@ -189,7 +198,7 @@ const WhatsAppVerification = () => {
               <CircularProgress size={24} style={{ color: "white" }} />
             </div>
           ) : (
-            <> {isSuccess ? "Continue to Login" : "Verify"} </>
+            <> {isSuccess ? "Continue " : "Verify"} </>
           )}
         </button>
       </div>

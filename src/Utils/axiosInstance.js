@@ -49,6 +49,7 @@ axiosInstance.interceptors.response.use(
                     }
                 } catch (err) {
                     console.error('Failed to refresh token:', err);
+                    toast.error('token expired')
                     logOut(); // Logout the user if refreshing the token fails
                 }
             }
@@ -59,6 +60,8 @@ axiosInstance.interceptors.response.use(
         if (error.response.status === 403) {
             toast.error(error.response.data.message)
             logOut();
+        } else {
+
         }
         // toast.error(`Error: ${error.message || 'An error occurred'}`);
         // logOut();

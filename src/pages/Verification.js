@@ -6,6 +6,9 @@ import Inputs from "../components/_Verification/Inputs";
 import tick from "../assets/Tick Circle.png";
 import axios from "axios";
 import axiosInstance from "../Utils/axiosInstance";
+import { useMutation, useQuery } from "react-query";
+import { verifyOTPInEmailVerification } from "../components/Service/Service";
+import { CircularProgress } from "@mui/material";
 
 const Verification = () => {
   const navigate = useNavigate();
@@ -14,10 +17,13 @@ const Verification = () => {
     const savedTimer = localStorage.getItem('timer');
     return savedTimer !== null ? parseInt(savedTimer, 10) : 360;
   });
+  const { userInfo, setAuthInfo } = useContext(Usercontext);
   const [canResend, setCanResend] = useState(false);
+  const [loading, setIsloading] = useState(false);
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
   const [otp, setOtp] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const VerifyOTPInEmailVerificationMutation = useMutation(verifyOTPInEmailVerification)
 
   useEffect(() => {
     // Store the timer value in localStorage whenever it changes
@@ -58,26 +64,34 @@ const Verification = () => {
     }
   }, [verifyEmail]);
 
+  // useEffect(() => {
+  //   console.log(userInfoData);
+  // }, [userInfoData])
+
   useEffect(() => {
     console.log(verifyEmail);
+    if (verifyEmail.length < 1) {
+      toast.error("email verification is required ?");
+    }
+  }, [verifyEmail]);
+
+  useEffect(() => {
     if (verifyEmail === '' || verifyEmail === null) {
       navigate("/login")
     }
   }, [verifyEmail]);
 
-  console.log(verifyEmail);
+
+
   const verifyOTP = async () => {
     try {
       setIsSuccess(false);
       if (otp.length === 6) {
-        const response = await axiosInstance.post("/api/users/verifyOTP", {
-          email: verifyEmail,
-          otp,
-        });
-
+        const response = await VerifyOTPInEmailVerificationMutation.mutateAsync({ verifyEmail: email, otp });
         localStorage.removeItem("verifyEmail");
         toast.success(response.data.message);
         setTimer(360);
+
         setIsSuccess(true);
 
       } else {
@@ -189,6 +203,13 @@ const Verification = () => {
             }`}
         >
           {isSuccess ? "Continue to Login" : "Verify"}
+          {VerifyOTPInEmailVerificationMutation.isLoading && (
+            <CircularProgress
+              size={20}
+              sx={{ color: "white" }}
+              className=" text-white ml-[.5rem]"
+            />
+          )}
         </button>
       </div>
     </div>

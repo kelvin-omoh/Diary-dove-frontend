@@ -71,12 +71,12 @@ const Step1 = ({ handleNext }) => {
   useEffect(() => {
     getAllReminders();
   }, []);
+
   const handleWhatsapp = async () => {
     try {
       setIsLoading(true);
       handleVerifyWhatsapp(whatsappNumber)
       const formattedNumber = `${whatsappNumber}`;
-
       const res = await axiosInstance.post("/api/users/sendphoneOTP", {
         phonenumber: formattedNumber.replace('#', ''),
       }, {
