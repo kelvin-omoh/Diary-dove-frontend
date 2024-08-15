@@ -220,7 +220,6 @@ const Login = () => {
     try {
       // window.location.href = 'http://localhost:8000/auth/google';
       window.location.href = "https://dairydoveii.onrender.com/auth/google/";
-      // window.location.href = "http://diarydove/auth/callback?";
     } catch (error) {
       console.error("Error during Google authentication:", error);
     }

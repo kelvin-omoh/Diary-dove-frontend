@@ -221,7 +221,7 @@ const Step2 = () => {
     setLoading(true);
     console.log(reminders);
     const formattedReminders = reminders.map(reminder => {
-      let hour = parseInt(reminder.hour + 1, 10);
+      let hour = parseInt(reminder.hour, 10);
       const minute = reminder.minute.toString().padStart(2, '0');
       let period = reminder.period.toLowerCase();
 
