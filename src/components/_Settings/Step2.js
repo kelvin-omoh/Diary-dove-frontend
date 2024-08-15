@@ -73,7 +73,7 @@ const Step2 = () => {
   const [reminders, setReminders] = useState([]);
   const [reminder, setReminder] = useState("Everyday");
   const [time, setTime] = useState({
-    hour: '06',
+    hour: '00',
     minute: '00',
     period: 'AM',
   });
@@ -240,7 +240,7 @@ const Step2 = () => {
           ...prevReminders,
           { index: reminders.length + 1, hour: parseInt(time.hour, 10), minute: parseInt(time.minute, 10), period: time.period },
         ]);
-        setTime({ hour: '06', minute: '00', period: 'AM' });
+        setTime({ hour: '00', minute: '00', period: 'AM' });
       }
     } else {
       toast.error(`You've reached your limit`);

@@ -32,10 +32,10 @@ const Inputs = ({ otpValues, setOtpValues, otp, setOtp }) => {
             {otpValues.map((value, index) => (
                 <input
                     key={index}
-                    className=' w-[35px] md:w-[39px] md:px-[8.17px] text-center my-auto mx-auto border-[2px] border-[#F1F2F3] h-[56px] rounded-[8px]'
+                    className='w-[35px] md:w-[39px] md:px-[8.17px] text-center my-auto mx-auto border-[2px] border-[#F1F2F3] h-[56px] rounded-[8px] appearance-none'
                     id={`otp-input-${index}`}
-                    type='number'
-                    maxLength={1}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     placeholder='-'
                     size={1}
                     value={value}
