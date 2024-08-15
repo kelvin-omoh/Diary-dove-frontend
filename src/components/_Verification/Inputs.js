@@ -34,7 +34,7 @@ const Inputs = ({ otpValues, setOtpValues, otp, setOtp }) => {
                     key={index}
                     className=' w-[35px] md:w-[39px] md:px-[8.17px] text-center my-auto mx-auto border-[2px] border-[#F1F2F3] h-[56px] rounded-[8px]'
                     id={`otp-input-${index}`}
-                    type="text"
+                    type='number'
                     maxLength={1}
                     placeholder='-'
                     size={1}
