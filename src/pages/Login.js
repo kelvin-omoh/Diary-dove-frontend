@@ -227,7 +227,7 @@ const Login = () => {
 
   return (
     <div className="md:bg-[#FAF2EA] h-[100vh] rounded-[8px] w-[100vw] items-center justify-center flex  ">
-      <div className=" py-5 md:py-4 rounded-[8px] px-6 md:px-20 items-center justify-center flex h-fit md:w-[572px] bg-white ">
+      <div className=" py-5 md:py-4 rounded-[8px] px-6 md:px-20 items-center justify-center flex h-fit w-full md:w-[572px] bg-white ">
         <div className=" bg-gradient-to-b hidden relative left-sm left-md  from-[#DA9658] to-[#91643B] h-[101vh] w-[100vw]">
           <div className="bg-[#ffffff37] rounded-bl-full h-[55px] w-[100%] left-[315px] absolute top-0" />
           <div className="bg-[#ffffff37] rounded-tr-full h-[55px] w-[100%] right-[315px] absolute bottom-0" />
@@ -254,7 +254,7 @@ const Login = () => {
           </div>
         </div>
 
-        <div className=" absolute  left-sm  z-[20] top-0 left-0 w-full from-[#DA9658] to-[#91643B]  h-[101vh] ">
+        <div className=" absolute   left-sm  z-[20] top-0 left-0 w-full from-[#DA9658] to-[#91643B]  h-[101vh] ">
           <div className=" relative flex justify-center items-center bg-gradient-to-b w-full h-full">
             <img
               src={vector1}

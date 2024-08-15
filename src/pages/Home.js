@@ -333,7 +333,7 @@ const Home = () => {
         }
     }, [allTexts, open2]);
     return (
-        <div className="  overflow-hidden bg-[#FDFAF7]">
+        <div className="  min-h-[100vh] overflow-hidden bg-[#FDFAF7]">
             <Header />
 
             <>
