@@ -44,6 +44,8 @@ const Home = () => {
     useEffect(() => {
         if (data) {
             setAllTexts(data);
+        } else {
+            setAllTexts([]);
         }
     }, [data]);
 
