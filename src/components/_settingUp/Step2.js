@@ -108,7 +108,7 @@ const Step2 = () => {
         }
       });
       setAuthInfo(updatedData);
-      navigate("/dashboard")
+      navigate("/diary")
     } catch (error) {
       toast.error("Error while getting user information");
       return false;
@@ -258,7 +258,7 @@ const Step2 = () => {
         toast.success(response.data.message);
         const updatedData = { ...userInfo, setup: true };
         setAuthInfo(updatedData);
-        navigate("/dashboard");
+        navigate("/diary");
       }
     } catch (error) {
       console.log(error);
@@ -274,7 +274,7 @@ const Step2 = () => {
 
   useEffect(() => {
     if (userInfo.setup === true) {
-      navigate("/dashboard")
+      navigate("/diary")
     }
   }, [userInfo])
 

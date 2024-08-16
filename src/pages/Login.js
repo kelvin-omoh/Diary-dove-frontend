@@ -120,7 +120,7 @@ const Login = () => {
 
   useEffect(() => {
     if (userInfo?.token) {
-      navigate("/dashboard");
+      navigate("/diary");
     }
   }, [userInfo?.token]);
 

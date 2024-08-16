@@ -22,7 +22,7 @@ const ChangePassword = () => {
             });
             console.log(res.data);
             toast.success('Password successfully changed');
-            navigate('/dashboard')
+            navigate('/diary')
         } catch (error) {
             console.log(error.response);
             if (error.response?.status === 401) {
@@ -56,7 +56,7 @@ const ChangePassword = () => {
             });
             console.log(res.data);
             toast.success('Password successfully changed');
-            navigate('/dashboard')
+            navigate('/diary')
         } catch (error) {
             console.log(error.response);
             if (error.response?.status === 401) {

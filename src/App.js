@@ -69,7 +69,7 @@ function App() {
               <Route path="/verify-email" element={<EmailVerification />} />
               <Route path="/reset-password" element={<ForgetPassword />} />
               <Route path="/new-password" element={<CreateNewPassword />} />
-              <Route path="/dashboard" element={<PrivateRoute element={<Home />} />} />
+              <Route path="/diary" element={<PrivateRoute element={<Home />} />} />
               <Route path="/success" element={<Success />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/contact" element={<ContactPage />} />

@@ -45,7 +45,7 @@ const SetUp = () => {
 
     useEffect(() => {
         if (userInfo.setup === true) {
-            navigate("/dashboard")
+            navigate("/diary")
         }
     }, [userInfo])
 
