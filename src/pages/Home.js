@@ -62,8 +62,8 @@ const Home = () => {
                 toast.success("Diary created successfully");
             },
             onError: (error) => {
-                toast.error("Failed to create note");
-                console.error("Error creating note:", error);
+                toast.error("Failed to create diary");
+                console.error("Error creating diary:", error);
             }
         }
     );
@@ -73,11 +73,11 @@ const Home = () => {
         {
             onSuccess: (updatedDiary) => {
                 queryClient.invalidateQueries('diaries');
-                toast.success("Note updated successfully");
+                toast.success("Updated successfully");
             },
             onError: (error) => {
-                toast.error("Failed to update note");
-                console.error("Error updating note:", error);
+                toast.error("Failed to update diary");
+                console.error("Error updating diary:", error);
             }
         }
     );
@@ -90,10 +90,10 @@ const Home = () => {
         {
             onSuccess: () => {
                 queryClient.invalidateQueries('diaries');
-                toast.success("Note deleted successfully");
+                toast.success("Deleted successfully");
             },
             onError: (error) => {
-                toast.error("Failed to delete note");
+                toast.error("Failed to delete ");
                 console.error("Error deleting note:", error);
             }
         }
@@ -103,10 +103,12 @@ const Home = () => {
 
     const handleSave = async () => {
         try {
+
             setLoading(true);
             if (!isEdit) {
                 if (editIndex !== null) {
-                    await createDiaryMutation.mutateAsync({ userInfo, text });
+                    setText(editIndex.content)
+                    await updateDiaryMutation.mutateAsync({ userInfo, text, editIndex });
                 } else {
                     await createDiaryMutation.mutateAsync({ userInfo, text });
                 }
@@ -118,12 +120,14 @@ const Home = () => {
         } finally {
             setLoading(false);
             handleClose();
+            refecthAftersave()
         }
     };
 
     const handleEdit = (index) => {
         const noteToEdit = allTexts.find((note) => note.id === index);
         setEditIndex(index);
+
         setText(noteToEdit?.content || "");
         setOpen(true);
     };
@@ -142,6 +146,8 @@ const Home = () => {
         isSameDay ? setIsEdit(true) : setIsEdit(false);
 
         setEditIndex(index);
+        console.log('noteToEdit?.content', noteToEdit?.content);
+
         setText(noteToEdit?.content || "");
     };
 
@@ -159,12 +165,14 @@ const Home = () => {
     const handleSaveOrUpdate = async () => {
         const noteToEdit = allTexts.find((note) => note.id === editIndex);
         console.log(noteToEdit);
+        setText(noteToEdit?.content || "");
 
-        if (editIndex !== null) {
+        if (editIndex) {
             handleSave();
         } else {
-            createNote();
+            createNote()
         }
+        refecthAftersave()
 
     };
 
@@ -202,7 +210,7 @@ const Home = () => {
                 console.log(response);
                 // setAllTexts(response.data.data);
                 // getAllNotes();
-                toast.success("Note updated successfully");
+                toast.success("Updated successfully");
             }
         } catch (error) {
             console.log(error);
@@ -307,7 +315,7 @@ const Home = () => {
     };
 
 
-    useEffect(() => {
+    const refecthAftersave = () => {
         if (allTexts?.length > 0) {
 
 
@@ -321,8 +329,8 @@ const Home = () => {
             console.log(foundIndex);
             if (foundIndex !== -1) {
                 console.log('note is found');
-                setText(allTexts[foundIndex].content);
                 setEditIndex(allTexts[foundIndex].id);
+                setText(text.length > 3 ? text : allTexts[foundIndex].content)
             } else {
                 console.log('If no matching note is found');
                 setIsEdit(false)
@@ -331,7 +339,33 @@ const Home = () => {
             }
             console.log(editIndex);
         }
-    }, [allTexts, open2]);
+    }
+
+    useEffect(() => {
+        if (allTexts?.length > 0) {
+
+
+            const today = new Date();
+
+
+            console.log(today);
+            const firstNoteDate = parseISO(allTexts[0].date);
+
+            const foundIndex = allTexts.findIndex(note => isSameDay(parseISO(note.date), today));
+            console.log(foundIndex);
+            if (foundIndex !== -1) {
+                console.log('diary is found');
+                setText(allTexts[foundIndex].content);
+                setEditIndex(allTexts[foundIndex].id);
+            } else {
+                console.log('If no matching diary is found');
+                setIsEdit(false)
+                setText(null);
+                setEditIndex(null);
+            }
+            console.log(editIndex);
+        }
+    }, [allTexts, open2,]);
     return (
         <div className="  min-h-[100vh] overflow-hidden bg-[#FDFAF7]">
             <Header />
