@@ -127,9 +127,8 @@ const Home = () => {
     };
 
     const handleEdit = (index) => {
-        const noteToEdit = allTexts.find((note) => note.id === index);
+        const noteToEdit = allTexts?.find((note) => note?.id === index);
         setEditIndex(index);
-
         setText(noteToEdit?.content || "");
         setOpen(true);
     };
@@ -391,7 +390,7 @@ const Home = () => {
                                     )}
                                     <div className="flex flex-col items-start">
                                         <h1 className="leading-[21px] m-0 md:leading-[30px] font-[600] md:font-[700] text-[14px] md:text-[20px]">
-                                            Welcome {formatName(userInfo?.fullname)}
+                                            Welcome {formatName(userInfo?.fullname).trim()}`
                                         </h1>
                                         <p className="text-[#7C7B87] text-[12px] md:text-[16px] leading-6">
                                             What are you writing about today?
