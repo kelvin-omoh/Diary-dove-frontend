@@ -578,10 +578,10 @@ const Home = () => {
                     "& .MuiDialog-paper": {
                         width: "660px",
                         overflow: "hidden",
-                        height: "333px", // Default height for tablet and above screens
+                        height: "auto", // Default height for tablet and above screens
                         "@media (max-width: 767px)": {
                             // Phone screen size
-                            height: "350px",
+                            height: "auto",
                         },
                     },
                 }}
