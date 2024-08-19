@@ -73,7 +73,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
 
                     {/* Notes */}
                     {paginatedNotes && paginatedNotes?.length === 0 && (
-                        <p className="mt-[5.1rem] bg-red-400 flex flex-col  gap-[1rem] justify-center text-gray-400 text-[2.2rem] items-center mx-auto w-full">
+                        <p className="mt-[5.1rem] flex flex-col  gap-[1rem] justify-center text-gray-400 text-[2.2rem] items-center mx-auto w-full">
                             <BiBookOpen size={60} /> Your diary is Empty.
                             <span className=" text-[14px]">you can start creating diary</span>
                         </p>
