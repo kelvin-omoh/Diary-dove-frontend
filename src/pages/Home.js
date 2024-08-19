@@ -25,7 +25,7 @@ const Home = () => {
 
     const [text, setText] = useState("");
     const [editIndex, setEditIndex] = useState(null);
-    const { userInfo } = useContext(Usercontext);
+    const { userInfo } = useContext(Usercontext)
     const [loading, setLoading] = useState(false);
 
     const { isLoading, data, isError, error } = useQuery('diaries', () => GetAllDiary(userInfo), { refetchOnWindowFocus: true })
@@ -395,7 +395,7 @@ const Home = () => {
                                     )}
                                     <div className="flex flex-col items-start">
                                         <h1 className="leading-[21px] m-0 md:leading-[30px] font-[600] md:font-[700] text-[14px] md:text-[20px]">
-                                            Welcome    {formatLastName(userInfo?.fullname.trim())}
+                                            Welcome {formatLastName(userInfo?.fullname?.trim())}
                                         </h1>
                                         <p className="text-[#7C7B87] text-[12px] md:text-[16px] leading-6">
                                             What are you writing about today?

@@ -61,7 +61,7 @@ axiosInstance.interceptors.response.use(
             console.log(error.response.data.message);
 
             toast.error(error.response.data.message)
-            // logOut();
+            logOut();
         } else {
 
         }
