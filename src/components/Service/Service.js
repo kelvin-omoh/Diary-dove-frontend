@@ -121,3 +121,31 @@ export const verifyOTPInWhatsappVerification = async ({ otp, userInfo }) => {
     });
     return response
 }
+
+
+
+export const GetUserReminders = async (userInfo) => {
+    if (!userInfo?.token) {
+        throw new Error('User token is missing');
+    }
+
+    const response = await axiosInstance.get('/api/reminders', {
+        headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+            'Content-Type': 'application/json',
+        },
+    });
+
+    return response.data.data.map((reminder) => {
+        const hour = reminder.hour;
+        const minute = reminder.time.toString().padStart(2, '0');
+        const period = hour >= 12 ? 'PM' : 'AM';
+
+        return {
+            id: reminder.id,
+            hour,
+            minute,
+            period,
+        };
+    });
+};

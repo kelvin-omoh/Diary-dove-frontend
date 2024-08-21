@@ -48,6 +48,8 @@ import { Usercontext } from "../../context/userContext";
 import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
 import axiosInstance from "../../Utils/axiosInstance";
+import { GetUserReminders } from "../Service/Service";
+import { useQuery } from "react-query";
 
 const checkboxTheme = createTheme({
   palette: {
@@ -84,6 +86,30 @@ const Step2 = () => {
   const [hourRange, setHourRange] = useState({ min: 0, max: 23 });
   const [Deleteloading, setDeleteLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+
+
+  const {
+    isLoading,
+    data: fetchedReminders,
+    isError,
+    error,
+  } = useQuery(
+    ['reminders', userInfo?.token],  // Query key includes the token for uniqueness
+    () => GetUserReminders(userInfo),
+    {
+      enabled: !!userInfo?.token,  // Fetch only if token exists
+      refetchOnWindowFocus: true,  // Refetch when window is focused
+    }
+  );
+
+  useEffect(() => {
+    if (fetchedReminders) {
+      setReminders(fetchedReminders);
+    }
+  }, [fetchedReminders]);
+
+
+
   const extractToken = (token) => {
     return token;
   };
@@ -108,34 +134,34 @@ const Step2 = () => {
 
 
 
-  const getAllReminders = async () => {
-    if (userInfo?.token?.length > 4) {
-      try {
-        const response = await axios.get('/api/reminders', {
-          headers: {
-            Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-            "Content-Type": "application/json",
-          },
-        });
-        const fetchedReminders = response.data.data.map((reminder) => {
+  // const getAllReminders = async () => {
+  //   if (userInfo?.token?.length > 4) {
+  //     try {
+  //       const response = await axios.get('/api/reminders', {
+  //         headers: {
+  //           Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
+  //       const fetchedReminders = response.data.data.map((reminder) => {
 
-          let hour = reminder.hour;
-          const minute = reminder.time.toString().padStart(2, '0');
-          let period = hour >= 12 ? 'PM' : 'AM';
-          return {
-            id: reminder.id,
-            hour: reminder.hour,
-            minute: reminder.time,
-            period: period,
-          }
-        })
-        console.log(response.data);
-        setReminders(fetchedReminders);
-      } catch (error) {
-        console.error('Error fetching reminders:', error);
-      }
-    }
-  };
+  //         let hour = reminder.hour;
+  //         const minute = reminder.time.toString().padStart(2, '0');
+  //         let period = hour >= 12 ? 'PM' : 'AM';
+  //         return {
+  //           id: reminder.id,
+  //           hour: reminder.hour,
+  //           minute: reminder.time,
+  //           period: period,
+  //         }
+  //       })
+  //       console.log(response.data);
+  //       setReminders(fetchedReminders);
+  //     } catch (error) {
+  //       console.error('Error fetching reminders:', error);
+  //     }
+  //   }
+  // };
 
   const handleOpen = () => {
     setOpen(true);
@@ -247,9 +273,7 @@ const Step2 = () => {
     }
   };
 
-  useEffect(() => {
-    getAllReminders();
-  }, [userInfo?.token]);
+
 
 
 
@@ -368,7 +392,7 @@ const Step2 = () => {
             >
               Reminder Time
             </Typography>
-            <Box className="w-[306px] md:w-[595px]">
+            <Box className="w-[306px]   md:w-[595px]">
 
 
               <form className="w-[306px] md:w-[359px]" action="">
@@ -380,7 +404,7 @@ const Step2 = () => {
                 </label>
 
                 <label
-                  className="text-[16px] text-black flex gap-[8px] flex-col mb-[8px]"
+                  className="text-[16px]  text-black flex gap-[8px] flex-col mb-[8px]"
                   htmlFor=""
                 >
                   <FormControl>
@@ -462,6 +486,7 @@ const Step2 = () => {
 
                 <div className="flex gap-[8px] items-center">
                   <div className=" w-[248px] grid gap-[8px] ">
+                    {isLoading && <CircularProgress className=" flex justify-center items-center mx-auto w-full mt-[2rem]" size={24} style={{ color: "orange" }} />}
                     {reminders.map((reminder, index) => (
                       <div
                         key={index}
