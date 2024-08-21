@@ -48,8 +48,8 @@ import { Usercontext } from "../../context/userContext";
 import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
 import axiosInstance from "../../Utils/axiosInstance";
-import { GetUserReminders } from "../Service/Service";
-import { useQuery } from "react-query";
+import { DeleteReminder, fetchAllReminders, GetUserReminders } from "../Service/Service";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const checkboxTheme = createTheme({
   palette: {
@@ -86,6 +86,7 @@ const Step2 = () => {
   const [hourRange, setHourRange] = useState({ min: 0, max: 23 });
   const [Deleteloading, setDeleteLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const queryClient = useQueryClient();
 
 
   const {
@@ -95,9 +96,9 @@ const Step2 = () => {
     error,
   } = useQuery(
     ['reminders', userInfo?.token],  // Query key includes the token for uniqueness
-    () => GetUserReminders(userInfo),
+    () => fetchAllReminders(userInfo),
     {
-      enabled: !!userInfo?.token,  // Fetch only if token exists
+      enabled: !!userInfo?.token && userInfo.token.length > 4,  // Fetch only if token exists
       refetchOnWindowFocus: true,  // Refetch when window is focused
     }
   );
@@ -196,11 +197,22 @@ const Step2 = () => {
 
 
 
+  const savePreferencesMutation = useMutation(
+    () => savePreferences(reminders, userInfo, setAuthInfo),
+    {
+      onMutate: () => {
+        setLoading(true);
+      },
+      onSuccess: () => {
+        setLoading(false);
+      },
+      onError: () => {
+        setLoading(false);
+      },
+    }
+  );
 
-
-  const savePreferences = async () => {
-    setLoading(true);
-    console.log(reminders);
+  const savePreferences = async (reminders, userInfo, setAuthInfo) => {
     const formattedReminders = reminders.map(reminder => {
       let hour = parseInt(reminder.hour, 10);
       const minute = reminder.minute.toString().padStart(2, '0');
@@ -243,8 +255,6 @@ const Step2 = () => {
     } catch (error) {
       console.log(error);
       toast.error('Failed to save preferences.');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -286,25 +296,54 @@ const Step2 = () => {
   };
 
 
-  const deleteReminder = async (id) => {
-    try {
-      setDeletingId(id)
-      setDeleteLoading(true)
-      const res = await axiosInstance.delete(`/api/reminders/delete/${id}`, {
-        headers: {
-          Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
-          "Content-Type": "application/json",
-        },
-      });
-      setReminders(reminders.filter((reminder) => reminder.id !== id));
-      toast.success(res.data.message);
-      setDeleteLoading(false)
-    } catch (error) {
-      setDeletingId(null);
-      setDeleteLoading(false)
-      toast.error("Error deleting reminder");
+  const deleteReminderMutation = useMutation(
+    ({ userInfo, id }) => DeleteReminder({ userInfo, id }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('reminders');
+        toast.success("Reminder deleted successfully");
+      },
+      onError: (error) => {
+        toast.error("Failed to delete reminder");
+        console.error("Error deleting reminder:", error);
+      }
     }
+  );
+
+
+
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteReminderMutation.mutateAsync({ userInfo, id });
+    } catch (error) {
+      console.log(error);
+
+    }
+
   };
+
+
+
+  // const deleteReminder = async (id) => {
+  //   try {
+  //     setDeletingId(id)
+  //     setDeleteLoading(true)
+  //     const res = await axiosInstance.delete(`/api/reminders/delete/${id}`, {
+  //       headers: {
+  //         Authorization: userInfo?.token ? `Bearer ${userInfo.token}` : "",
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     setReminders(reminders.filter((reminder) => reminder.id !== id));
+  //     toast.success(res.data.message);
+  //     setDeleteLoading(false)
+  //   } catch (error) {
+  //     setDeletingId(null);
+  //     setDeleteLoading(false)
+  //     toast.error("Error deleting reminder");
+  //   }
+  // };
 
   const deleteReminderId = (id) => {
     const newReminders = reminders.filter(reminder => reminder.index !== id);
@@ -323,7 +362,7 @@ const Step2 = () => {
 
 
   return (
-    <div ref={containerRef} className="flex flex-col mt-[24px] gap-[16px]">
+    <div ref={containerRef} className="flex  flex-col mt-[24px] gap-[16px]">
       <Timeline sx={{ padding: "0px" }}>
         <TimelineItem
           className="w-[306px] h-0  md:w-[595px] "
@@ -499,18 +538,15 @@ const Step2 = () => {
                         <button
                           type="button"
                           className="text-white px-2 py-1 rounded"
-                          onClick={() => {
-                            reminder.id ? deleteReminder(reminder.id) : deleteReminderId(reminder.index)
-                          }}>
-                          {reminder.id === deletingId ? (
+                          onClick={() => handleDelete(reminder.id)}
+                        >
+                          {deleteReminderMutation.isLoading && deleteReminderMutation.variables?.id === reminder.id ? (
                             <div className="text-black items-center text-[14px] gap-3 justify-center flex w-full h-full">
-                              Deleting...{" "}
-                              <CircularProgress size={18} style={{ color: "orange" }} />
+                              Deleting... <CircularProgress size={18} style={{ color: 'orange' }} />
                             </div>
                           ) : (
                             <img className="h-[18px]" src={trash} alt="trash" />
                           )}
-
                         </button>
                       </div>
                     ))}
@@ -524,7 +560,7 @@ const Step2 = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     if (reminders.length < 4) {
-                      savePreferences();
+                      savePreferencesMutation.mutateAsync();
                     } else {
                       toast.error(`You've reached your limit !!! `)
                     }

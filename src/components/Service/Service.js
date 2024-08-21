@@ -149,3 +149,54 @@ export const GetUserReminders = async (userInfo) => {
         };
     });
 };
+
+export const fetchAllReminders = async (userInfo) => {
+    if (!userInfo?.token || userInfo.token.length <= 4) {
+        throw new Error('Invalid token');
+    }
+
+    try {
+        const response = await axiosInstance.get('/api/reminders', {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const fetchedReminders = response.data.data.map((reminder) => {
+            const hour = reminder.hour;
+            const minute = reminder.time.toString().padStart(2, '0');
+            const period = hour >= 12 ? 'PM' : 'AM';
+
+            return {
+                id: reminder.id,
+                hour: reminder.hour,
+                minute: reminder.time,
+                period: period,
+            };
+        });
+
+        return fetchedReminders;
+    } catch (error) {
+        throw new Error('Error fetching reminders: ' + error.message);
+    }
+};
+
+
+
+export const DeleteReminder = async ({ userInfo, id }) => {
+    try {
+        const response = await axiosInstance.delete(`/api/reminders/delete/${id}`, {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+                "Content-Type": "application/json",
+            },
+        });
+        return response.data;
+    }
+    catch (error) {
+        // toast.error(error.message);
+        throw error;  // Propagate the error to useQuery
+    }
+};
+

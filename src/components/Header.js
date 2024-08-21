@@ -82,7 +82,7 @@ const Header = () => {
 
     return (
         <>
-            <div className=' nav fixed top-0 left-0 w-full z-[100]     border-b-[1px] bg-white border-[#E5E5E5]  flex justify-between   px-[24px] md:px-[30px] py-[18px]  '>
+            <div className=' nav fixed top-0 left-0 w-full z-[100]     border-b-[1px] bg-white border-[#E5E5E5]  flex justify-between   px-[24px] md:px-[30px] lg:px-[80px] py-[18px]  '>
 
                 {LogoFunction()}
 

@@ -10,12 +10,12 @@ const Reminder = () => {
 
     return (
         <Layout>
-            <div className=' bg-[white] text-start'>
+            <div className='   bg-[white] text-start'>
                 <button onClick={() => handleToggle(!toggle)} className='  flex md:hidden justify-start w-full mb-[10.25px]'><FaBars className='size-[15px]' /></button>
                 <h1 className=' text-[20px] md:text-[30px] lg:text-[40px] font-[600] leading-[30px] md:leading-[60px]'>Change user preferences below</h1>
                 <p className=' text-[14px] md:text-[18px] text-[#8F96A3] mt-[4px] md:mt-[8px] leading-[27px]'>Update reminder preferences</p>
             </div>
-            <div className=' w-[631px] flex justify-start  '>
+            <div className='w-full md:w-[631px]  flex justify-start  '>
                 <Step2 />
             </div>
 
