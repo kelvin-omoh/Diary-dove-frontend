@@ -84,61 +84,67 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                     >
                         {paginatedNotes &&
                             paginatedNotes.map((note, index) => (
-                                <div
-                                    key={note.id}
-                                    // onClick={() => onEdit(note.id)}
-                                    className="flex hover:shadow-md rounded-xl  justify-between flex-col md:min-h-[208px]  min-h-[200px]  bg-[#FFFFFF] p-[12px] md:p-[24px] sm:p-[24px]"
-                                >
-                                    <div className="  ">
-                                        <p className="text-[#E0A774] text-[12px] justify-start flex ">
-                                            {formatNigerianTime(note.date)}
-                                        </p>
-                                        <div className="mt-[8px] w-full h-full">
-                                            {note?.content && (
-                                                <p className="hidden lg:flex text-sm text-[#303236] justify-start text-left leading-[21px]  max-w-full ">
-                                                    {note?.content.length > 170
-                                                        ? isGrid
-                                                            ? `${note?.content.slice(0, 170)}${note?.content.length > 170 ? "..." : ""
-                                                            }`
-                                                            : `${note?.content.slice(0, 900)}${note?.content.length > 900 ? "..." : ""
-                                                            }`
-                                                        : note?.content}
-                                                </p>
+                                <>
+                                    <div
+                                        key={note.id}
+                                        // onClick={() => onEdit(note.id)}
+                                        className="flex hover:shadow-md rounded-xl  justify-between flex-col md:min-h-[208px]  min-h-[200px]  bg-[#FFFFFF] p-[12px] md:p-[24px] sm:p-[24px]"
+                                    >
+                                        <div className="  ">
+                                            <p className="text-[#E0A774] text-[12px] justify-start flex ">
+                                                {formatNigerianTime(note.date)}
+                                            </p>
+                                            <div className="mt-[8px] w-full h-full">
+                                                {note?.content && (
+                                                    <p className="hidden lg:flex text-sm text-[#303236] justify-start text-left leading-[21px]  max-w-full ">
+                                                        {note?.content.length > 170
+                                                            ? isGrid
+                                                                ? `${note?.content.slice(0, 170)}${note?.content.length > 170 ? "..." : ""
+                                                                }`
+                                                                : `${note?.content.slice(0, 900)}${note?.content.length > 900 ? "..." : ""
+                                                                }`
+                                                            : note?.content}
+                                                    </p>
 
-                                            )}
+                                                )}
 
-                                            {note?.content && (
-                                                <p className=" md:hidden text-[12px] md:text-[14px] text-[#151616] justify-start text-start leading-[16px] md:leading-[21px]">
-                                                    {note?.content.length > 150
-                                                        ? `${note?.content.slice(0, isGrid ? 90 : 250)}${note?.content.length > (isGrid ? 90 : 200)
-                                                            ? "..."
-                                                            : ""
-                                                        }`
-                                                        : note?.content}
-                                                </p>
-                                            )}
+                                                {note?.content && (
+                                                    <p className=" md:hidden text-[12px] md:text-[14px] text-[#151616] justify-start text-start leading-[16px] md:leading-[21px]">
+                                                        {note?.content.length > 150
+                                                            ? `${note?.content.slice(0, isGrid ? 90 : 250)}${note?.content.length > (isGrid ? 90 : 200)
+                                                                ? "..."
+                                                                : ""
+                                                            }`
+                                                            : note?.content}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="mt-[18px] md:mt-[24.94px] flex items-center justify-start gap-[10.4px]">
+                                            <button>
+                                                <img
+                                                    src={trash}
+                                                    onClick={() => onDelete(note.id)}
+                                                    alt={"trash"}
+                                                    className="h-[16.13px]"
+                                                />
+                                            </button>
+
+                                            <button>
+                                                <img
+                                                    src={list}
+                                                    onClick={() => onEdit(note.id)}
+                                                    alt={"list"}
+                                                    className="h-[16.13px]"
+                                                />
+                                            </button>
                                         </div>
                                     </div>
-                                    <div className="mt-[18px] md:mt-[24.94px] flex items-center justify-start gap-[10.4px]">
-                                        <button>
-                                            <img
-                                                src={trash}
-                                                onClick={() => onDelete(note.id)}
-                                                alt={"trash"}
-                                                className="h-[16.13px]"
-                                            />
-                                        </button>
 
-                                        <button>
-                                            <img
-                                                src={list}
-                                                onClick={() => onEdit(note.id)}
-                                                alt={"list"}
-                                                className="h-[16.13px]"
-                                            />
-                                        </button>
-                                    </div>
-                                </div>
+
+
+
+                                </>
                             ))}
 
 
@@ -172,7 +178,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                     {!paginatedNotes?.length < 1 && (
                         <Stack
                             spacing={2}
-                            className={` grid items-center justify-around w-full     left-0 ${isGrid ? "bottom-[5.5rem]" : "bottom-[0.5rem]"
+                            className={` grid items-center justify-around w-full  relative    left-0 ${isGrid ? "bottom-[-2.5rem]" : "bottom-[0.5rem]"
                                 }  pt-6`}
                         >
                             <Pagination
