@@ -58,7 +58,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
     }, [])
 
     return (
-        <div className=" w-full pb-[3rem] px-[24px]   md:px-[80px] mt-[49px] ">
+        <div className=" w-full pb-[3rem] px-[24px]   md:px-[80px] mt-[8px] md:mt-[49px] ">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <div
                     className={` pb-[48px] ${isGrid ? "h-full md:h-[85vh]" : "h-full md:h-[100vh]"} relative  w-full`}
@@ -86,8 +86,8 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                             paginatedNotes.map((note, index) => (
                                 <div
                                     key={note.id}
-                                    onClick={() => onEdit(note.id)}
-                                    className="flex hover:shadow-md rounded-xl  justify-between flex-col md:min-h-[208px]  min-h-[200px]  bg-[#FFFFFF] p-[24px]"
+                                    // onClick={() => onEdit(note.id)}
+                                    className="flex hover:shadow-md rounded-xl  justify-between flex-col md:min-h-[208px]  min-h-[200px]  bg-[#FFFFFF] p-[12px] md:p-[24px] sm:p-[24px]"
                                 >
                                     <div className="  ">
                                         <p className="text-[#E0A774] text-[12px] justify-start flex ">
@@ -95,7 +95,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                                         </p>
                                         <div className="mt-[8px] w-full h-full">
                                             {note?.content && (
-                                                <p className="hidden md:flex text-sm text-[#303236] justify-start text-left leading-[21px]  max-w-full ">
+                                                <p className="hidden lg:flex text-sm text-[#303236] justify-start text-left leading-[21px]  max-w-full ">
                                                     {note?.content.length > 170
                                                         ? isGrid
                                                             ? `${note?.content.slice(0, 170)}${note?.content.length > 170 ? "..." : ""
@@ -106,6 +106,7 @@ const Notes = ({ allTexts, onEdit, onDelete, setAllTexts }) => {
                                                 </p>
 
                                             )}
+
                                             {note?.content && (
                                                 <p className=" md:hidden text-[12px] md:text-[14px] text-[#151616] justify-start text-start leading-[16px] md:leading-[21px]">
                                                     {note?.content.length > 150

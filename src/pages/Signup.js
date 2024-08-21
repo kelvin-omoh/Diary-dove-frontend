@@ -187,7 +187,7 @@ const Signup = () => {
         </div>
       </div>
 
-      <div className="fixed left-sm z-[20] top-0 left-0 w-full from-[#DA9658] to-[#91643B] h-[100vh]">
+      <div className="fixed left-sm z-[20] top-0 left-0 w-full from-[#DA9658] to-[#91643B] h-full">
         <div className="relative flex justify-center items-center bg-gradient-to-b w-full h-full">
           <img
             src={vector1}

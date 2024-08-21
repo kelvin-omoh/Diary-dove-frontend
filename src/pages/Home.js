@@ -13,6 +13,7 @@ import trash from "../assets/trash2.png";
 import list from "../assets/Vector list.png";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { CreateDiary, DeleteDiary, GetAllDiary, UpdateDiary } from "../components/Service/Service";
+import { BiBookOpen } from "react-icons/bi";
 
 
 
@@ -380,7 +381,7 @@ const Home = () => {
                 {open2 && (
                     <div className={`  ${!open2 ? 'hidden' : 'block'}`}>
                         <div className={`  items-center justify-between w-full`}>
-                            <div className={`pt-[104px] py-[32px] items-center flex gap-3 md:justify-between px-[24px] md:px-[80px]`}>
+                            <div className={`pt-[104px] py-[16px] md:py-[32px] items-center flex gap-3 md:justify-between px-[24px] md:px-[80px]`}>
                                 <div className="flex items-start gap-[12px]">
                                     {userInfo?.profilePicture ? (
                                         <img
@@ -404,7 +405,7 @@ const Home = () => {
                                 </div>
                                 <div className="w-fit">
                                     <button
-                                        className="text-white block md:hidden w-[100px] md:w-[189px] px-[12px] py-[12px] md:px-[46px] md:py-[17px] text-[14px] md:text-[16px] rounded-[8px] bg-[#DA9658]"
+                                        className="text-white block md:hidden w-[100px] md:w-[189px] px-[8px] py-[4px] md:px-[46px] md:py-[17px] text-[14px] md:text-[16px] rounded-[8px] bg-[#DA9658]"
                                         onClick={handleClickOpen}
                                     >
                                         Create note
@@ -504,6 +505,10 @@ const Home = () => {
                             <div className=" px-[30px] lg:px-[56px] overflow-y-auto" style={{ maxHeight: 'calc(100vh - 64px - 80px)' }}>
                                 <div className=" flex   gap-[12px] flex-col">
 
+                                    {allTexts.length == 0 && <p className="mt-[5.1rem] flex flex-col  gap-[1rem] justify-center text-gray-400 text-[1.5em] lg:text-[2.2rem] items-center mx-auto w-full">
+                                        <BiBookOpen size={60} /> Your diary is Empty.
+                                        <span className=" text-[14px]">you can start creating diary</span>
+                                    </p>}
                                     {allTexts &&
                                         allTexts?.slice(0, 4).map((note, index) => (
                                             <div

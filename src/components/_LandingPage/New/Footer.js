@@ -19,7 +19,7 @@ const Footer = () => {
                     <div className=' mb-[20px] md:block grid items-center justify-center  md:mb-0 flex-1'>
                         <img src={logo} alt=" logo" className=' h-[36px] ' />
                     </div>
-                    <div className=' flex gap-[94px]  text-[14px] flex-row justify-between   text-start items-start '>
+                    <div className=' flex gap-[50px] md:gap-[94px]  text-[14px] flex-row justify-between   text-start items-start '>
                         <div className=' text-[14px] '>
                             <ul className='  grid gap-[16px] '>
                                 <li className=' text-white font-[700] '>Services</li>
