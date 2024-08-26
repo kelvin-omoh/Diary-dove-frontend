@@ -381,7 +381,7 @@ const Home = () => {
                 {open2 && (
                     <div className={`  ${!open2 ? 'hidden' : 'block'}`}>
                         <div className={`  items-center justify-between w-full`}>
-                            <div className={`pt-[104px] py-[16px] md:py-[32px] items-center flex gap-3 md:justify-between px-[24px] md:px-[80px]`}>
+                            <div className={`pt-[104px] py-[16px] md:py-[132px] items-center flex gap-3 md:justify-between px-[24px] md:px-[80px]`}>
                                 <div className="flex items-start gap-[12px]">
                                     {userInfo?.profilePicture ? (
                                         <img
